@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   return (
     <div>
-	<h2 className="text-blue"> This is the beggining of my POS </h2> 
+	<h2 className="text-blue"> This is the beggining of my POS, i did some changes that i lost </h2> 
     </div>
   )
 }
