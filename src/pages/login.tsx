@@ -1,6 +1,18 @@
 import Image from 'next/image';
 import posImage from 'public/pos_image.png';
 
+import { Formik, Field, Form } from 'formik';
+
+import * as yup from 'yup';
+
+const LoginSchema = yup.object({
+    email: yup
+        .string()
+        .email('Invalid Email')
+        .required('Email Is Required'),
+    password: yup.string().required('Password Is Required'),
+});
+
 export default function Login() {
     return (
         <div className="">
@@ -21,21 +33,40 @@ export default function Login() {
                             POINT OF SALE
                         </h5>
                         <h2 className="text-2xl font-bold">Sign in</h2>
-
-                        <div className="space-y-2 my-2">
-                            <input
-                                type="text"
-                                placeholder="Email address"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="username"
-                            />
-                            <br />
-                            <input
-                                type="text"
-                                placeholder="Password"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
+                        <Formik
+                            initialValues={{ email: '', password: '' }}
+                            onSubmit={() => console.log('bonjour')}
+                            validationSchema={LoginSchema}
+                        >
+                            {({ errors, touched, isValidating }) => (
+                                <Form>
+                                    <div className="space-y-2 my-2 flex flex-col">
+                                        <Field
+                                            type="text"
+                                            placeholder="Email address"
+                                            className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            name="email"
+                                        />
+                                        {errors.email && touched.email && (
+                                            <span className="text-red-500 text-xs font-bold">
+                                                {errors.email}
+                                            </span>
+                                        )}
+                                        <Field
+                                            type="password"
+                                            placeholder="Password"
+                                            name="password"
+                                            className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        />
+                                        {errors.password && touched.password && (
+                                            <span className="text-red-500 text-xs font-bold">
+                                                {errors.password}
+                                            </span>
+                                        )}
+                                    </div>
+                                </Form>
+                            )}
+                        </Formik>
 
                         <div className="space-y-2 my-2">
                             <p className="text-gray-400 hover:text-gray-600 text-xs font-bold cursor-pointer">
