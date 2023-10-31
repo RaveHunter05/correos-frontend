@@ -4,21 +4,62 @@ import posImage from 'public/pos_image.png';
 import { Formik, Field, Form } from 'formik';
 
 import * as yup from 'yup';
+import axios from 'axios';
+import { useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
+import { useAppDispatch } from '../redux';
+import { loginUser } from '../redux/reducers/auth/authSlice';
+
+import { useRouter } from 'next/router';
+
+interface LoginInterface {
+    email: string;
+    password: string;
+}
 
 const LoginSchema = yup.object({
     email: yup
         .string()
-        .email('Invalid Email')
-        .required('Email Is Required'),
-    password: yup.string().required('Password Is Required'),
+        .email('Correo inválido')
+        .required('El correo es requerido'),
+    password: yup.string().required('Contraseña es requerida'),
 });
 
 export default function Login() {
+    const router = useRouter();
+    const [loginError, setLoginError] = useState<string>();
+    const dispatch = useAppDispatch();
+    const handleLogin = async ({ email, password }: LoginInterface) => {
+        try {
+            const result = await axios.post('/api/login', {
+                username: email,
+                password,
+                email,
+            });
+
+            dispatch(loginUser(result.data));
+
+            toast.success('Logeado exitosamente', { position: 'top-right' });
+            router.push('/admin/dashboard');
+
+            return result;
+        } catch (error) {
+            if (typeof error === 'string') {
+                setLoginError(error);
+            }
+            if (error instanceof Error) {
+                setLoginError(error.message);
+            }
+        }
+    };
     return (
         <div className="">
             <div className="flex flex-row w-screen h-screen">
+                <Toaster />
                 <div className="w-2/5 bg-sky-400 h-100 flex justify-center items-center flex flex-col space-y-4">
-                    <h2 className="text-white text-3xl">Point of sale</h2>
+                    <h2 className="text-white text-3xl">
+                        Correos de Nicaragua
+                    </h2>
                     <Image
                         src={posImage}
                         alt="POS Image"
@@ -30,12 +71,15 @@ export default function Login() {
                 <div className="w-3/5 bg-neutral-300 flex flex-col justify-center items-center ">
                     <div className="text-left">
                         <h5 className="text-orange-400 text-xs font-bold">
-                            POINT OF SALE
+                            Sistema de Gestión de Inventario
                         </h5>
-                        <h2 className="text-2xl font-bold">Sign in</h2>
+                        <h2 className="text-2xl font-bold">Ingresar</h2>
                         <Formik
-                            initialValues={{ email: '', password: '' }}
-                            onSubmit={() => console.log('bonjour')}
+                            initialValues={{
+                                email: 'harrypopote4@gmail.com',
+                                password: 'Paulsotelo951@',
+                            }}
+                            onSubmit={handleLogin}
                             validationSchema={LoginSchema}
                         >
                             {({ errors, touched, isValidating }) => (
@@ -43,7 +87,7 @@ export default function Login() {
                                     <div className="space-y-2 my-2 flex flex-col">
                                         <Field
                                             type="text"
-                                            placeholder="Email address"
+                                            placeholder="Correo Electrónico"
                                             className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             name="email"
                                         />
@@ -54,31 +98,39 @@ export default function Login() {
                                         )}
                                         <Field
                                             type="password"
-                                            placeholder="Password"
+                                            placeholder="Contraseña"
                                             name="password"
                                             className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         />
-                                        {errors.password && touched.password && (
+                                        {errors.password &&
+                                            touched.password && (
+                                                <span className="text-red-500 text-xs font-bold">
+                                                    {errors.password}
+                                                </span>
+                                            )}
+
+                                        {loginError && (
                                             <span className="text-red-500 text-xs font-bold">
-                                                {errors.password}
+                                                {loginError}
                                             </span>
                                         )}
+
+                                        <div className="space-y-2 my-2">
+                                            <p className="text-gray-400 hover:text-gray-600 text-xs font-bold cursor-pointer">
+                                                ¿No tienes una cuenta?
+                                                Registrate
+                                            </p>
+                                            <p className="text-sky-400 hover:text-sky-600 text-xs font-bold cursor-pointer">
+                                                ¿Olvidaste tu contraseña?
+                                            </p>
+                                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                Ingresar
+                                            </button>
+                                        </div>
                                     </div>
                                 </Form>
                             )}
                         </Formik>
-
-                        <div className="space-y-2 my-2">
-                            <p className="text-gray-400 hover:text-gray-600 text-xs font-bold cursor-pointer">
-                                Don't have an account? Register
-                            </p>
-                            <p className="text-sky-400 hover:text-sky-600 text-xs font-bold cursor-pointer">
-                                Forgotten your password?
-                            </p>
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                Sign in
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

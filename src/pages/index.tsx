@@ -1,12 +1,31 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import type { RootState } from '../redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_NAME } from '../redux/reducers/profileSlice';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  return (
-    <div>
-	<h2 className="text-blue"> This is the beggining of my POS, i did some changes that i lost </h2> 
-    </div>
-  )
+    const name = useSelector((state: RootState) => state.profile.name);
+    const userToken = useSelector((state: RootState) => state.auth.userToken);
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(SET_NAME(e.target.value));
+    };
+    useEffect(() => {
+        if (userToken === null) {
+            router.push('/login');
+        }
+        router.push('/admin/dashboard');
+    }, []);
+    return (
+        <div>
+            <h2 className="text-blue">
+                This is the main page for the "correos de Nicaragua" system
+            </h2>
+
+            <input onChange={handleNameChange} type="text" value={name} />
+        </div>
+    );
 }
