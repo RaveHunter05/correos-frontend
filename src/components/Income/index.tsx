@@ -1,9 +1,27 @@
+import { useEffect } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import incomeService from '~/src/services/Income';
 
 const IncomeComponent = () => {
+    const getIncomeData = async () => {
+        try {
+            const response = await incomeService.getIncomes();
+            return response.data;
+        } catch (error) {
+            console.log({error})
+        }
+    };
+
+    useEffect((): void => {
+        getIncomeData();
+    }, []);
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+            <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
+                Ingresos
+            </h1>
             <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
                 <div>
                     <button

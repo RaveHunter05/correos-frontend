@@ -3,12 +3,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
 import profileReducer from './reducers/profileSlice';
-import authReducer from './reducers//auth/authSlice';
+import authReducer, { setAuthToken } from './reducers//auth/authSlice';
 
 const store = configureStore({
     reducer: {
         profile: profileReducer,
-	auth: authReducer
+        auth: authReducer,
     },
 });
 

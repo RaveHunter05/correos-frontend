@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_NAME } from '../redux/reducers/profileSlice';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { setAuthToken } from '../redux/reducers/auth/authSlice';
 
 export default function Home() {
     const name = useSelector((state: RootState) => state.profile.name);
@@ -13,11 +14,15 @@ export default function Home() {
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(SET_NAME(e.target.value));
     };
-    useEffect(() => {
-        if (userToken === null) {
-            router.push('/login');
+
+    const redirectByToken = (): void => {
+        if (userToken) {
+            router.push('/admin/dashboard');
         }
-        router.push('/admin/dashboard');
+        router.push('/login');
+    };
+    useEffect(() => {
+        redirectByToken();
     }, []);
     return (
         <div>
