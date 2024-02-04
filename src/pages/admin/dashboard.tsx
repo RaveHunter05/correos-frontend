@@ -1,5 +1,5 @@
-import { NextPageWithLayout } from '~/src/types/next';
-import SidebarComponent from '~/src/components/Sidebar';
+import { NextPageWithLayout } from '~/types/next';
+import SidebarComponent from '~/components/Sidebar';
 
 const Dashboard: NextPageWithLayout = () => {
     return (

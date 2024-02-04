@@ -7,8 +7,6 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { useAppDispatch } from '../redux';
-import { loginUser } from '../redux/reducers/auth/authSlice';
 
 import { useRouter } from 'next/router';
 
@@ -28,7 +26,6 @@ const LoginSchema = yup.object({
 export default function Login() {
     const router = useRouter();
     const [loginError, setLoginError] = useState<string>();
-    const dispatch = useAppDispatch();
     const handleLogin = async ({ email, password }: LoginInterface) => {
         try {
             const result = await axios.post('/api/login', {
@@ -37,7 +34,7 @@ export default function Login() {
                 email,
             });
 
-            dispatch(loginUser(result.data));
+	    localStorage.setItem('auth-token', result.data.token)
 
             toast.success('Logeado exitosamente', { position: 'top-right' });
             router.push('/admin/dashboard');

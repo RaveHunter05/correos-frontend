@@ -1,6 +1,6 @@
-import OutcomeComponent from '~/src/components/Outcome';
-import SidebarComponent from '~/src/components/Sidebar';
-import { NextPageWithLayout } from '~/src/types/next';
+import OutcomeComponent from '~/components/Outcome';
+import SidebarComponent from '~/components/Sidebar';
+import { NextPageWithLayout } from '~/types/next';
 
 const IncomePage: NextPageWithLayout = () => {
     return (
