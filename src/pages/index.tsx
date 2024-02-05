@@ -5,27 +5,37 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Home() {
-    const name = useSelector((state: RootState) => state.profile.name);
-    const userToken = useSelector((state: RootState) => state.auth.userToken);
-    const dispatch = useDispatch();
-    const router = useRouter();
+	const name = useSelector((state: RootState) => state.profile.name);
+	const dispatch = useDispatch();
+	const router = useRouter();
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(SET_NAME(e.target.value));
-    };
-    useEffect(() => {
-        if (userToken === null) {
-            router.push('/login');
-        }
-        router.push('/admin/dashboard');
-    }, []);
-    return (
-        <div>
-            <h2 className="text-blue">
-                This is the main page for the "correos de Nicaragua" system
-            </h2>
+	let userToken: String | null;
 
-            <input onChange={handleNameChange} type="text" value={name} />
-        </div>
-    );
+	useEffect(() => {
+
+			userToken = localStorage.getItem('auth-token');
+			}, []) 
+
+	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(SET_NAME(e.target.value));
+	};
+
+	const redirectByToken = (): void => {
+		if (userToken) {
+			router.push('/admin/dashboard');
+		}
+		router.push('/login');
+	};
+	useEffect(() => {
+			redirectByToken();
+			}, []);
+	return (
+			<div>
+			<h2 className="text-blue">
+			This is the main page for the "correos de Nicaragua" system
+			</h2>
+
+			<input onChange={handleNameChange} type="text" value={name} />
+			</div>
+	       );
 }

@@ -4,6 +4,9 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 const OutcomeComponent = () => {
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+            <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
+                Egresos
+            </h1>
             <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
                 <div>
                     <button
@@ -76,14 +79,6 @@ const OutcomeComponent = () => {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="p-4">
-                            <div className="flex items-center">
-                                <label className="sr-only">checkbox</label>
-                                <input
-                                    id="checkbox-all-search"
-                                    type="checkbox"
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Centro de costo
@@ -92,7 +87,10 @@ const OutcomeComponent = () => {
                             Rubro
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Proyección
+                            Proyectado
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Ejecutado
                         </th>
                         <th scope="col" className="px-6 py-3"></th>
                     </tr>
@@ -123,6 +121,9 @@ const OutcomeComponent = () => {
                             </div>
                         </th>
                         <td className="px-6 py-4">React Developer</td>
+                        <td className="px-6 py-4">
+                            <div className="flex items-center">$130,241</div>
+                        </td>
                         <td className="px-6 py-4">
                             <div className="flex items-center">$130,241</div>
                         </td>
@@ -167,6 +168,9 @@ const OutcomeComponent = () => {
                             <div className="flex items-center">$130,241</div>
                         </td>
                         <td className="px-6 py-4">
+                            <div className="flex items-center">$130,241</div>
+                        </td>
+                        <td className="px-6 py-4">
                             <a
                                 href="#"
                                 type="button"
@@ -202,6 +206,9 @@ const OutcomeComponent = () => {
                             </div>
                         </th>
                         <td className="px-6 py-4">Vue JS Developer</td>
+                        <td className="px-6 py-4">
+                            <div className="flex items-center">$130,241</div>
+                        </td>
                         <td className="px-6 py-4">
                             <div className="flex items-center">$130,241</div>
                         </td>
@@ -245,6 +252,9 @@ const OutcomeComponent = () => {
                             <div className="flex items-center">$130,241</div>
                         </td>
                         <td className="px-6 py-4">
+                            <div className="flex items-center">$130,241</div>
+                        </td>
+                        <td className="px-6 py-4">
                             <a
                                 href="#"
                                 type="button"
@@ -280,6 +290,9 @@ const OutcomeComponent = () => {
                             </div>
                         </th>
                         <td className="px-6 py-4">SEO Specialist</td>
+                        <td className="px-6 py-4">
+                            <div className="flex items-center">$130,241</div>
+                        </td>
                         <td className="px-6 py-4">
                             <div className="flex items-center">$130,241</div>
                         </td>
@@ -324,9 +337,9 @@ const OutcomeComponent = () => {
                                 >
                                     <path
                                         stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
                                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                                     />
                                 </svg>

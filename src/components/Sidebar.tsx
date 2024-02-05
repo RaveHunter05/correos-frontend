@@ -1,9 +1,7 @@
 import { LuFileInput, LuFileOutput, LuLogOut } from 'react-icons/lu';
 import { AiFillPrinter } from 'react-icons/ai';
 import { BiSolidDashboard } from 'react-icons/bi';
-import { useAppDispatch } from '~/src/redux';
 import { useRouter } from 'next/router';
-import { userLogout } from '~/src/redux/reducers/auth/authSlice';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
@@ -12,11 +10,10 @@ interface Props {
 }
 
 export default function SidebarComponent({ children }: Props) {
-    const dispatch = useAppDispatch();
     const router = useRouter();
 
     const handleLogout = () => {
-        dispatch(userLogout());
+        localStorage.removeItem('auth-token')
         router.replace('/');
     };
     return (
