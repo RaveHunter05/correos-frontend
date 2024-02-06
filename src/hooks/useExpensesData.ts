@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
-interface Expenses {
-    // Define your expenses interface here
-}
+import { debounce } from 'lodash';
+import { Expenses } from '~/components/Shared/ExpensesTable';
 
 const useExpensesData = () => {
     const [expensesData, setExpensesData] = useState<Expenses[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    // string to search for
+    const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
     const getExpensesData = async (): Promise<Expenses[]> => {
         try {
@@ -24,8 +24,40 @@ const useExpensesData = () => {
         }
     };
 
+    const getSearchData = async (costcenter: string): Promise<Expenses[]> => {
+        try {
+            const token = localStorage.getItem('auth-token');
+            const response = await axios.get<Expenses[]>(
+                `/api/expenses/${costcenter}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.log({ error });
+            return [];
+        }
+    };
+
+    const handleSearch = (costcenter: string) => {
+        setSearchTerm(costcenter);
+    };
+
     useEffect(() => {
-        const fetchData = async (): Promise<void> => {
+        const fetchSearch = debounce(
+            async (termToSearch: string): Promise<void> => {
+                setLoading(true);
+                const data = await getSearchData(termToSearch);
+                setExpensesData(data);
+                setLoading(false);
+                return;
+            },
+            400
+        );
+        const fetchExpensesData = async (): Promise<void> => {
             setLoading(true);
             const data = await getExpensesData();
             if (data) {
@@ -34,10 +66,14 @@ const useExpensesData = () => {
             setLoading(false);
         };
 
-        fetchData();
-    }, []);
+        if (!searchTerm || searchTerm === '') {
+            fetchExpensesData();
+            return;
+        }
+        fetchSearch(searchTerm);
+    }, [searchTerm]);
 
-    return { expensesData, loading };
+    return { expensesData, loading, handleSearch };
 };
 
 export default useExpensesData;

@@ -7,16 +7,16 @@ export default async function handler(
 ) {
     if (req.method === 'GET') {
         try {
-            const { service } = req.query;
+            const { costcenter } = req.query;
 
-            if (typeof service === 'string') {
+            if (typeof costcenter === 'string') {
                 let response;
 
-                const searchIncomes = (
-                    service: string
+                const searchExpenses = (
+                    costcenter: string
                 ): Promise<AxiosResponse> => {
                     const value = axios.get(
-                        `http://localhost:5148/api/incomes/search/${service}`,
+                        `http://localhost:5148/api/expenses/search/${costcenter}`,
                         {
                             headers: {
                                 Authorization: req.headers.authorization,
@@ -25,7 +25,7 @@ export default async function handler(
                     );
                     return value;
                 };
-                response = await searchIncomes(service);
+                response = await searchExpenses(costcenter);
                 res.send(response.data);
                 return;
             }

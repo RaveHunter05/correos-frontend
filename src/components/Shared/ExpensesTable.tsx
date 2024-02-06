@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import { useState } from 'react';
 
-interface ExpensesInterface {
+export interface Expenses {
     incomeId: any;
     constCenter: string;
     category: string;
@@ -11,7 +11,7 @@ interface ExpensesInterface {
 }
 
 interface Interface {
-    data: ExpensesInterface[];
+    data: Expenses[];
 }
 
 const ExpensesTable = ({ data }: Interface) => {
