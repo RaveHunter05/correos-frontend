@@ -4,9 +4,9 @@ import { useState } from 'react';
 interface IncomeInterface {
     incomeId: any;
     code: Number;
-    service: String;
-    projectedAmount: String;
-    executedAmount: String;
+    service: string;
+    projectedAmount: string;
+    executedAmount: string;
     date: Date;
 }
 

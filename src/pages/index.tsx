@@ -9,7 +9,7 @@ export default function Home() {
 	const dispatch = useDispatch();
 	const router = useRouter();
 
-	let userToken: String | null;
+	let userToken: string | null;
 
 	useEffect(() => {
 

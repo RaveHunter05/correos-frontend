@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { debounce } from 'lodash';
 
-interface Income {
-    // Define your income interface here
+export interface Income {
+    incomeId: any;
+    code: Number;
+    service: string;
+    projectedAmount: string;
+    executedAmount: string;
+    date: Date;
 }
 
 const useIncomeData = () => {
+    // current data for the hook
     const [incomeData, setIncomeData] = useState<Income[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    // string to search for
+    const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
     const getIncomeData = async (): Promise<Income[]> => {
         try {
@@ -24,8 +33,41 @@ const useIncomeData = () => {
         }
     };
 
+    const getSearchData = async (service: string): Promise<Income[]> => {
+        try {
+            const token = localStorage.getItem('auth-token');
+            const response = await axios.get<Income[]>(
+                `/api/incomes/${service}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.log({ error });
+            return [];
+        }
+    };
+
+    const handleSearch = (service: string) => {
+        setSearchTerm(service);
+    };
+
     useEffect(() => {
-        const fetchData = async (): Promise<void> => {
+        const fetchSearch = debounce(
+            async (termToSearch: string): Promise<void> => {
+                setLoading(true);
+                const data = await getSearchData(termToSearch);
+                setIncomeData(data);
+                setLoading(false);
+                return;
+            },
+            400
+        );
+
+        const fetchIncomeData = async (): Promise<void> => {
             setLoading(true);
             const data = await getIncomeData();
             if (data) {
@@ -33,11 +75,15 @@ const useIncomeData = () => {
             }
             setLoading(false);
         };
+        if (!searchTerm || searchTerm === '') {
+            fetchIncomeData();
+            return;
+        }
+        fetchSearch(searchTerm);
+        return;
+    }, [searchTerm]);
 
-        fetchData();
-    }, []);
-
-    return { incomeData, loading };
+    return { incomeData, loading, handleSearch };
 };
 
 export default useIncomeData;

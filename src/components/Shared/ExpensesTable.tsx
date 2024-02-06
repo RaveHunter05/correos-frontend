@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 interface ExpensesInterface {
     incomeId: any;
-    constCenter: String;
-    category: String;
+    constCenter: string;
+    category: string;
     projectedAmount: number;
     executedAmount: number;
     date: Date;
