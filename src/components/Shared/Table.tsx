@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, Tag } from 'antd';
 import { useState } from 'react';
 
 interface IncomeInterface {
@@ -37,10 +37,21 @@ const SharedTable = ({ data }: Interface) => {
         {
             title: 'Proyectado',
             dataIndex: 'projectedAmount',
+            render: (_: any, { executedAmount }: IncomeInterface) => {
+                return <Tag color="green">{executedAmount}</Tag>;
+            },
         },
         {
             title: 'Ejecutado',
             dataIndex: 'executedAmount',
+            render: (
+                _: any,
+                { projectedAmount, executedAmount }: IncomeInterface
+            ) => {
+                const textColor =
+                    executedAmount > projectedAmount ? 'red' : 'geekblue';
+                return <Tag color={textColor}>{executedAmount}</Tag>;
+            },
         },
     ];
     return (

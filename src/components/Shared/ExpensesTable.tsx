@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, Tag } from 'antd';
 import { useState } from 'react';
 
 export interface Expenses {
@@ -37,10 +37,18 @@ const ExpensesTable = ({ data }: Interface) => {
         {
             title: 'Proyectado',
             dataIndex: 'projectedAmount',
+            render: (_, { executedAmount }) => {
+                return <Tag color="green">{executedAmount}</Tag>;
+            },
         },
         {
             title: 'Ejecutado',
             dataIndex: 'executedAmount',
+            render: (_, { projectedAmount, executedAmount }) => {
+                const textColor =
+                    executedAmount > projectedAmount ? 'red' : 'geekblue';
+                return <Tag color={textColor}>{executedAmount}</Tag>;
+            },
         },
     ];
     return (
