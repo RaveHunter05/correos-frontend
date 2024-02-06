@@ -12,7 +12,7 @@ const useAxiosHook = () => {
         },
     });
 
-    const [token, setToken] = useState<String | null>(null)
+    const [token, setToken] = useState<string | null>(null)
 
     useEffect(() => {
 	setToken(localStorage.getItem('auth-token'))
