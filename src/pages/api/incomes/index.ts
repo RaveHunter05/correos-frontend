@@ -33,4 +33,39 @@ export default async function handler(
             }
         }
     }
+    if (req.method === 'POST') {
+        try {
+            const {
+                code,
+                service,
+                projectedAmount,
+                executedAmount,
+            }: Partial<Income> = req.body;
+            const data = { code, service, projectedAmount, executedAmount };
+            const postIncome = async (
+                data: Partial<Income>
+            ): Promise<AxiosResponse> => {
+                const value = await axios.post(
+                    'http://localhost:5148/api/incomes',
+                    data,
+                    {
+                        headers: {
+                            Authorization: req.headers.authorization,
+                        },
+                    }
+                );
+                return value;
+            };
+
+            const response = await postIncome(data);
+            res.send(response.data);
+            return;
+        } catch (error) {
+            if (typeof error === 'string') {
+                res.send(error.toUpperCase());
+            } else if (error instanceof Error) {
+                res.send(error.message);
+            }
+        }
+    }
 }

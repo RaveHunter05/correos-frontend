@@ -4,10 +4,10 @@ import { debounce } from 'lodash';
 
 export interface Income {
     incomeId: any;
-    code: Number;
+    code: number;
     service: string;
-    projectedAmount: string;
-    executedAmount: string;
+    projectedAmount: number;
+    executedAmount: number;
     date: Date;
 }
 

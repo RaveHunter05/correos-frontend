@@ -1,20 +1,20 @@
-import { Typography } from 'antd';
 import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import { Toaster, toast } from 'react-hot-toast';
 import * as yup from 'yup';
-import { Income } from '~/hooks/useIncomeData';
-const CreateIncomeForm = (): React.ReactElement => {
+import { Expenses } from '../Shared/ExpensesTable';
+import { Typography } from 'antd';
+const CreateExpensesForm = (): React.ReactElement => {
     const handleSubmit = async ({
-        code,
-        service,
+        costCenter,
+        category,
         projectedAmount,
         executedAmount,
-    }: Partial<Income>) => {
+    }: Partial<Expenses>) => {
         try {
-            await axios.post('/api/incomes', {
-                code,
-                service,
+            await axios.post('/api/expenses', {
+                costCenter,
+                category,
                 projectedAmount,
                 executedAmount,
             });
@@ -26,9 +26,9 @@ const CreateIncomeForm = (): React.ReactElement => {
             console.log(error);
         }
     };
-    const IncomeSchema = yup.object({
-        code: yup.string().required('El código es requerido'),
-        service: yup.string().required('El servicio es requerido'),
+    const expensesSchema = yup.object({
+        costCenter: yup.string().required('El código es requerido'),
+        category: yup.string().required('El servicio es requerido'),
         projectedAmount: yup
             .number()
             .min(0, 'Cantidad proyectada debe ser mayor a 0')
@@ -42,13 +42,13 @@ const CreateIncomeForm = (): React.ReactElement => {
         <>
             <Formik
                 initialValues={{
-                    code: 121231,
-                    service: 'asdfasdf',
-                    projectedAmount: 200,
-                    executedAmount: 300,
+                    costCenter: 'Siuna',
+                    category: 'asdfasdf',
+                    projectedAmount: 12399,
+                    executedAmount: 12,
                 }}
                 onSubmit={handleSubmit}
-                validationSchema={IncomeSchema}
+                validationSchema={expensesSchema}
             >
                 {({ errors, touched }) => (
                     <Form>
@@ -56,36 +56,36 @@ const CreateIncomeForm = (): React.ReactElement => {
                         <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
                             <section>
                                 <Typography.Text className="font-bold text-blue-500">
-                                    Código
+                                    Céntro de cobro
                                 </Typography.Text>
                                 <Field
                                     type="text"
-                                    placeholder="Código"
+                                    placeholder="Centro de Cobro"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="code"
+                                    name="costCenter"
                                 />
-                                {errors.code && touched.code && (
+                                {errors.costCenter && touched.costCenter && (
                                     <div>
                                         <span className="text-red-500 text-xs font-bold">
-                                            {errors.code}
+                                            {errors.costCenter}
                                         </span>
                                     </div>
                                 )}
                             </section>
                             <section>
-                                <Typography.Text className="font-bold text-blue-500">
-                                    Servicio
+                                <Typography.Text className="font-bold text-blue-500 mt-4">
+                                    Categoría
                                 </Typography.Text>
                                 <Field
                                     type="text"
-                                    placeholder="Servicio"
+                                    placeholder="Categoría"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="service"
+                                    name="category"
                                 />
-                                {errors.service && touched.service && (
+                                {errors.category && touched.category && (
                                     <div>
                                         <span className="text-red-500 text-xs font-bold">
-                                            {errors.service}
+                                            {errors.category}
                                         </span>
                                     </div>
                                 )}
@@ -141,4 +141,4 @@ const CreateIncomeForm = (): React.ReactElement => {
     );
 };
 
-export default CreateIncomeForm;
+export default CreateExpensesForm;

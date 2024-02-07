@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export interface Expenses {
     incomeId: any;
-    constCenter: string;
+    costCenter: string;
     category: string;
     projectedAmount: number;
     executedAmount: number;
@@ -37,14 +37,14 @@ const ExpensesTable = ({ data }: Interface) => {
         {
             title: 'Proyectado',
             dataIndex: 'projectedAmount',
-            render: (_, { executedAmount }) => {
+            render: (_: any, { executedAmount }: Expenses) => {
                 return <Tag color="green">{executedAmount}</Tag>;
             },
         },
         {
             title: 'Ejecutado',
             dataIndex: 'executedAmount',
-            render: (_, { projectedAmount, executedAmount }) => {
+            render: (_: any, { projectedAmount, executedAmount }: Expenses) => {
                 const textColor =
                     executedAmount > projectedAmount ? 'red' : 'geekblue';
                 return <Tag color={textColor}>{executedAmount}</Tag>;

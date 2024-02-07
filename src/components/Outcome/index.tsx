@@ -1,10 +1,10 @@
 import { Empty, Skeleton } from 'antd';
-import { AiOutlineSearch } from 'react-icons/ai';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useExpensesData from '~/hooks/useExpensesData';
 import ExpensesTable from '../Shared/ExpensesTable';
 import { IoMdAdd } from 'react-icons/io';
-import { CiEdit } from 'react-icons/ci';
+import useModal from '~/hooks/useModal';
+import CreateExpensesForm from './CreateExpensesForm';
 
 const OutcomeComponent = () => {
     const {
@@ -12,8 +12,13 @@ const OutcomeComponent = () => {
         loading: tableLoading,
         handleSearch,
     } = useExpensesData();
+
+    const { openModal, ModalWrapper } = useModal();
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+            <ModalWrapper title="Agregar Egresos">
+                <CreateExpensesForm />
+            </ModalWrapper>
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Egresos
             </h1>
@@ -75,23 +80,14 @@ const OutcomeComponent = () => {
                 <div className="flex justify-center items-center">
                     <button
                         type="button"
-                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 flex items-center"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={openModal}
                     >
                         <IoMdAdd
                             className="mr-1"
                             style={{ fontSize: '1.2rem' }}
                         />
                         Agregar
-                    </button>
-                    <button
-                        type="button"
-                        className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 flex items-center"
-                    >
-                        <CiEdit
-                            className="mr-1"
-                            style={{ fontSize: '1.2rem' }}
-                        />
-                        Editar
                     </button>
                     <div className="relative ml-4">
                         <input
