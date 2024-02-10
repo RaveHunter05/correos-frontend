@@ -3,27 +3,104 @@ import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import { Toaster, toast } from 'react-hot-toast';
 import * as yup from 'yup';
-import { Income } from '~/hooks/useIncomeData';
-const CreateIncomeForm = (): React.ReactElement => {
-    const handleSubmit = async ({
+import { IncomeInterface } from '../Shared/IncomesTable';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeData } from '~/redux/reducers/data/dataSlice';
+
+interface Interface {
+    toEditValues?: Partial<IncomeInterface> | null;
+    closeModal: () => void;
+}
+
+const CreateIncomeForm: React.FC<Interface> = ({
+    toEditValues,
+    closeModal,
+}): React.ReactElement => {
+    const [initialValues, setInitialValues] = useState<
+        Partial<IncomeInterface>
+    >({
+        code: 121231,
+        service: 'asdfasdf',
+        projectedAmount: 200,
+        executedAmount: 300,
+    });
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (toEditValues) setInitialValues(toEditValues);
+    }, [toEditValues, initialValues]);
+
+    const createIncome = async ({
         code,
         service,
         projectedAmount,
         executedAmount,
-    }: Partial<Income>) => {
+    }: Partial<IncomeInterface>) => {
+        await axios.post('/api/incomes', {
+            code,
+            service,
+            projectedAmount,
+            executedAmount,
+        });
+
+        toast.success('Ingreso creado exitosamente', {
+            position: 'top-right',
+        });
+    };
+
+    const updateIncome = async ({
+        incomeId,
+        code,
+        service,
+        projectedAmount,
+        executedAmount,
+    }: Partial<IncomeInterface>) => {
+        await axios.put('/api/incomes', {
+            incomeId,
+            code,
+            service,
+            projectedAmount,
+            executedAmount,
+        });
+
+        toast.success('Ingreso actualizado exitosamente', {
+            position: 'top-right',
+        });
+    };
+
+    const handleSubmit = async ({
+        incomeId,
+        code,
+        service,
+        projectedAmount,
+        executedAmount,
+    }: Partial<IncomeInterface>) => {
         try {
-            await axios.post('/api/incomes', {
+            if (!toEditValues) {
+                createIncome({
+                    code,
+                    service,
+                    projectedAmount,
+                    executedAmount,
+                });
+                return;
+            }
+
+            updateIncome({
+                incomeId,
                 code,
                 service,
                 projectedAmount,
                 executedAmount,
             });
-
-            toast.success('Ingreso creado exitosamente', {
-                position: 'top-right',
-            });
+            return;
         } catch (error) {
             console.log(error);
+        } finally {
+            dispatch(changeData());
+            closeModal();
         }
     };
     const IncomeSchema = yup.object({
@@ -41,12 +118,7 @@ const CreateIncomeForm = (): React.ReactElement => {
     return (
         <>
             <Formik
-                initialValues={{
-                    code: 121231,
-                    service: 'asdfasdf',
-                    projectedAmount: 200,
-                    executedAmount: 300,
-                }}
+                initialValues={toEditValues ? toEditValues : initialValues}
                 onSubmit={handleSubmit}
                 validationSchema={IncomeSchema}
             >
@@ -130,7 +202,9 @@ const CreateIncomeForm = (): React.ReactElement => {
                             </section>
                             <div className="space-y-2">
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                                    Agregar Ingreso
+                                    {toEditValues
+                                        ? 'Editar Ingreso'
+                                        : 'Agregar Ingreso'}
                                 </button>
                             </div>
                         </div>

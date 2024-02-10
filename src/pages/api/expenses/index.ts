@@ -68,4 +68,47 @@ export default async function handler(
             }
         }
     }
+
+    if (req.method === 'PUT') {
+        try {
+            const {
+                expenseId,
+                costCenter,
+                category,
+                projectedAmount,
+                executedAmount,
+            }: Partial<Expenses> = req.body;
+            const data = {
+                expenseId,
+                costCenter,
+                category,
+                projectedAmount,
+                executedAmount,
+            };
+            const putExpense = async (
+                data: Partial<Expenses>
+            ): Promise<AxiosResponse> => {
+                const value = await axios.put(
+                    `http://localhost:5148/api/expenses/${expenseId}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: req.headers.authorization,
+                        },
+                    }
+                );
+                return value;
+            };
+
+            const response = await putExpense(data);
+            res.send(response.data);
+            return;
+        } catch (error) {
+            if (typeof error === 'string') {
+                res.send(error.toUpperCase());
+            } else if (error instanceof Error) {
+                res.send(error.message);
+            }
+        }
+    }
 }

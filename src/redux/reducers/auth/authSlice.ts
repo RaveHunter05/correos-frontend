@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginUserAPI } from '~/src/pages/api/login';
 
 export interface ProfileState {
     loading: boolean;

@@ -1,63 +1,73 @@
 import { Table, Tag } from 'antd';
 import { useEffect, useState } from 'react';
-
 import { CiEdit } from 'react-icons/ci';
 import useModal from '~/hooks/useModal';
-import CreateExpensesForm from '../Outcome/CreateExpensesForm';
+import CreateIncomeForm from '../Income/CreateIncomeForm';
 
-export interface Expenses {
-    expenseId: any;
-    costCenter: string;
-    category: string;
+export interface IncomeInterface {
+    incomeId: any;
+    code: Number;
+    service: string;
     projectedAmount: number;
     executedAmount: number;
     date: Date;
 }
 
 interface Interface {
-    data: Expenses[];
+    data: IncomeInterface[];
 }
 
-const ExpensesTable = ({ data }: Interface) => {
+const IncomesTable = ({ data }: Interface) => {
     const [selectedValues, setSelectedValues] =
-        useState<Partial<Expenses> | null>(null);
+        useState<Partial<IncomeInterface> | null>(null);
 
     const handleEditClick = ({
-        expenseId,
-        costCenter,
-        category,
+        incomeId,
+        code,
+        service,
         projectedAmount,
         executedAmount,
-    }: Partial<Expenses>) => {
+    }: Partial<IncomeInterface>) => {
         setSelectedValues({
-            expenseId,
-            costCenter,
-            category,
+            incomeId,
+            code,
+            service,
             projectedAmount,
             executedAmount,
         });
-        openModal();
     };
 
-    const { openModal, ModalWrapper } = useModal();
+    useEffect(() => {
+        if (selectedValues !== null) {
+            openModal();
+        }
+    }, [selectedValues]);
+
+    const { openModal, ModalWrapper, closeModal } = useModal();
 
     const columns = [
         {
-            title: 'Centro de Costos',
-            dataIndex: 'costCenter',
+            title: 'Código',
+            dataIndex: 'code',
         },
-        { title: 'Categoría', dataIndex: 'category' },
+        {
+            title: 'Servicio',
+            dataIndex: 'service',
+        },
         {
             title: 'Proyectado',
             dataIndex: 'projectedAmount',
-            render: (_: any, { projectedAmount }: Expenses) => {
+            render: (_: any, { projectedAmount }: IncomeInterface) => {
                 return <Tag color="green">{projectedAmount}</Tag>;
             },
         },
         {
             title: 'Ejecutado',
             dataIndex: 'executedAmount',
-            render: (_: any, { projectedAmount, executedAmount }: Expenses) => {
+            render: (
+                _: any,
+                { projectedAmount, executedAmount }: IncomeInterface
+            ) => {
                 const textColor =
                     executedAmount > projectedAmount ? 'red' : 'geekblue';
                 return <Tag color={textColor}>{executedAmount}</Tag>;
@@ -69,20 +79,20 @@ const ExpensesTable = ({ data }: Interface) => {
             render: (
                 _: any,
                 {
-                    expenseId,
-                    costCenter,
-                    category,
+                    incomeId,
+                    code,
+                    service,
                     projectedAmount,
                     executedAmount,
-                }: Expenses
+                }: IncomeInterface
             ) => {
                 return (
                     <CiEdit
                         onClick={() =>
                             handleEditClick({
-                                expenseId,
-                                costCenter,
-                                category,
+                                incomeId,
+                                code,
+                                service,
                                 projectedAmount,
                                 executedAmount,
                             })
@@ -96,11 +106,14 @@ const ExpensesTable = ({ data }: Interface) => {
     return (
         <>
             <ModalWrapper title="Agregar Ingresos">
-                <CreateExpensesForm toEditValues={selectedValues}/>
+                <CreateIncomeForm
+                    toEditValues={selectedValues}
+                    closeModal={closeModal}
+                />
             </ModalWrapper>
-            <Table rowKey="expenseId" dataSource={data} columns={columns} />
+            <Table rowKey="incomeId" dataSource={data} columns={columns} />
         </>
     );
 };
 
-export default ExpensesTable;
+export default IncomesTable;

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Income } from '~/hooks/useIncomeData';
+import { IncomeInterface } from '~/components/Shared/IncomesTable';
+
 
 export const incomesAPI = async () => {};
 
@@ -40,10 +41,10 @@ export default async function handler(
                 service,
                 projectedAmount,
                 executedAmount,
-            }: Partial<Income> = req.body;
+            }: Partial<IncomeInterface> = req.body;
             const data = { code, service, projectedAmount, executedAmount };
             const postIncome = async (
-                data: Partial<Income>
+                data: Partial<IncomeInterface>
             ): Promise<AxiosResponse> => {
                 const value = await axios.post(
                     'http://localhost:5148/api/incomes',
@@ -58,6 +59,45 @@ export default async function handler(
             };
 
             const response = await postIncome(data);
+            res.send(response.data);
+            return;
+        } catch (error) {
+            if (typeof error === 'string') {
+                res.send(error.toUpperCase());
+            } else if (error instanceof Error) {
+                res.send(error.message);
+            }
+        }
+    }
+
+    if (req.method === 'PUT') {
+        try {
+            const {
+                incomeId,
+                code,
+                service,
+                projectedAmount,
+                executedAmount,
+            }: Partial<IncomeInterface> = req.body;
+
+            const data = { incomeId, code, service, projectedAmount, executedAmount };
+
+            const putIncome = async (
+                data: Partial<IncomeInterface>
+            ): Promise<AxiosResponse> => {
+                const value = await axios.put(
+                    `http://localhost:5148/api/incomes/${incomeId}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: req.headers.authorization,
+                        },
+                    }
+                );
+                return value;
+            };
+
+            const response = await putIncome(data);
             res.send(response.data);
             return;
         } catch (error) {

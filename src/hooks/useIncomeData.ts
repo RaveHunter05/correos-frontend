@@ -1,31 +1,29 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
-
-export interface Income {
-    incomeId: any;
-    code: number;
-    service: string;
-    projectedAmount: number;
-    executedAmount: number;
-    date: Date;
-}
+import { IncomeInterface } from '~/components/Shared/IncomesTable';
 
 const useIncomeData = () => {
     // current data for the hook
-    const [incomeData, setIncomeData] = useState<Income[]>([]);
+    const [incomeData, setIncomeData] = useState<IncomeInterface[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     // string to search for
     const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
-    const getIncomeData = async (): Promise<Income[]> => {
+    const [toggleRefresh, setToggleRefresh] = useState<boolean>(false);
+
+    // get data (general)
+    const getIncomeData = async (): Promise<IncomeInterface[]> => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await axios.get<Income[]>('/api/incomes', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.get<IncomeInterface[]>(
+                '/api/incomes',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             return response.data;
         } catch (error) {
             console.log({ error });
@@ -33,10 +31,12 @@ const useIncomeData = () => {
         }
     };
 
-    const getSearchData = async (service: string): Promise<Income[]> => {
+    const getSearchData = async (
+        service: string
+    ): Promise<IncomeInterface[]> => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await axios.get<Income[]>(
+            const response = await axios.get<IncomeInterface[]>(
                 `/api/incomes/${service}`,
                 {
                     headers: {
@@ -83,7 +83,29 @@ const useIncomeData = () => {
         return;
     }, [searchTerm]);
 
-    return { incomeData, loading, handleSearch };
+    const refreshData = () => {
+        setToggleRefresh(!toggleRefresh);
+    };
+
+    useEffect(() => {
+        const fetchIncomeData = async (): Promise<void> => {
+            setLoading(true);
+            const data = await getIncomeData();
+            if (data) {
+                setIncomeData(data);
+            }
+            setLoading(false);
+        };
+
+        fetchIncomeData();
+    }, [toggleRefresh]);
+
+    return {
+        incomeData,
+        loading,
+        handleSearch,
+        refreshData,
+    };
 };
 
 export default useIncomeData;

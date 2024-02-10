@@ -1,24 +1,38 @@
-import { Button, Empty, Input, Skeleton } from 'antd';
+import { Empty, Input, Skeleton } from 'antd';
 
-import { AiOutlineSearch } from 'react-icons/ai';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
-import { CiEdit } from 'react-icons/ci';
 import useIncomeData from '~/hooks/useIncomeData';
-import SharedTable from '../Shared/Table';
+import IncomesTable from '../Shared/IncomesTable';
 
 import useModal from '~/hooks/useModal';
 import CreateIncomeForm from './CreateIncomeForm';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/redux';
+import { useEffect } from 'react';
 
 const IncomeComponent = () => {
-    const { incomeData, loading: tableLoading, handleSearch } = useIncomeData();
+    const {
+        incomeData,
+        loading: tableLoading,
+        handleSearch,
+        refreshData,
+    } = useIncomeData();
 
-    const { openModal, ModalWrapper } = useModal();
+    const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const dataChanged = useSelector(
+        (state: RootState) => state.data.dataChanged
+    );
+
+    useEffect(() => {
+	refreshData()	
+    }, [dataChanged]);
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
             <ModalWrapper title="Agregar Ingresos">
-                <CreateIncomeForm />
+                <CreateIncomeForm closeModal={closeModal}/>
             </ModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
@@ -107,7 +121,7 @@ const IncomeComponent = () => {
             </div>
             <div>
                 {tableLoading ?? <Skeleton />}
-                {!incomeData ? <Empty /> : <SharedTable data={incomeData} />}
+                {!incomeData ? <Empty /> : <IncomesTable data={incomeData} />}
             </div>
         </div>
     );

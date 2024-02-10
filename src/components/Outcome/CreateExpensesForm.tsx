@@ -4,23 +4,89 @@ import { Toaster, toast } from 'react-hot-toast';
 import * as yup from 'yup';
 import { Expenses } from '../Shared/ExpensesTable';
 import { Typography } from 'antd';
-const CreateExpensesForm = (): React.ReactElement => {
+import { useEffect, useState } from 'react';
+
+interface Interface {
+    toEditValues?: Partial<Expenses> | null;
+}
+
+const CreateExpensesForm: React.FC<Interface> = ({
+    toEditValues,
+}): React.ReactElement => {
+    const [initialValues, setInitialValues] = useState<Partial<Expenses>>({
+        costCenter: 'asdf',
+        category: 'testing',
+        projectedAmount: 200,
+        executedAmount: 300,
+    });
+
+    useEffect(() => {
+        if (toEditValues) setInitialValues(toEditValues);
+        console.log(toEditValues);
+    }, [toEditValues, initialValues]);
+
+    const createExpense = async ({
+        costCenter,
+        category,
+        projectedAmount,
+        executedAmount,
+    }: Partial<Expenses>) => {
+        await axios.post('/api/expenses', {
+            costCenter,
+            category,
+            projectedAmount,
+            executedAmount,
+        });
+
+        toast.success('Egreso creado exitosamente', {
+            position: 'top-right',
+        });
+    };
+
+    const updateExpense = async ({
+        expenseId,
+        costCenter,
+        category,
+        projectedAmount,
+        executedAmount,
+    }: Partial<Expenses>) => {
+        await axios.put('/api/expenses', {
+            expenseId,
+            costCenter,
+            category,
+            projectedAmount,
+            executedAmount,
+        });
+
+        toast.success('Egreso actualizado exitosamente', {
+            position: 'top-right',
+        });
+    };
+
     const handleSubmit = async ({
+        expenseId,
         costCenter,
         category,
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
         try {
-            await axios.post('/api/expenses', {
+            if (!toEditValues) {
+                createExpense({
+                    costCenter,
+                    category,
+                    projectedAmount,
+                    executedAmount,
+                });
+                return;
+            }
+
+            updateExpense({
+                expenseId,
                 costCenter,
                 category,
                 projectedAmount,
                 executedAmount,
-            });
-
-            toast.success('Ingreso creado exitosamente', {
-                position: 'top-right',
             });
         } catch (error) {
             console.log(error);
@@ -41,12 +107,7 @@ const CreateExpensesForm = (): React.ReactElement => {
     return (
         <>
             <Formik
-                initialValues={{
-                    costCenter: 'Siuna',
-                    category: 'asdfasdf',
-                    projectedAmount: 12399,
-                    executedAmount: 12,
-                }}
+                initialValues={toEditValues ? toEditValues : initialValues}
                 onSubmit={handleSubmit}
                 validationSchema={expensesSchema}
             >
@@ -130,7 +191,9 @@ const CreateExpensesForm = (): React.ReactElement => {
                             </section>
                             <div className="space-y-2">
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                                    Agregar Ingreso
+                                    {toEditValues
+                                        ? 'Editar Egreso'
+                                        : 'Agregar Egreso'}
                                 </button>
                             </div>
                         </div>

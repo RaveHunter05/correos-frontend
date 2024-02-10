@@ -5,6 +5,7 @@ const useModal = () => {
     interface CustomModalInterface {
         children: React.ReactNode;
         title: string;
+        footer: React.ReactNode;
     }
     const [openedModal, setOpenedModal] = useState<boolean>(false);
 
@@ -19,6 +20,7 @@ const useModal = () => {
     const ModalWrapper = ({
         children,
         title,
+        footer = null,
     }: CustomModalInterface): React.ReactElement => {
         return (
             <Modal
@@ -27,8 +29,8 @@ const useModal = () => {
                 open={openedModal}
                 onOk={() => setOpenedModal(false)}
                 onCancel={() => setOpenedModal(false)}
-		width={300}
-		footer={null}
+                width={300}
+                footer={footer}
             >
                 {children}
             </Modal>
