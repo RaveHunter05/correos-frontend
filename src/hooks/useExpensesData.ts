@@ -9,6 +9,8 @@ const useExpensesData = () => {
     // string to search for
     const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
+    const [toggleRefresh, setToggleRefresh] = useState<boolean>(false);
+
     const getExpensesData = async (): Promise<Expenses[]> => {
         try {
             const token = localStorage.getItem('auth-token');
@@ -73,7 +75,24 @@ const useExpensesData = () => {
         fetchSearch(searchTerm);
     }, [searchTerm]);
 
-    return { expensesData, loading, handleSearch };
+    const refreshData = () => {
+        setToggleRefresh(!toggleRefresh);
+    };
+
+    useEffect(() => {
+        const fetchIncomeData = async (): Promise<void> => {
+            setLoading(true);
+            const data = await getExpensesData();
+            if (data) {
+                setExpensesData(data);
+            }
+            setLoading(false);
+        };
+
+        fetchIncomeData();
+    }, [toggleRefresh]);
+
+    return { expensesData, loading, handleSearch, refreshData };
 };
 
 export default useExpensesData;

@@ -6,12 +6,17 @@ import { Expenses } from '../Shared/ExpensesTable';
 import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { changeData } from '~/redux/reducers/data/dataSlice';
+
 interface Interface {
     toEditValues?: Partial<Expenses> | null;
+    closeModal: () => void;
 }
 
 const CreateExpensesForm: React.FC<Interface> = ({
     toEditValues,
+    closeModal,
 }): React.ReactElement => {
     const [initialValues, setInitialValues] = useState<Partial<Expenses>>({
         costCenter: 'asdf',
@@ -20,9 +25,10 @@ const CreateExpensesForm: React.FC<Interface> = ({
         executedAmount: 300,
     });
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if (toEditValues) setInitialValues(toEditValues);
-        console.log(toEditValues);
     }, [toEditValues, initialValues]);
 
     const createExpense = async ({
@@ -38,9 +44,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
             executedAmount,
         });
 
-        toast.success('Egreso creado exitosamente', {
-            position: 'top-right',
-        });
+        alert('Egreso creado exitosamente');
     };
 
     const updateExpense = async ({
@@ -58,9 +62,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
             executedAmount,
         });
 
-        toast.success('Egreso actualizado exitosamente', {
-            position: 'top-right',
-        });
+        alert('Egreso actualizado exitosamente');
     };
 
     const handleSubmit = async ({
@@ -88,8 +90,12 @@ const CreateExpensesForm: React.FC<Interface> = ({
                 projectedAmount,
                 executedAmount,
             });
+            return;
         } catch (error) {
             console.log(error);
+        } finally {
+            dispatch(changeData());
+            closeModal();
         }
     };
     const expensesSchema = yup.object({

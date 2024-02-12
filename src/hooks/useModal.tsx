@@ -5,7 +5,7 @@ const useModal = () => {
     interface CustomModalInterface {
         children: React.ReactNode;
         title: string;
-        footer: React.ReactNode;
+        footer?: React.ReactNode;
     }
     const [openedModal, setOpenedModal] = useState<boolean>(false);
 

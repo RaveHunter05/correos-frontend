@@ -36,10 +36,15 @@ const ExpensesTable = ({ data }: Interface) => {
             projectedAmount,
             executedAmount,
         });
-        openModal();
     };
 
-    const { openModal, ModalWrapper } = useModal();
+    useEffect(() => {
+        if (selectedValues !== null) {
+            openModal();
+        }
+    }, [selectedValues]);
+
+    const { openModal, ModalWrapper, closeModal } = useModal();
 
     const columns = [
         {
@@ -95,8 +100,11 @@ const ExpensesTable = ({ data }: Interface) => {
     ];
     return (
         <>
-            <ModalWrapper title="Agregar Ingresos">
-                <CreateExpensesForm toEditValues={selectedValues}/>
+            <ModalWrapper title="Agregar Egreso">
+                <CreateExpensesForm
+                    toEditValues={selectedValues}
+                    closeModal={closeModal}
+                />
             </ModalWrapper>
             <Table rowKey="expenseId" dataSource={data} columns={columns} />
         </>

@@ -5,19 +5,32 @@ import ExpensesTable from '../Shared/ExpensesTable';
 import { IoMdAdd } from 'react-icons/io';
 import useModal from '~/hooks/useModal';
 import CreateExpensesForm from './CreateExpensesForm';
+import { RootState } from '~/redux';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const OutcomeComponent = () => {
     const {
         expensesData,
         loading: tableLoading,
         handleSearch,
+        refreshData,
     } = useExpensesData();
 
-    const { openModal, ModalWrapper } = useModal();
+    const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const dataChanged = useSelector(
+        (state: RootState) => state.data.dataChanged
+    );
+
+    useEffect(() => {
+        refreshData();
+    }, [dataChanged]);
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
             <ModalWrapper title="Agregar Egresos">
-                <CreateExpensesForm />
+                <CreateExpensesForm closeModal={closeModal} />
             </ModalWrapper>
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Egresos

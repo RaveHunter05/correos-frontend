@@ -1,7 +1,6 @@
 import { Typography } from 'antd';
 import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
-import { Toaster, toast } from 'react-hot-toast';
 import * as yup from 'yup';
 import { IncomeInterface } from '../Shared/IncomesTable';
 import { useEffect, useState } from 'react';
@@ -45,9 +44,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
             executedAmount,
         });
 
-        toast.success('Ingreso creado exitosamente', {
-            position: 'top-right',
-        });
+        alert('Ingreso Creado');
     };
 
     const updateIncome = async ({
@@ -65,9 +62,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
             executedAmount,
         });
 
-        toast.success('Ingreso actualizado exitosamente', {
-            position: 'top-right',
-        });
+        alert('Ingreso Actualizado');
     };
 
     const handleSubmit = async ({
@@ -124,7 +119,6 @@ const CreateIncomeForm: React.FC<Interface> = ({
             >
                 {({ errors, touched }) => (
                     <Form>
-                        <Toaster />
                         <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
                             <section>
                                 <Typography.Text className="font-bold text-blue-500">
