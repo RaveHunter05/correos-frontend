@@ -1,17 +1,37 @@
 import { Empty, Skeleton } from 'antd';
-import { AiOutlineSearch } from 'react-icons/ai';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useExpensesData from '~/hooks/useExpensesData';
 import ExpensesTable from '../Shared/ExpensesTable';
+import { IoMdAdd } from 'react-icons/io';
+import useModal from '~/hooks/useModal';
+import CreateExpensesForm from './CreateExpensesForm';
+import { RootState } from '~/redux';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const OutcomeComponent = () => {
     const {
         expensesData,
         loading: tableLoading,
         handleSearch,
+        refreshData,
     } = useExpensesData();
+
+    const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const dataChanged = useSelector(
+        (state: RootState) => state.data.dataChanged
+    );
+
+    useEffect(() => {
+        refreshData();
+    }, [dataChanged]);
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+            <ModalWrapper title="Agregar Egresos">
+                <CreateExpensesForm closeModal={closeModal} />
+            </ModalWrapper>
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Egresos
             </h1>
@@ -70,18 +90,27 @@ const OutcomeComponent = () => {
                         </div>
                     </div>
                 </div>
-                <div className="relative">
-                    <label className="sr-only">Search</label>
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <AiOutlineSearch />
+                <div className="flex justify-center items-center">
+                    <button
+                        type="button"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={openModal}
+                    >
+                        <IoMdAdd
+                            className="mr-1"
+                            style={{ fontSize: '1.2rem' }}
+                        />
+                        Agregar
+                    </button>
+                    <div className="relative ml-4">
+                        <input
+                            type="text"
+                            id="table-search-users"
+                            className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            onChange={(e) => handleSearch(e.target.value)}
+                            placeholder="Buscar por centro de costos"
+                        />
                     </div>
-                    <input
-                        type="text"
-                        id="table-search-users"
-                        className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        onChange={(e) => handleSearch(e.target.value)}
-                        placeholder="Buscar por centro de costos"
-                    />
                 </div>
             </div>
             <div>

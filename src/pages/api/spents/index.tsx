@@ -1,8 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Expenses } from '~/components/Shared/ExpensesTable';
 
-export const expensesAPI = async () => {};
+export type Spents = {
+	spentId: number;
+	category: string;
+	denomination: string;
+}
+
+export const spentAPI = async () => {};
 
 export default async function handler(
     req: NextApiRequest,
@@ -11,7 +16,7 @@ export default async function handler(
     if (req.method === 'GET') {
         try {
             const response = await axios.get(
-                'http://localhost:5148/api/expenses',
+                'http://localhost:5148/api/spents',
                 {
                     headers: {
                         Authorization: req.headers.authorization,
@@ -31,22 +36,18 @@ export default async function handler(
     if (req.method === 'POST') {
         try {
             const {
-                costCenterId,
-                spentId,
-                projectedAmount,
-                executedAmount,
-            }: Partial<Expenses> = req.body;
+                category,
+                denomination
+            }: Partial<Spents> = req.body;
             const data = {
-                costCenterId,
-                spentId,
-                projectedAmount,
-                executedAmount,
+                category,
+                denomination
             };
-            const postExpense = async (
-                data: Partial<Expenses>
+            const postSpent = async (
+                data: Partial<Spents>
             ): Promise<AxiosResponse> => {
                 const value = await axios.post(
-                    'http://localhost:5148/api/expenses',
+                    'http://localhost:5148/api/spents',
                     data,
                     {
                         headers: {
@@ -57,7 +58,7 @@ export default async function handler(
                 return value;
             };
 
-            const response = await postExpense(data);
+            const response = await postSpent(data);
             res.send(response.data);
             return;
         } catch (error) {
@@ -72,24 +73,20 @@ export default async function handler(
     if (req.method === 'PUT') {
         try {
             const {
-                expenseId,
-                costCenterId,
                 spentId,
-                projectedAmount,
-                executedAmount,
-            }: Partial<Expenses> = req.body;
+                category,
+		denomination
+            }: Partial<Spents> = req.body;
             const data = {
-                expenseId,
-                costCenterId,
                 spentId,
-                projectedAmount,
-                executedAmount,
+                category,
+                denomination
             };
-            const putExpense = async (
-                data: Partial<Expenses>
+            const putSpent = async (
+                data: Partial<Spents>
             ): Promise<AxiosResponse> => {
                 const value = await axios.put(
-                    `http://localhost:5148/api/expenses/${expenseId}`,
+                    `http://localhost:5148/api/spents/${spentId}`,
                     data,
                     {
                         headers: {
@@ -100,7 +97,7 @@ export default async function handler(
                 return value;
             };
 
-            const response = await putExpense(data);
+            const response = await putSpent(data);
             res.send(response.data);
             return;
         } catch (error) {
