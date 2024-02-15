@@ -1,11 +1,13 @@
 import { Typography } from 'antd';
 import axios from 'axios';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, FieldProps } from 'formik';
 import * as yup from 'yup';
 import { IncomeInterface } from '../Shared/IncomesTable';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
+import { CostCenters } from '~/pages/api/costcenters';
+import { Services } from '~/pages/api/services';
 
 interface Interface {
     toEditValues?: Partial<IncomeInterface> | null;
@@ -19,27 +21,53 @@ const CreateIncomeForm: React.FC<Interface> = ({
     const [initialValues, setInitialValues] = useState<
         Partial<IncomeInterface>
     >({
-        code: 121231,
-        service: 'asdfasdf',
+        serviceId: 2,
+        costCenterId: 3,
         projectedAmount: 200,
         executedAmount: 300,
     });
 
     const dispatch = useDispatch();
 
+    const [costCenters, setCostCenters] = useState<CostCenters[]>([]);
+    const [services, setServices] = useState<Services[]>([]);
+
+    useEffect(() => {
+        const getCostCenters = async () => {
+            try {
+                const value = await axios('/api/costcenters');
+                setCostCenters(value.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        const getServices = async () => {
+            try {
+                const value = await axios('/api/services');
+                setServices(value.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getCostCenters();
+        getServices();
+    }, []);
+
     useEffect(() => {
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
     const createIncome = async ({
-        code,
-        service,
+        serviceId,
+        costCenterId,
         projectedAmount,
         executedAmount,
     }: Partial<IncomeInterface>) => {
         await axios.post('/api/incomes', {
-            code,
-            service,
+            serviceId,
+            costCenterId,
             projectedAmount,
             executedAmount,
         });
@@ -49,15 +77,15 @@ const CreateIncomeForm: React.FC<Interface> = ({
 
     const updateIncome = async ({
         incomeId,
-        code,
-        service,
+        serviceId,
+        costCenterId,
         projectedAmount,
         executedAmount,
     }: Partial<IncomeInterface>) => {
         await axios.put('/api/incomes', {
             incomeId,
-            code,
-            service,
+            serviceId,
+            costCenterId,
             projectedAmount,
             executedAmount,
         });
@@ -67,16 +95,16 @@ const CreateIncomeForm: React.FC<Interface> = ({
 
     const handleSubmit = async ({
         incomeId,
-        code,
-        service,
+        serviceId,
+        costCenterId,
         projectedAmount,
         executedAmount,
     }: Partial<IncomeInterface>) => {
         try {
             if (!toEditValues) {
                 createIncome({
-                    code,
-                    service,
+                    serviceId,
+                    costCenterId,
                     projectedAmount,
                     executedAmount,
                 });
@@ -85,8 +113,8 @@ const CreateIncomeForm: React.FC<Interface> = ({
 
             updateIncome({
                 incomeId,
-                code,
-                service,
+                serviceId,
+                costCenterId,
                 projectedAmount,
                 executedAmount,
             });
@@ -99,8 +127,8 @@ const CreateIncomeForm: React.FC<Interface> = ({
         }
     };
     const IncomeSchema = yup.object({
-        code: yup.string().required('El código es requerido'),
-        service: yup.string().required('El servicio es requerido'),
+        serviceId: yup.string().required('El servicio es requerido'),
+        costCenterId: yup.string().required('El centro de costos es requerido'),
         projectedAmount: yup
             .number()
             .min(0, 'Cantidad proyectada debe ser mayor a 0')
@@ -122,39 +150,59 @@ const CreateIncomeForm: React.FC<Interface> = ({
                         <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
                             <section>
                                 <Typography.Text className="font-bold text-blue-500">
-                                    Código
+                                    Servicio
                                 </Typography.Text>
                                 <Field
-                                    type="text"
-                                    placeholder="Código"
+                                    as="select"
+                                    placeholder="Servicio"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="code"
-                                />
-                                {errors.code && touched.code && (
+                                    name="serviceId"
+                                >
+                                    {services.map((x) => (
+                                        <option
+                                            key={x.serviceId}
+                                            value={x.serviceId}
+                                        >
+                                            {x.name}
+                                        </option>
+                                    ))}
+                                </Field>
+                                {errors.serviceId && touched.serviceId && (
                                     <div>
                                         <span className="text-red-500 text-xs font-bold">
-                                            {errors.code}
+                                            {errors.serviceId}
                                         </span>
                                     </div>
                                 )}
                             </section>
+
                             <section>
                                 <Typography.Text className="font-bold text-blue-500">
-                                    Servicio
+                                    Centro de Costos
                                 </Typography.Text>
                                 <Field
-                                    type="text"
-                                    placeholder="Servicio"
+                                    as="select"
+                                    name="costCenterId"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="service"
-                                />
-                                {errors.service && touched.service && (
-                                    <div>
-                                        <span className="text-red-500 text-xs font-bold">
-                                            {errors.service}
-                                        </span>
-                                    </div>
-                                )}
+                                >
+                                    {costCenters.map((x) => (
+                                        <option
+                                            value={x.costCenterId}
+                                            key={x.costCenterId}
+                                        >
+                                            {' '}
+                                            {x.name}{' '}
+                                        </option>
+                                    ))}
+                                </Field>
+                                {errors.costCenterId &&
+                                    touched.costCenterId && (
+                                        <div>
+                                            <span className="text-red-500 text-xs font-bold">
+                                                {errors.costCenterId}
+                                            </span>
+                                        </div>
+                                    )}
                             </section>
                             <section>
                                 <Typography.Text className="font-bold text-blue-500">

@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { IncomeInterface } from '~/components/Shared/IncomesTable';
 
-
 export const incomesAPI = async () => {};
 
 export default async function handler(
@@ -37,12 +36,17 @@ export default async function handler(
     if (req.method === 'POST') {
         try {
             const {
-                code,
-                service,
+                serviceId,
+                costCenterId,
                 projectedAmount,
                 executedAmount,
             }: Partial<IncomeInterface> = req.body;
-            const data = { code, service, projectedAmount, executedAmount };
+            const data = {
+                serviceId,
+                costCenterId,
+                projectedAmount,
+                executedAmount,
+            };
             const postIncome = async (
                 data: Partial<IncomeInterface>
             ): Promise<AxiosResponse> => {
@@ -74,13 +78,19 @@ export default async function handler(
         try {
             const {
                 incomeId,
-                code,
-                service,
+                serviceId,
+		costCenterId,
                 projectedAmount,
                 executedAmount,
             }: Partial<IncomeInterface> = req.body;
 
-            const data = { incomeId, code, service, projectedAmount, executedAmount };
+            const data = {
+                incomeId,
+                serviceId,
+		costCenterId,
+                projectedAmount,
+                executedAmount,
+            };
 
             const putIncome = async (
                 data: Partial<IncomeInterface>

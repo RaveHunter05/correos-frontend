@@ -6,8 +6,8 @@ import CreateIncomeForm from '../Income/CreateIncomeForm';
 
 export interface IncomeInterface {
     incomeId: any;
-    code: Number;
-    service: string;
+    serviceId: number;
+    costCenterId: number;
     projectedAmount: number;
     executedAmount: number;
     date: Date;
@@ -23,15 +23,15 @@ const IncomesTable = ({ data }: Interface) => {
 
     const handleEditClick = ({
         incomeId,
-        code,
-        service,
+        serviceId,
+        costCenterId,
         projectedAmount,
         executedAmount,
     }: Partial<IncomeInterface>) => {
         setSelectedValues({
             incomeId,
-            code,
-            service,
+            serviceId,
+            costCenterId,
             projectedAmount,
             executedAmount,
         });
@@ -48,11 +48,11 @@ const IncomesTable = ({ data }: Interface) => {
     const columns = [
         {
             title: 'Código',
-            dataIndex: 'code',
+            dataIndex: ['service', 'code'],
         },
         {
             title: 'Servicio',
-            dataIndex: 'service',
+            dataIndex: ['service', 'name'],
         },
         {
             title: 'Proyectado',
@@ -80,8 +80,8 @@ const IncomesTable = ({ data }: Interface) => {
                 _: any,
                 {
                     incomeId,
-                    code,
-                    service,
+                    serviceId,
+                    costCenterId,
                     projectedAmount,
                     executedAmount,
                 }: IncomeInterface
@@ -91,8 +91,8 @@ const IncomesTable = ({ data }: Interface) => {
                         onClick={() =>
                             handleEditClick({
                                 incomeId,
-                                code,
-                                service,
+                                serviceId,
+                                costCenterId,
                                 projectedAmount,
                                 executedAmount,
                             })

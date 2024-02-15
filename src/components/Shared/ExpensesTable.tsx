@@ -7,8 +7,8 @@ import CreateExpensesForm from '../Outcome/CreateExpensesForm';
 
 export interface Expenses {
     expenseId: any;
-    costCenter: string;
-    category: string;
+    costCenterId: number;
+    spentId: number;
     projectedAmount: number;
     executedAmount: number;
     date: Date;
@@ -24,15 +24,15 @@ const ExpensesTable = ({ data }: Interface) => {
 
     const handleEditClick = ({
         expenseId,
-        costCenter,
-        category,
+        costCenterId,
+        spentId,
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
         setSelectedValues({
             expenseId,
-            costCenter,
-            category,
+            costCenterId,
+            spentId,
             projectedAmount,
             executedAmount,
         });
@@ -49,9 +49,9 @@ const ExpensesTable = ({ data }: Interface) => {
     const columns = [
         {
             title: 'Centro de Costos',
-            dataIndex: 'costCenter',
+            dataIndex: ['costCenter', 'name'],
         },
-        { title: 'Categoría', dataIndex: 'category' },
+        { title: 'Categoría', dataIndex: ['spent', 'denomination'] },
         {
             title: 'Proyectado',
             dataIndex: 'projectedAmount',
@@ -75,8 +75,8 @@ const ExpensesTable = ({ data }: Interface) => {
                 _: any,
                 {
                     expenseId,
-                    costCenter,
-                    category,
+                    costCenterId,
+                    spentId,
                     projectedAmount,
                     executedAmount,
                 }: Expenses
@@ -86,8 +86,8 @@ const ExpensesTable = ({ data }: Interface) => {
                         onClick={() =>
                             handleEditClick({
                                 expenseId,
-                                costCenter,
-                                category,
+                                costCenterId,
+                                spentId,
                                 projectedAmount,
                                 executedAmount,
                             })

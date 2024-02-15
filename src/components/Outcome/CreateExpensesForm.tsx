@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
 import { Expenses } from '../Shared/ExpensesTable';
 import { Typography } from 'antd';
@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
+import { Spents } from '~/pages/api/spents';
+import { CostCenters } from '~/pages/api/costcenters';
 
 interface Interface {
     toEditValues?: Partial<Expenses> | null;
@@ -19,27 +21,55 @@ const CreateExpensesForm: React.FC<Interface> = ({
     closeModal,
 }): React.ReactElement => {
     const [initialValues, setInitialValues] = useState<Partial<Expenses>>({
-        costCenter: 'asdf',
-        category: 'testing',
+        costCenterId: 3,
+        spentId: 2,
         projectedAmount: 200,
         executedAmount: 300,
     });
 
     const dispatch = useDispatch();
 
+    const [spents, setSpents] = useState<Spents[]>([]);
+
+    const [costCenters, setCostCenters] = useState<CostCenters[]>([]);
+
     useEffect(() => {
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
+    useEffect(() => {
+        const getSpents = async () => {
+            try {
+                const value = await axios('/api/spents');
+                setSpents(value.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        const getCostCenters = async () => {
+            try {
+                const value = await axios('/api/costcenters');
+                setCostCenters(value.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getSpents();
+        getCostCenters();
+    }, []);
+
     const createExpense = async ({
-        costCenter,
-        category,
+        costCenterId,
+        spentId,
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
+        console.log('asdfasdf');
         await axios.post('/api/expenses', {
-            costCenter,
-            category,
+            costCenterId,
+            spentId,
             projectedAmount,
             executedAmount,
         });
@@ -49,15 +79,15 @@ const CreateExpensesForm: React.FC<Interface> = ({
 
     const updateExpense = async ({
         expenseId,
-        costCenter,
-        category,
+        costCenterId,
+        spentId,
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
         await axios.put('/api/expenses', {
             expenseId,
-            costCenter,
-            category,
+            costCenterId,
+            spentId,
             projectedAmount,
             executedAmount,
         });
@@ -67,16 +97,16 @@ const CreateExpensesForm: React.FC<Interface> = ({
 
     const handleSubmit = async ({
         expenseId,
-        costCenter,
-        category,
+        costCenterId,
+        spentId,
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
         try {
             if (!toEditValues) {
                 createExpense({
-                    costCenter,
-                    category,
+                    costCenterId,
+                    spentId,
                     projectedAmount,
                     executedAmount,
                 });
@@ -85,8 +115,8 @@ const CreateExpensesForm: React.FC<Interface> = ({
 
             updateExpense({
                 expenseId,
-                costCenter,
-                category,
+                costCenterId,
+                spentId,
                 projectedAmount,
                 executedAmount,
             });
@@ -99,8 +129,8 @@ const CreateExpensesForm: React.FC<Interface> = ({
         }
     };
     const expensesSchema = yup.object({
-        costCenter: yup.string().required('El código es requerido'),
-        category: yup.string().required('El servicio es requerido'),
+        costCenterId: yup.number().required('El centro de costos es requerido'),
+        spentId: yup.number().required('El servicio es requerido'),
         projectedAmount: yup
             .number()
             .min(0, 'Cantidad proyectada debe ser mayor a 0')
@@ -126,33 +156,52 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                     Céntro de cobro
                                 </Typography.Text>
                                 <Field
-                                    type="text"
                                     placeholder="Centro de Cobro"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="costCenter"
-                                />
-                                {errors.costCenter && touched.costCenter && (
-                                    <div>
-                                        <span className="text-red-500 text-xs font-bold">
-                                            {errors.costCenter}
-                                        </span>
-                                    </div>
-                                )}
+                                    as="select"
+                                    name="costCenterId"
+                                >
+                                    {costCenters.map((x) => (
+                                        <option
+                                            value={x.costCenterId}
+                                            key={x.costCenterId}
+                                        >
+                                            {x.name}
+                                        </option>
+                                    ))}
+                                </Field>
+                                {errors.costCenterId &&
+                                    touched.costCenterId && (
+                                        <div>
+                                            <span className="text-red-500 text-xs font-bold">
+                                                {errors.costCenterId}
+                                            </span>
+                                        </div>
+                                    )}
                             </section>
                             <section>
                                 <Typography.Text className="font-bold text-blue-500 mt-4">
-                                    Categoría
+                                    Spent
                                 </Typography.Text>
                                 <Field
-                                    type="text"
                                     placeholder="Categoría"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="category"
-                                />
-                                {errors.category && touched.category && (
+                                    as="select"
+                                    name="spentId"
+                                >
+                                    {spents.map((x) => (
+                                        <option
+                                            value={x.spentId}
+                                            key={x.spentId}
+                                        >
+                                            {x.denomination}
+                                        </option>
+                                    ))}
+                                </Field>
+                                {errors.spentId && touched.spentId && (
                                     <div>
                                         <span className="text-red-500 text-xs font-bold">
-                                            {errors.category}
+                                            {errors.spentId}
                                         </span>
                                     </div>
                                 )}
@@ -196,7 +245,10 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                     )}
                             </section>
                             <div className="space-y-2">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                                >
                                     {toEditValues
                                         ? 'Editar Egreso'
                                         : 'Agregar Egreso'}
