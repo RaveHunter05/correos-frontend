@@ -4,15 +4,8 @@ import { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import useModal from '~/hooks/useModal';
 import CreateExpensesForm from '../Outcome/CreateExpensesForm';
-
-export interface Expenses {
-    expenseId: any;
-    costCenterId: number;
-    spentId: number;
-    projectedAmount: number;
-    executedAmount: number;
-    date: Date;
-}
+import dayjs from 'dayjs';
+import { Expenses } from '~/types/types';
 
 interface Interface {
     data: Expenses[];
@@ -69,6 +62,13 @@ const ExpensesTable = ({ data }: Interface) => {
             },
         },
         {
+            title: 'Fecha',
+            dataIndex: 'date',
+            render: (_: any, { date }: Expenses) => {
+                return <Tag>{dayjs(date).format('DD/MM/YYYY')}</Tag>;
+            },
+        },
+        {
             title: 'Editar',
             key: '',
             render: (
@@ -100,7 +100,7 @@ const ExpensesTable = ({ data }: Interface) => {
     ];
     return (
         <>
-            <ModalWrapper title="Agregar Egreso">
+            <ModalWrapper title="Editar Egreso">
                 <CreateExpensesForm
                     toEditValues={selectedValues}
                     closeModal={closeModal}

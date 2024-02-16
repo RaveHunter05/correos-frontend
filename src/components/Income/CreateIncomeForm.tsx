@@ -2,15 +2,14 @@ import { Typography } from 'antd';
 import axios from 'axios';
 import { Formik, Field, Form, FieldProps } from 'formik';
 import * as yup from 'yup';
-import { IncomeInterface } from '../Shared/IncomesTable';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { CostCenters } from '~/pages/api/costcenters';
-import { Services } from '~/pages/api/services';
+import { Incomes, Services } from '~/types/types';
 
 interface Interface {
-    toEditValues?: Partial<IncomeInterface> | null;
+    toEditValues?: Partial<Incomes> | null;
     closeModal: () => void;
 }
 
@@ -18,9 +17,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
     toEditValues,
     closeModal,
 }): React.ReactElement => {
-    const [initialValues, setInitialValues] = useState<
-        Partial<IncomeInterface>
-    >({
+    const [initialValues, setInitialValues] = useState<Partial<Incomes>>({
         serviceId: 2,
         costCenterId: 3,
         projectedAmount: 200,
@@ -64,7 +61,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<IncomeInterface>) => {
+    }: Partial<Incomes>) => {
         await axios.post('/api/incomes', {
             serviceId,
             costCenterId,
@@ -81,7 +78,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<IncomeInterface>) => {
+    }: Partial<Incomes>) => {
         await axios.put('/api/incomes', {
             incomeId,
             serviceId,
@@ -99,7 +96,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<IncomeInterface>) => {
+    }: Partial<Incomes>) => {
         try {
             if (!toEditValues) {
                 createIncome({

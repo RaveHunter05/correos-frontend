@@ -3,23 +3,18 @@ import { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import useModal from '~/hooks/useModal';
 import CreateIncomeForm from '../Income/CreateIncomeForm';
+import dayjs from 'dayjs';
+import { Incomes } from '~/types/types';
 
-export interface IncomeInterface {
-    incomeId: any;
-    serviceId: number;
-    costCenterId: number;
-    projectedAmount: number;
-    executedAmount: number;
-    date: Date;
-}
+
 
 interface Interface {
-    data: IncomeInterface[];
+    data: Incomes[];
 }
 
 const IncomesTable = ({ data }: Interface) => {
     const [selectedValues, setSelectedValues] =
-        useState<Partial<IncomeInterface> | null>(null);
+        useState<Partial<Incomes> | null>(null);
 
     const handleEditClick = ({
         incomeId,
@@ -27,7 +22,7 @@ const IncomesTable = ({ data }: Interface) => {
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<IncomeInterface>) => {
+    }: Partial<Incomes>) => {
         setSelectedValues({
             incomeId,
             serviceId,
@@ -57,7 +52,7 @@ const IncomesTable = ({ data }: Interface) => {
         {
             title: 'Proyectado',
             dataIndex: 'projectedAmount',
-            render: (_: any, { projectedAmount }: IncomeInterface) => {
+            render: (_: any, { projectedAmount }: Incomes) => {
                 return <Tag color="green">{projectedAmount}</Tag>;
             },
         },
@@ -66,11 +61,18 @@ const IncomesTable = ({ data }: Interface) => {
             dataIndex: 'executedAmount',
             render: (
                 _: any,
-                { projectedAmount, executedAmount }: IncomeInterface
+                { projectedAmount, executedAmount }: Incomes
             ) => {
                 const textColor =
                     executedAmount > projectedAmount ? 'red' : 'geekblue';
                 return <Tag color={textColor}>{executedAmount}</Tag>;
+            },
+        },
+        {
+            title: 'Fecha',
+            dataIndex: 'date',
+            render: (_: any, { date }: Incomes) => {
+                return <Tag>{dayjs(date).format('DD/MM/YYYY')}</Tag>;
             },
         },
         {
@@ -84,7 +86,7 @@ const IncomesTable = ({ data }: Interface) => {
                     costCenterId,
                     projectedAmount,
                     executedAmount,
-                }: IncomeInterface
+                }: Incomes
             ) => {
                 return (
                     <CiEdit
@@ -105,7 +107,7 @@ const IncomesTable = ({ data }: Interface) => {
     ];
     return (
         <>
-            <ModalWrapper title="Agregar Ingresos">
+            <ModalWrapper title="Editar Ingresos">
                 <CreateIncomeForm
                     toEditValues={selectedValues}
                     closeModal={closeModal}

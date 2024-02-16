@@ -2,14 +2,12 @@ import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
-import { Expenses } from '../Shared/ExpensesTable';
 import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
-import { Spents } from '~/pages/api/spents';
-import { CostCenters } from '~/pages/api/costcenters';
+import { CostCenters, Expenses, Spents } from '~/types/types';
 
 interface Interface {
     toEditValues?: Partial<Expenses> | null;

@@ -1,11 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-export type Spents = {
-	spentId: number;
-	category: string;
-	denomination: string;
-}
+import { Spents } from '~/types/types';
 
 export const spentAPI = async () => {};
 
@@ -35,13 +30,10 @@ export default async function handler(
 
     if (req.method === 'POST') {
         try {
-            const {
-                category,
-                denomination
-            }: Partial<Spents> = req.body;
+            const { category, denomination }: Partial<Spents> = req.body;
             const data = {
                 category,
-                denomination
+                denomination,
             };
             const postSpent = async (
                 data: Partial<Spents>
@@ -72,15 +64,12 @@ export default async function handler(
 
     if (req.method === 'PUT') {
         try {
-            const {
-                spentId,
-                category,
-		denomination
-            }: Partial<Spents> = req.body;
+            const { spentId, category, denomination }: Partial<Spents> =
+                req.body;
             const data = {
                 spentId,
                 category,
-                denomination
+                denomination,
             };
             const putSpent = async (
                 data: Partial<Spents>

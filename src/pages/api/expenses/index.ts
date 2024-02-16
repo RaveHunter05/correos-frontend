@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Expenses } from '~/components/Shared/ExpensesTable';
+import { Expenses } from '~/types/types';
 
 export const expensesAPI = async () => {};
 

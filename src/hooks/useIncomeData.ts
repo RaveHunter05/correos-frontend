@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
-import { IncomeInterface } from '~/components/Shared/IncomesTable';
+import { Incomes } from '~/types/types';
 
 const useIncomeData = () => {
     // current data for the hook
-    const [incomeData, setIncomeData] = useState<IncomeInterface[]>([]);
+    const [incomeData, setIncomeData] = useState<Incomes[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     // string to search for
     const [searchTerm, setSearchTerm] = useState<string | null>(null);
@@ -13,17 +13,14 @@ const useIncomeData = () => {
     const [toggleRefresh, setToggleRefresh] = useState<boolean>(false);
 
     // get data (general)
-    const getIncomeData = async (): Promise<IncomeInterface[]> => {
+    const getIncomeData = async (): Promise<Incomes[]> => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await axios.get<IncomeInterface[]>(
-                '/api/incomes',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const response = await axios.get<Incomes[]>('/api/incomes', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             return response.data;
         } catch (error) {
             console.log({ error });
@@ -31,12 +28,10 @@ const useIncomeData = () => {
         }
     };
 
-    const getSearchData = async (
-        service: string
-    ): Promise<IncomeInterface[]> => {
+    const getSearchData = async (service: string): Promise<Incomes[]> => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await axios.get<IncomeInterface[]>(
+            const response = await axios.get<Incomes[]>(
                 `/api/incomes/${service}`,
                 {
                     headers: {
