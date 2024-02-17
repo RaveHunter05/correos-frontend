@@ -1,12 +1,16 @@
 import { Empty, Input, Skeleton } from 'antd';
 
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { FaFileCsv } from 'react-icons/fa';
+
 import { IoMdAdd } from 'react-icons/io';
+
+import { CSVLink } from 'react-csv';
 
 import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CreateServiceForm from './CreateServiceForm';
 import useData from '~/hooks/useData';
 import ServicesTable from '../Shared/ServicesTable';
@@ -20,6 +24,11 @@ const ServiceComponent = () => {
     } = useData('services');
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const [csvHeaders, setCSVHeaders] = useState([
+        { label: 'CODIGO', key: 'code' },
+        { label: 'SERVICIO', key: 'name' },
+    ]);
 
     const dataChanged = useSelector(
         (state: RootState) => state.data.dataChanged
@@ -96,6 +105,22 @@ const ServiceComponent = () => {
                 </div>
 
                 <div className="flex justify-center items-center">
+                    <button
+                        type="button"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={() => {}}
+                    >
+                        <FaFileCsv
+                            className="mr-1"
+                            style={{
+                                fontSize: '1.2rem',
+                                color: '#fff !important',
+                            }}
+                        />
+                        <CSVLink data={data} headers={csvHeaders}>
+                            Exportar
+                        </CSVLink>
+                    </button>
                     <button
                         type="button"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"

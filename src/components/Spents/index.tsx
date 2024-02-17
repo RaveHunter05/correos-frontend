@@ -3,13 +3,16 @@ import { Empty, Input, Skeleton } from 'antd';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
 
+import { CSVLink } from 'react-csv';
+
 import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useData from '~/hooks/useData';
 import CreateSpentForm from './CreateSpentForm';
 import SpentsTable from '../Shared/SpentsTable';
+import { FaFileCsv } from 'react-icons/fa6';
 
 const SpentsComponent = () => {
     const {
@@ -20,6 +23,11 @@ const SpentsComponent = () => {
     } = useData('spents');
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const [csvHeaders, setCSVHeaders] = useState([
+        { label: 'RUBROS', key: 'category' },
+        { label: 'DENOMINACION', key: 'denomination' },
+    ]);
 
     const dataChanged = useSelector(
         (state: RootState) => state.data.dataChanged
@@ -96,6 +104,20 @@ const SpentsComponent = () => {
                 </div>
 
                 <div className="flex justify-center items-center">
+                    <button
+                        type="button"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={() => {}}
+                    >
+                        <FaFileCsv
+                            className="mr-1"
+                            style={{
+                                fontSize: '1.2rem',
+                                color: '#fff !important',
+                            }}
+                        />
+                        <CSVLink data={data} headers={csvHeaders}>Exportar</CSVLink>
+                    </button>
                     <button
                         type="button"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
