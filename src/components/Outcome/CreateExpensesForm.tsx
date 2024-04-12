@@ -154,7 +154,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                     Céntro de cobro
                                 </Typography.Text>
                                 <Field
-                                    placeholder="Centro de Cobro"
+                                    placeholder="Centro de Costo"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     as="select"
                                     name="costCenterId"
@@ -179,7 +179,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                             </section>
                             <section>
                                 <Typography.Text className="font-bold text-blue-500 mt-4">
-                                    Spent
+                                    Rubro
                                 </Typography.Text>
                                 <Field
                                     placeholder="Categoría"
