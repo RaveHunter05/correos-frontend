@@ -2,14 +2,12 @@ import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
-import { Expenses } from '../Shared/ExpensesTable';
 import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
-import { Spents } from '~/pages/api/spents';
-import { CostCenters } from '~/pages/api/costcenters';
+import { CostCenters, Expenses, Spents } from '~/types/types';
 
 interface Interface {
     toEditValues?: Partial<Expenses> | null;
@@ -156,7 +154,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                     Céntro de cobro
                                 </Typography.Text>
                                 <Field
-                                    placeholder="Centro de Cobro"
+                                    placeholder="Centro de Costo"
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     as="select"
                                     name="costCenterId"
@@ -181,7 +179,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                             </section>
                             <section>
                                 <Typography.Text className="font-bold text-blue-500 mt-4">
-                                    Spent
+                                    Rubro
                                 </Typography.Text>
                                 <Field
                                     placeholder="Categoría"

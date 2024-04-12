@@ -1,16 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { CostCenters } from '~/types/types';
 
 export const costCenterAPI = async () => {};
-
-export type CostCenters = {
-    costCenterId: number;
-    gerencyCode: string;
-    areaCode: string;
-    officeCode: string;
-    code: string;
-    name: string;
-};
 
 export default async function handler(
     req: NextApiRequest,
@@ -67,6 +59,53 @@ export default async function handler(
             };
 
             const response = await postCostCenter(data);
+            res.send(response.data);
+            return;
+        } catch (error) {
+            if (typeof error === 'string') {
+                res.send(error.toUpperCase());
+            } else if (error instanceof Error) {
+                res.send(error.message);
+            }
+        }
+    }
+
+    if (req.method === 'PUT') {
+        try {
+            const {
+                costCenterId,
+                gerencyCode,
+		areaCode,
+                officeCode,
+                code,
+		name
+            }: Partial<CostCenters> = req.body;
+
+            const data = {
+                costCenterId,
+                gerencyCode,
+		areaCode,
+                officeCode,
+                code,
+		name
+            };
+
+            const putCostCenter = async (
+                data: Partial<CostCenters>
+            ): Promise<AxiosResponse> => {
+                const value = await axios.put(
+                    `http://localhost:5148/api/costcenters/${costCenterId}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: req.headers.authorization,
+                        },
+                    }
+                );
+                return value;
+            };
+
+            const response = await putCostCenter(data);
             res.send(response.data);
             return;
         } catch (error) {

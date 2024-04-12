@@ -1,23 +1,26 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { debounce } from 'lodash';
-import { Expenses } from '~/types/types';
 
-const useExpensesData = () => {
-    const [expensesData, setExpensesData] = useState<Expenses[]>([]);
+const useData = (url: string) => {
+    const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     // string to search for
     const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
     const [toggleRefresh, setToggleRefresh] = useState<boolean>(false);
 
-    const getExpensesData = async (): Promise<Expenses[]> => {
+    const fetchData = async (
+        endpoint: string,
+        params?: any
+    ): Promise<any[]> => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await axios.get<Expenses[]>('/api/expenses', {
+            const response = await axios.get(`/api/${endpoint}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                params: params || {},
             });
             return response.data;
         } catch (error) {
@@ -26,26 +29,19 @@ const useExpensesData = () => {
         }
     };
 
-    const getSearchData = async (costcenter: string): Promise<Expenses[]> => {
-        try {
-            const token = localStorage.getItem('auth-token');
-            const response = await axios.get<Expenses[]>(
-                `/api/expenses/${costcenter}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            return response.data;
-        } catch (error) {
-            console.log({ error });
-            return [];
-        }
+    // get Data from get endpoint
+    const getData = async (): Promise<any[]> => {
+        return fetchData(url);
     };
 
-    const handleSearch = (costcenter: string) => {
-        setSearchTerm(costcenter);
+    // function for searching data in a get erquest
+    const getSearchData = async (term: string): Promise<any[]> => {
+        return fetchData(`${url}/${term}`);
+    };
+
+    // change the search term, wich triggers the getSearchData
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
     };
 
     useEffect(() => {
@@ -53,23 +49,23 @@ const useExpensesData = () => {
             async (termToSearch: string): Promise<void> => {
                 setLoading(true);
                 const data = await getSearchData(termToSearch);
-                setExpensesData(data);
+                setData(data);
                 setLoading(false);
                 return;
             },
             400
         );
-        const fetchExpensesData = async (): Promise<void> => {
+        const fetchData = async (): Promise<void> => {
             setLoading(true);
-            const data = await getExpensesData();
+            const data = await getData();
             if (data) {
-                setExpensesData(data);
+                setData(data);
             }
             setLoading(false);
         };
 
         if (!searchTerm || searchTerm === '') {
-            fetchExpensesData();
+            fetchData();
             return;
         }
         fetchSearch(searchTerm);
@@ -80,19 +76,19 @@ const useExpensesData = () => {
     };
 
     useEffect(() => {
-        const fetchIncomeData = async (): Promise<void> => {
+        const fetchData = async (): Promise<void> => {
             setLoading(true);
-            const data = await getExpensesData();
+            const data = await getData();
             if (data) {
-                setExpensesData(data);
+                setData(data);
             }
             setLoading(false);
         };
 
-        fetchIncomeData();
+        fetchData();
     }, [toggleRefresh]);
 
-    return { expensesData, loading, handleSearch, refreshData };
+    return { data, loading, handleSearch, refreshData };
 };
 
-export default useExpensesData;
+export default useData;

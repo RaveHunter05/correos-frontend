@@ -1,11 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-export type Services = {
-	serviceId: number;
-	code: string;
-	name: string;
-}
+import { Services } from '~/types/types';
 
 export const serviceAPI = async () => {};
 
@@ -35,13 +30,10 @@ export default async function handler(
 
     if (req.method === 'POST') {
         try {
-            const {
-                code,
-                name
-            }: Partial<Services> = req.body;
+            const { code, name }: Partial<Services> = req.body;
             const data = {
                 code,
-                name
+                name,
             };
             const postService = async (
                 data: Partial<Services>
@@ -72,15 +64,11 @@ export default async function handler(
 
     if (req.method === 'PUT') {
         try {
-            const {
-                serviceId,
-                code,
-		name
-            }: Partial<Services> = req.body;
+            const { serviceId, code, name }: Partial<Services> = req.body;
             const data = {
                 serviceId,
                 code,
-                name
+                name,
             };
             const putService = async (
                 data: Partial<Services>
