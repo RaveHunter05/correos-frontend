@@ -1,10 +1,14 @@
 import { Collapse, CollapseProps, DatePicker, Typography } from 'antd';
+import type { DatePickerProps } from 'antd';
 import IncomeInforms from '../Income/Informs';
 import ExpenseInforms from '../Outcome/Informs';
 import { FaFileCsv } from 'react-icons/fa6';
 import InformsTable from '../Shared/InformsTable';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
+import { useState } from 'react';
+
+import { CSVLink } from 'react-csv';
 
 const ExecutionComponent = () => {
     const tableData = useSelector((state: RootState) => state.data.tableData);
@@ -12,21 +16,33 @@ const ExecutionComponent = () => {
         (state: RootState) => state.data.tableColumns
     );
 
+    const [initialDate, setInitialDate] = useState<string | string[]>('');
+    const [endDate, setEndDate] = useState<string | string[]>('');
+
     const items: CollapseProps['items'] = [
         {
             key: '1',
             label: 'Ingresos',
-            children: <IncomeInforms />,
+            children: <IncomeInforms initialDate={initialDate} endDate={endDate}/>,
         },
         {
             key: '2',
             label: 'Egresos',
-            children: <ExpenseInforms />,
+            children: <ExpenseInforms initialDate={initialDate} endDate={endDate}/>,
         },
     ];
 
-    const onChange = (key: string | string[]) => {
-        console.log(key);
+    const handleInitialDate: DatePickerProps['onChange'] = (
+        date,
+        dateString
+    ) => {
+        setInitialDate(dateString);
+        return;
+    };
+
+    const handleFinalDate: DatePickerProps['onChange'] = (date, dateString) => {
+        setEndDate(dateString);
+        return;
     };
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
@@ -38,20 +54,12 @@ const ExecutionComponent = () => {
                 <div className="flex flex-row space-x-4">
                     <div className="w-40 mr-8">
                         <p> Seleccione fecha inicial: </p>
-                        <DatePicker
-                            onChange={onChange}
-                            picker="month"
-                            multiple
-                        />
+                        <DatePicker onChange={handleInitialDate} />
                     </div>
 
                     <div className="w-40 mr-8">
                         <p> Seleccione fecha final: </p>
-                        <DatePicker
-                            onChange={onChange}
-                            picker="month"
-                            multiple
-                        />
+                        <DatePicker onChange={handleFinalDate} />
                     </div>
                 </div>
                 <button
@@ -66,7 +74,7 @@ const ExecutionComponent = () => {
                             color: '#fff !important',
                         }}
                     />
-                    <p> Exportar </p>
+                    <CSVLink data={tableData} columns={tableColumns}> Exportar </CSVLink>
                 </button>
             </section>
             <Typography.Title level={4} className="mt-4">
@@ -78,9 +86,12 @@ const ExecutionComponent = () => {
                     className="w-80"
                     items={items}
                     defaultActiveKey={['1']}
-                    onChange={onChange}
+                    onChange={() => {}}
                 />
-                <InformsTable dataSource={tableData} columns={tableColumns} />
+                <InformsTable
+                    dataSource={tableData}
+                    columns={tableColumns}
+                />
             </section>
         </div>
     );

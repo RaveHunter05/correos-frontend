@@ -5,19 +5,11 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { year, months, type } = req.query;
-    if (req.method === 'GET' && year && months) {
+    const { initialDate, endDate, type } = req.query;
+    if (req.method === 'GET' && initialDate && endDate) {
         try {
-            console.log({ year, months });
-            const monthsArray = Array.isArray(months)
-                ? months
-                : months.split(',');
 
-            const monthsString = monthsArray.join('&months=');
-
-            console.log({ monthsString });
-
-            const getString = `http://localhost:5148/api/incomes/month/${type}/${year}?months=${monthsString}`;
+            const getString = `http://localhost:5148/api/incomes/month/${type}/${initialDate}/${endDate}`;
 
             const result = await axios.get(getString);
 
