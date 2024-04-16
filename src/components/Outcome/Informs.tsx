@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { setColumns } from '~/redux/reducers/data/dataSlice';
 import { setData } from '~/redux/reducers/data/dataSlice';
@@ -58,14 +59,21 @@ const tableColumns = {
     ],
 };
 
-const ExpenseInforms = () => {
+type ExpenseInformsProps = {
+    initialDate: string | string[];
+    endDate: string | string[];
+};
+
+const ExpenseInforms = ({ initialDate, endDate }: ExpenseInformsProps) => {
     const dispatch = useDispatch();
     const getExpensesByType = async (informType: InformType) => {
         try {
-            const year = 1;
-            const months = [1, 2, 3];
+            if (!initialDate || !endDate) {
+                toast.error('Debe seleccionar una fecha inicial y final');
+                return;
+            }
             const response = await axios.get(
-                `/api/expenses/inform/${informType}/${year}/${months}`
+                `/api/expenses/inform/${informType}/${initialDate}/${endDate}`
             );
 
             console.log({ response: response.data });
@@ -78,6 +86,7 @@ const ExpenseInforms = () => {
     };
     return (
         <>
+            <Toaster />
             <Card>
                 <Card.Grid
                     className="cursor-pointer"
