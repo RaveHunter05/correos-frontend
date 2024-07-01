@@ -9,7 +9,7 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem('auth-token');
+        const accessToken = sessionStorage.getItem('auth-token');
 
         if (accessToken) {
             if (config.headers) config.headers.token = accessToken;

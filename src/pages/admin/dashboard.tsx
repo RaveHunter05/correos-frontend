@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 const Dashboard: NextPageWithLayout = () => {
     const router = useRouter();
     useLayoutEffect(() => {
-        const token = localStorage.getItem('auth-token');
+        const token = sessionStorage.getItem('auth-token');
         if (!token) {
             router.replace('/');
         }

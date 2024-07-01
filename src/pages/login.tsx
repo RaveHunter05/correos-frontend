@@ -34,7 +34,7 @@ export default function Login() {
                 email,
             });
 
-	    localStorage.setItem('auth-token', result.data.token)
+	    sessionStorage.setItem('auth-token', result.data.token)
 
             toast.success('Logeado exitosamente', { position: 'top-right' });
             router.push('/admin/dashboard');

@@ -15,7 +15,7 @@ const useAxiosHook = () => {
     const [token, setToken] = useState<string | null>(null)
 
     useEffect(() => {
-	setToken(localStorage.getItem('auth-token'))
+	setToken(sessionStorage.getItem('auth-token'))
 	console.log({token})
     }, [])
 

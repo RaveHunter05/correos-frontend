@@ -12,7 +12,7 @@ export default function Home() {
     let userToken: string | null;
 
     useEffect(() => {
-        userToken = localStorage.getItem('auth-token');
+        userToken = sessionStorage.getItem('auth-token');
     }, []);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

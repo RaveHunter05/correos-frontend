@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '~/types/next';
 const CostCentersPage: NextPageWithLayout = () => {
     const router = useRouter();
     useLayoutEffect(() => {
-        const token = localStorage.getItem('auth-token');
+        const token = sessionStorage.getItem('auth-token');
         if (!token) {
             router.replace('/');
         }

@@ -13,7 +13,7 @@ const useExpensesData = () => {
 
     const getExpensesData = async (): Promise<Expenses[]> => {
         try {
-            const token = localStorage.getItem('auth-token');
+            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get<Expenses[]>('/api/expenses', {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -28,7 +28,7 @@ const useExpensesData = () => {
 
     const getSearchData = async (costcenter: string): Promise<Expenses[]> => {
         try {
-            const token = localStorage.getItem('auth-token');
+            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get<Expenses[]>(
                 `/api/expenses/${costcenter}`,
                 {

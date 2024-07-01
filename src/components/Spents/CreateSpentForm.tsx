@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { Spents } from '~/types/types';
+import dayjs from 'dayjs';
 
 interface Interface {
     toEditValues?: Partial<Spents> | null;
@@ -28,13 +29,12 @@ const CreateSpentForm: React.FC<Interface> = ({
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
-    const createSpent = async ({
-        category,
-        denomination,
-    }: Partial<Spents>) => {
+    const createSpent = async ({ category, denomination }: Partial<Spents>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.post('/api/spents', {
             category,
             denomination,
+            date,
         });
 
         alert('Rubro Creado');
@@ -45,10 +45,12 @@ const CreateSpentForm: React.FC<Interface> = ({
         category,
         denomination,
     }: Partial<Spents>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.put('/api/spents', {
             spentId,
             category,
             denomination,
+            date,
         });
 
         alert('Rubro Actualizado');
@@ -126,13 +128,14 @@ const CreateSpentForm: React.FC<Interface> = ({
                                     className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="denomination"
                                 />
-                                {errors.denomination && touched.denomination && (
-                                    <div>
-                                        <span className="text-red-500 text-xs font-bold">
-                                            {errors.denomination}
-                                        </span>
-                                    </div>
-                                )}
+                                {errors.denomination &&
+                                    touched.denomination && (
+                                        <div>
+                                            <span className="text-red-500 text-xs font-bold">
+                                                {errors.denomination}
+                                            </span>
+                                        </div>
+                                    )}
                             </section>
 
                             <div className="space-y-2">

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { CostCenters, Expenses, Spents } from '~/types/types';
+import dayjs from 'dayjs';
 
 interface Interface {
     toEditValues?: Partial<Expenses> | null;
@@ -64,15 +65,14 @@ const CreateExpensesForm: React.FC<Interface> = ({
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
-        console.log('asdfasdf');
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.post('/api/expenses', {
             costCenterId,
             spentId,
             projectedAmount,
             executedAmount,
+            date,
         });
-
-        alert('Egreso creado exitosamente');
     };
 
     const updateExpense = async ({
@@ -82,12 +82,14 @@ const CreateExpensesForm: React.FC<Interface> = ({
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.put('/api/expenses', {
             expenseId,
             costCenterId,
             spentId,
             projectedAmount,
             executedAmount,
+            date,
         });
 
         alert('Egreso actualizado exitosamente');

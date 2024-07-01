@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { CostCenters } from '~/pages/api/costcenters';
 import { Incomes, Services } from '~/types/types';
+import dayjs from 'dayjs';
 
 interface Interface {
     toEditValues?: Partial<Incomes> | null;
@@ -62,11 +63,13 @@ const CreateIncomeForm: React.FC<Interface> = ({
         projectedAmount,
         executedAmount,
     }: Partial<Incomes>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.post('/api/incomes', {
             serviceId,
             costCenterId,
             projectedAmount,
             executedAmount,
+            date,
         });
 
         alert('Ingreso Creado');
@@ -79,12 +82,14 @@ const CreateIncomeForm: React.FC<Interface> = ({
         projectedAmount,
         executedAmount,
     }: Partial<Incomes>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.put('/api/incomes', {
             incomeId,
             serviceId,
             costCenterId,
             projectedAmount,
             executedAmount,
+            date,
         });
 
         alert('Ingreso Actualizado');

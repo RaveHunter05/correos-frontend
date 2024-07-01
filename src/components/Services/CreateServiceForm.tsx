@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { Services } from '~/types/types';
+import dayjs from 'dayjs';
 
 interface Interface {
     toEditValues?: Partial<Services> | null;
@@ -29,9 +30,11 @@ const CreateServiceForm: React.FC<Interface> = ({
     }, [toEditValues, initialValues]);
 
     const createService = async ({ code, name }: Partial<Services>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.post('/api/services', {
             code,
             name,
+            date,
         });
 
         alert('Servicio Creado');
@@ -42,10 +45,12 @@ const CreateServiceForm: React.FC<Interface> = ({
         code,
         name,
     }: Partial<Services>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.put('/api/services', {
             serviceId,
             code,
             name,
+            date,
         });
 
         alert('Servicio Actualizado');

@@ -15,7 +15,7 @@ const useData = (url: string) => {
         params?: any
     ): Promise<any[]> => {
         try {
-            const token = localStorage.getItem('auth-token');
+            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get(`/api/${endpoint}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,

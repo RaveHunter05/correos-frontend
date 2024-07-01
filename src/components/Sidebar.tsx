@@ -15,7 +15,7 @@ export default function SidebarComponent({ children }: Props) {
     const router = useRouter();
 
     const handleLogout = () => {
-        localStorage.removeItem('auth-token');
+        sessionStorage.removeItem('auth-token');
         router.replace('/');
     };
 

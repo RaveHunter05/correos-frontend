@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { CostCenters } from '~/types/types';
+import dayjs from 'dayjs';
 
 interface Interface {
     toEditValues?: Partial<CostCenters> | null;
@@ -37,12 +38,14 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         code,
         name,
     }: Partial<CostCenters>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.post('/api/costcenters', {
             gerencyCode,
             areaCode,
             officeCode,
             code,
             name,
+            date,
         });
 
         alert('Centro de Costos Creado');
@@ -56,6 +59,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         code,
         name,
     }: Partial<CostCenters>) => {
+        const date = dayjs().format('YYYY-MM-DD');
         await axios.put('/api/costcenters', {
             costCenterId,
             gerencyCode,
@@ -63,6 +67,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
             officeCode,
             code,
             name,
+            date,
         });
 
         alert('Centro de Costos Actualizado');
