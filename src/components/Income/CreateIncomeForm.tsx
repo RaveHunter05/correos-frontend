@@ -5,8 +5,8 @@ import * as yup from 'yup';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
-import { CostCenters } from '~/pages/api/costcenters';
-import { Incomes, Services } from '~/types/types';
+
+import { CostCenters, Incomes, Services } from '~/types/types';
 import dayjs from 'dayjs';
 
 interface Interface {

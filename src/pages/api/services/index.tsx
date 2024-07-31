@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Services } from '~/types/types';
 
+import dayjs from 'dayjs';
+
 export const serviceAPI = async () => {};
 
 export default async function handler(
@@ -31,9 +33,12 @@ export default async function handler(
     if (req.method === 'POST') {
         try {
             const { code, name }: Partial<Services> = req.body;
+
+            const date = dayjs(new Date()).format('YYYY-MM-DD');
             const data = {
                 code,
                 name,
+                date,
             };
             const postService = async (
                 data: Partial<Services>
@@ -65,7 +70,10 @@ export default async function handler(
     if (req.method === 'PUT') {
         try {
             const { serviceId, code, name }: Partial<Services> = req.body;
+
+            const date = dayjs(new Date()).format('YYYY-MM-DD');
             const data = {
+                date,
                 serviceId,
                 code,
                 name,

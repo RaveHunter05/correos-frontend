@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CostCenters } from '~/types/types';
 
+import dayjs from 'dayjs';
+
 export const costCenterAPI = async () => {};
 
 export default async function handler(
@@ -42,7 +44,15 @@ export default async function handler(
                 code,
                 name,
             }: Partial<CostCenters> = req.body;
-            const data = { gerencyCode, areaCode, officeCode, code, name };
+            const date = dayjs(new Date()).format('YYYY-MM-DD');
+            const data = {
+                gerencyCode,
+                date,
+                areaCode,
+                officeCode,
+                code,
+                name,
+            };
             const postCostCenter = async (
                 data: Partial<CostCenters>
             ): Promise<AxiosResponse> => {
@@ -75,19 +85,22 @@ export default async function handler(
             const {
                 costCenterId,
                 gerencyCode,
-		areaCode,
+                areaCode,
                 officeCode,
                 code,
-		name
+                name,
             }: Partial<CostCenters> = req.body;
 
+            const date = dayjs(new Date()).format('YYYY-MM-DD');
+
             const data = {
+                date,
                 costCenterId,
                 gerencyCode,
-		areaCode,
+                areaCode,
                 officeCode,
                 code,
-		name
+                name,
             };
 
             const putCostCenter = async (

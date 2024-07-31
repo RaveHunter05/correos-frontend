@@ -68,7 +68,7 @@ export default function Login() {
                 <div className="w-3/5 bg-neutral-300 flex flex-col justify-center items-center ">
                     <div className="text-left">
                         <h5 className="text-orange-400 text-xs font-bold">
-                            Sistema de Gestión de Inventario
+                            Sistema de Gestión Presupuestaria
                         </h5>
                         <h2 className="text-2xl font-bold">Ingresar</h2>
                         <Formik
@@ -113,12 +113,8 @@ export default function Login() {
                                         )}
 
                                         <div className="space-y-2 my-2">
-                                            <p className="text-gray-400 hover:text-gray-600 text-xs font-bold cursor-pointer">
-                                                ¿No tienes una cuenta?
-                                                Registrate
-                                            </p>
                                             <p className="text-sky-400 hover:text-sky-600 text-xs font-bold cursor-pointer">
-                                                ¿Olvidaste tu contraseña?
+                                                ¡Bienvenido una vez mas!
                                             </p>
                                             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                                 Ingresar

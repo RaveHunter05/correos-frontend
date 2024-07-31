@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Expenses } from '~/types/types';
 
+import dayjs from 'dayjs';
+
 export const expensesAPI = async () => {};
 
 export default async function handler(
@@ -78,12 +80,16 @@ export default async function handler(
                 projectedAmount,
                 executedAmount,
             }: Partial<Expenses> = req.body;
+
+	    const date = dayjs(new Date()).format('YYYY-MM-DD');
+
             const data = {
                 expenseId,
                 costCenterId,
                 spentId,
                 projectedAmount,
                 executedAmount,
+		date
             };
             const putExpense = async (
                 data: Partial<Expenses>

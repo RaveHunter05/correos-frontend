@@ -1,4 +1,5 @@
 import { LuFileInput, LuFileOutput, LuLogOut } from 'react-icons/lu';
+import { RiAdminLine } from 'react-icons/ri';
 import { AiFillPrinter } from 'react-icons/ai';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { useRouter } from 'next/router';
@@ -30,9 +31,7 @@ export default function SidebarComponent({ children }: Props) {
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                     {' '}
                     <ul className="space-y-2 font-medium flex flex-col h-full">
-                        {' '}
                         <li>
-                            {' '}
                             <Link
                                 href="dashboard"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -112,6 +111,17 @@ export default function SidebarComponent({ children }: Props) {
                                     </Link>
                                 </li>
                             </ul>
+                        </li>
+                        <li>
+                            <Link
+                                href="management"
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            >
+                                <RiAdminLine />
+                                <span className="flex-1 ml-3 whitespace-nowrap">
+                                    Gestionar Usuarios
+                                </span>
+                            </Link>
                         </li>
                         <li>
                             <a
