@@ -13,12 +13,7 @@ const useExpensesData = () => {
 
     const getExpensesData = async (): Promise<Expenses[]> => {
         try {
-            const token = sessionStorage.getItem('auth-token');
-            const response = await axios.get<Expenses[]>('/api/expenses', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.get<Expenses[]>('/api/expenses', {});
             return response.data;
         } catch (error) {
             console.log({ error });
@@ -28,14 +23,8 @@ const useExpensesData = () => {
 
     const getSearchData = async (costcenter: string): Promise<Expenses[]> => {
         try {
-            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get<Expenses[]>(
-                `/api/expenses/${costcenter}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+                `/api/expenses/${costcenter}`
             );
             return response.data;
         } catch (error) {

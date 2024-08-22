@@ -15,11 +15,7 @@ const useIncomeData = () => {
     // get data (general)
     const getIncomeData = async (): Promise<Incomes[]> => {
         try {
-            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get<Incomes[]>('/api/incomes', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
             });
             return response.data;
         } catch (error) {
@@ -30,14 +26,8 @@ const useIncomeData = () => {
 
     const getSearchData = async (service: string): Promise<Incomes[]> => {
         try {
-            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get<Incomes[]>(
-                `/api/incomes/${service}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+                `/api/incomes/${service}`
             );
             return response.data;
         } catch (error) {

@@ -2,11 +2,12 @@ import { LuFileInput, LuFileOutput, LuLogOut } from 'react-icons/lu';
 import { RiAdminLine } from 'react-icons/ri';
 import { AiFillPrinter } from 'react-icons/ai';
 import { BiSolidDashboard } from 'react-icons/bi';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ReactNode, useState } from 'react';
 import { FaTableList } from 'react-icons/fa6';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { logout } from '~/lib/cookies';
 
 interface Props {
     children?: ReactNode;
@@ -16,7 +17,7 @@ export default function SidebarComponent({ children }: Props) {
     const router = useRouter();
 
     const handleLogout = () => {
-        sessionStorage.removeItem('auth-token');
+        logout();
         router.replace('/');
     };
 

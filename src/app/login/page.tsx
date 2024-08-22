@@ -1,14 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import posImage from 'public/pos_image.png';
 
 import { Formik, Field, Form } from 'formik';
 
 import * as yup from 'yup';
-import axios from 'axios';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import { login } from './actions';
 
 interface LoginInterface {
     email: string;
@@ -28,18 +30,11 @@ export default function Login() {
     const [loginError, setLoginError] = useState<string>();
     const handleLogin = async ({ email, password }: LoginInterface) => {
         try {
-            const result = await axios.post('/api/login', {
-                username: email,
-                password,
-                email,
-            });
-
-	    sessionStorage.setItem('auth-token', result.data.token)
+            await login(email, password);
 
             toast.success('Logeado exitosamente', { position: 'top-right' });
             router.push('/admin/dashboard');
-
-            return result;
+            return;
         } catch (error) {
             if (typeof error === 'string') {
                 setLoginError(error);

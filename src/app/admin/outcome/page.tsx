@@ -1,24 +1,28 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { useLayoutEffect } from 'react';
-import ExecutionComponent from '~/components/Execution';
+import OutcomeComponent from '~/components/Outcome';
 import SidebarComponent from '~/components/Sidebar';
+import { checkSession } from '~/lib/cookies';
 import { NextPageWithLayout } from '~/types/next';
 
-const CostCentersPage: NextPageWithLayout = () => {
+const IncomePage: NextPageWithLayout = () => {
     const router = useRouter();
     useLayoutEffect(() => {
-        const token = sessionStorage.getItem('auth-token');
-        if (!token) {
+        const sessionInitiated = checkSession();
+
+        if (!sessionInitiated) {
             router.replace('/');
         }
     }, [router]);
     return (
         <div>
             <SidebarComponent>
-                <ExecutionComponent />
+                <OutcomeComponent />
             </SidebarComponent>
         </div>
     );
 };
 
-export default CostCentersPage;
+export default IncomePage;
