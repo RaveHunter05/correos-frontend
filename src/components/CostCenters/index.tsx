@@ -9,10 +9,10 @@ import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { useEffect, useState } from 'react';
-import useData from '~/hooks/useData';
 import CostCentersTable from '../Shared/CostCentersTable';
 import CreateCostCenterForm from './CreateCostCenterForm';
 import { FaFileCsv } from 'react-icons/fa6';
+import useCostCenterData from '~/hooks/useCostCenter';
 
 const CostCentersComponent = () => {
     const {
@@ -20,7 +20,7 @@ const CostCentersComponent = () => {
         loading: tableLoading,
         handleSearch,
         refreshData,
-    } = useData('costcenters');
+    } = useCostCenterData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
 

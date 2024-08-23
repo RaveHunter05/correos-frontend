@@ -1,16 +1,16 @@
-import apiClient from "./apiClient"
+import apiClient from '@/utils/apiClient';
 
 interface IncomeService {
-	[key: string]: () => Promise<any>;
+    [key: string]: () => Promise<any>;
 }
 
-const incomeService: IncomeService = {}
+const incomeService: IncomeService = {};
 
-incomeService["getExpenses"] = () => {
-	return apiClient({
-		url: `expenses`,
-		method: 'get',
-	})
-}
+incomeService['getExpenses'] = () => {
+    return apiClient({
+        url: `expenses`,
+        method: 'get',
+    });
+};
 
-export default incomeService
+export default incomeService;

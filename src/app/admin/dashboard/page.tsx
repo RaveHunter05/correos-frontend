@@ -1,17 +1,23 @@
+'use client';
+
 import { NextPageWithLayout } from '~/types/next';
 import SidebarComponent from '~/components/Sidebar';
-import { useLayoutEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { checkSession } from '~/lib/cookies';
 
 const Dashboard: NextPageWithLayout = () => {
     const router = useRouter();
-    useLayoutEffect(() => {
-        const token = sessionStorage.getItem('auth-token');
-        if (!token) {
-            router.replace('/');
-        }
-    }, [router]);
 
+    useEffect(() => {
+        const sessionInitiated = checkSession();
+
+        if (!sessionInitiated) {
+            router.push('/');
+        }
+    }, []);
+
+    // redirect is there's no session cookie
     return (
         <div>
             <SidebarComponent>

@@ -15,11 +15,7 @@ const useData = (url: string) => {
         params?: any
     ): Promise<any[]> => {
         try {
-            const token = sessionStorage.getItem('auth-token');
             const response = await axios.get(`/api/${endpoint}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
                 params: params || {},
             });
             return response.data;

@@ -1,5 +1,4 @@
 import { Typography } from 'antd';
-import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { Spents } from '~/types/types';
 import dayjs from 'dayjs';
+import { createSpent, updateSpent } from '~/app/admin/spents/actions';
 
 interface Interface {
     toEditValues?: Partial<Spents> | null;
@@ -29,24 +29,31 @@ const CreateSpentForm: React.FC<Interface> = ({
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
-    const createSpent = async ({ category, denomination }: Partial<Spents>) => {
+    const handleCreateSpent = async ({
+        category,
+        denomination,
+    }: Partial<Spents>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.post('/api/spents', {
+
+        const response = await createSpent({
             category,
             denomination,
             date,
         });
 
         alert('Rubro Creado');
+
+        return response.data;
     };
 
-    const updateSpent = async ({
+    const handleUpdateSpent = async ({
         spentId,
         category,
         denomination,
     }: Partial<Spents>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.put('/api/spents', {
+
+        const response = await updateSpent({
             spentId,
             category,
             denomination,
@@ -54,6 +61,8 @@ const CreateSpentForm: React.FC<Interface> = ({
         });
 
         alert('Rubro Actualizado');
+
+        return response.data;
     };
 
     const handleSubmit = async ({
@@ -63,14 +72,14 @@ const CreateSpentForm: React.FC<Interface> = ({
     }: Partial<Spents>) => {
         try {
             if (!toEditValues) {
-                createSpent({
+                handleCreateSpent({
                     category,
                     denomination,
                 });
                 return;
             }
 
-            updateSpent({
+            handleUpdateSpent({
                 spentId,
                 category,
                 denomination,

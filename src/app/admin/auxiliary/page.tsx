@@ -1,3 +1,5 @@
+'use client'
+
 import AuxiliaryComponent from '~/components/Auxiliary';
 import SidebarComponent from '~/components/Sidebar';
 import { NextPageWithLayout } from '~/types/next';

@@ -16,6 +16,10 @@ const ExecutionComponent = () => {
         (state: RootState) => state.data.tableColumns
     );
 
+    const informTableHeaders = useSelector(
+        (state: RootState) => state.data.informTableHeaders
+    );
+
     const [initialDate, setInitialDate] = useState<string | string[]>('');
     const [endDate, setEndDate] = useState<string | string[]>('');
 
@@ -23,12 +27,16 @@ const ExecutionComponent = () => {
         {
             key: '1',
             label: 'Ingresos',
-            children: <IncomeInforms initialDate={initialDate} endDate={endDate}/>,
+            children: (
+                <IncomeInforms initialDate={initialDate} endDate={endDate} />
+            ),
         },
         {
             key: '2',
             label: 'Egresos',
-            children: <ExpenseInforms initialDate={initialDate} endDate={endDate}/>,
+            children: (
+                <ExpenseInforms initialDate={initialDate} endDate={endDate} />
+            ),
         },
     ];
 
@@ -74,7 +82,9 @@ const ExecutionComponent = () => {
                             color: '#fff !important',
                         }}
                     />
-                    <CSVLink data={tableData} columns={tableColumns}> Exportar </CSVLink>
+                    <CSVLink data={tableData} headers={informTableHeaders}>
+                        Exportar
+                    </CSVLink>
                 </button>
             </section>
             <Typography.Title level={4} className="mt-4">
@@ -88,10 +98,7 @@ const ExecutionComponent = () => {
                     defaultActiveKey={['1']}
                     onChange={() => {}}
                 />
-                <InformsTable
-                    dataSource={tableData}
-                    columns={tableColumns}
-                />
+                <InformsTable dataSource={tableData} columns={tableColumns} />
             </section>
         </div>
     );

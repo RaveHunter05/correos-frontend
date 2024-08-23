@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
-import { Expenses } from '~/types/types';
-import { getExpenses, searchExpenses } from '~/app/admin/outcome/actions';
+import { Spents } from '~/types/types';
 
-const useExpensesData = () => {
-    const [expensesData, setExpensesData] = useState<Expenses[]>([]);
+import { getSpents, searchSpent } from '~/app/admin/spents/actions';
+
+const useSpentData = () => {
+    const [spentsData, setSpentsData] = useState<Spents[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     // string to search for
     const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
     const [toggleRefresh, setToggleRefresh] = useState<boolean>(false);
 
-    const getExpensesData = async (): Promise<Expenses[]> => {
+    const getSpentsData = async (): Promise<Spents[]> => {
         try {
-            const response = await getExpenses();
+            const response = await getSpents();
             console.log({ response });
             return response;
         } catch (error) {
@@ -22,9 +23,9 @@ const useExpensesData = () => {
         }
     };
 
-    const getSearchData = async (costcenter: string): Promise<Expenses[]> => {
+    const getSearchData = async (denomination: string): Promise<Spents[]> => {
         try {
-            const response = await searchExpenses(costcenter);
+            const response = await searchSpent(denomination);
             return response;
         } catch (error) {
             console.log({ error });
@@ -41,23 +42,23 @@ const useExpensesData = () => {
             async (termToSearch: string): Promise<void> => {
                 setLoading(true);
                 const data = await getSearchData(termToSearch);
-                setExpensesData(data);
+                setSpentsData(data);
                 setLoading(false);
                 return;
             },
             400
         );
-        const fetchExpensesData = async (): Promise<void> => {
+        const fetchSpentssData = async (): Promise<void> => {
             setLoading(true);
-            const data = await getExpensesData();
+            const data = await getSpentsData();
             if (data) {
-                setExpensesData(data);
+                setSpentsData(data);
             }
             setLoading(false);
         };
 
         if (!searchTerm || searchTerm === '') {
-            fetchExpensesData();
+            fetchSpentssData();
             return;
         }
         fetchSearch(searchTerm);
@@ -70,9 +71,9 @@ const useExpensesData = () => {
     useEffect(() => {
         const fetchIncomeData = async (): Promise<void> => {
             setLoading(true);
-            const data = await getExpensesData();
+            const data = await getSpentsData();
             if (data) {
-                setExpensesData(data);
+                setSpentsData(data);
             }
             setLoading(false);
         };
@@ -80,7 +81,7 @@ const useExpensesData = () => {
         fetchIncomeData();
     }, [toggleRefresh]);
 
-    return { expensesData, loading, handleSearch, refreshData };
+    return { data: spentsData, loading, handleSearch, refreshData };
 };
 
-export default useExpensesData;
+export default useSpentData;

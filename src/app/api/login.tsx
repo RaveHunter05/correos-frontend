@@ -15,13 +15,9 @@ export default async function handler(
 ) {
     if (req.method === 'POST') {
         try {
-            const response = await axios.post(
-                'http://localhost:5148/login',
-                req.body,
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
+            const response = await axios.post('login', req.body, {
+                headers: { 'Content-Type': 'application/json' },
+            });
             res.send(response.data);
         } catch (error) {
             if (typeof error === 'string') {

@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
-import { Expenses } from '~/types/types';
-import { getExpenses, searchExpenses } from '~/app/admin/outcome/actions';
+import { getServices, searchServices } from '~/app/admin/services/actions';
+import { Services } from '~/types/types';
 
-const useExpensesData = () => {
-    const [expensesData, setExpensesData] = useState<Expenses[]>([]);
+const useServiceData = () => {
+    // current data for the hook
+    const [serviceData, setServiceData] = useState<Services[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     // string to search for
     const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
     const [toggleRefresh, setToggleRefresh] = useState<boolean>(false);
 
-    const getExpensesData = async (): Promise<Expenses[]> => {
+    // get data (general)
+    const getServiceData = async (): Promise<Services[]> => {
         try {
-            const response = await getExpenses();
-            console.log({ response });
+            const response = await getServices();
             return response;
         } catch (error) {
             console.log({ error });
@@ -22,9 +23,9 @@ const useExpensesData = () => {
         }
     };
 
-    const getSearchData = async (costcenter: string): Promise<Expenses[]> => {
+    const getSearchData = async (service: string): Promise<Services[]> => {
         try {
-            const response = await searchExpenses(costcenter);
+            const response = await searchServices(service);
             return response;
         } catch (error) {
             console.log({ error });
@@ -32,8 +33,8 @@ const useExpensesData = () => {
         }
     };
 
-    const handleSearch = (costcenter: string) => {
-        setSearchTerm(costcenter);
+    const handleSearch = (service: string) => {
+        setSearchTerm(service);
     };
 
     useEffect(() => {
@@ -41,26 +42,27 @@ const useExpensesData = () => {
             async (termToSearch: string): Promise<void> => {
                 setLoading(true);
                 const data = await getSearchData(termToSearch);
-                setExpensesData(data);
+                setServiceData(data);
                 setLoading(false);
                 return;
             },
             400
         );
-        const fetchExpensesData = async (): Promise<void> => {
+
+        const fetchServiceData = async (): Promise<void> => {
             setLoading(true);
-            const data = await getExpensesData();
+            const data = await getServiceData();
             if (data) {
-                setExpensesData(data);
+                setServiceData(data);
             }
             setLoading(false);
         };
-
         if (!searchTerm || searchTerm === '') {
-            fetchExpensesData();
+            fetchServiceData();
             return;
         }
         fetchSearch(searchTerm);
+        return;
     }, [searchTerm]);
 
     const refreshData = () => {
@@ -68,19 +70,24 @@ const useExpensesData = () => {
     };
 
     useEffect(() => {
-        const fetchIncomeData = async (): Promise<void> => {
+        const fetchServiceData = async (): Promise<void> => {
             setLoading(true);
-            const data = await getExpensesData();
+            const data = await getServiceData();
             if (data) {
-                setExpensesData(data);
+                setServiceData(data);
             }
             setLoading(false);
         };
 
-        fetchIncomeData();
+        fetchServiceData();
     }, [toggleRefresh]);
 
-    return { expensesData, loading, handleSearch, refreshData };
+    return {
+        data: serviceData,
+        loading,
+        handleSearch,
+        refreshData,
+    };
 };
 
-export default useExpensesData;
+export default useServiceData;

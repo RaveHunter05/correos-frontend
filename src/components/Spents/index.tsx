@@ -9,10 +9,10 @@ import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { useEffect, useState } from 'react';
-import useData from '~/hooks/useData';
 import CreateSpentForm from './CreateSpentForm';
 import SpentsTable from '../Shared/SpentsTable';
 import { FaFileCsv } from 'react-icons/fa6';
+import useSpentData from '~/hooks/useSpentData';
 
 const SpentsComponent = () => {
     const {
@@ -20,7 +20,7 @@ const SpentsComponent = () => {
         loading: tableLoading,
         handleSearch,
         refreshData,
-    } = useData('spents');
+    } = useSpentData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
 
@@ -116,7 +116,9 @@ const SpentsComponent = () => {
                                 color: '#fff !important',
                             }}
                         />
-                        <CSVLink data={data} headers={csvHeaders}>Exportar</CSVLink>
+                        <CSVLink data={data} headers={csvHeaders}>
+                            Exportar
+                        </CSVLink>
                     </button>
                     <button
                         type="button"
