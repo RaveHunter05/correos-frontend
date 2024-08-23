@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { debounce } from 'lodash';
 import { Incomes } from '~/types/types';
+import { getIncomes, searchIncome } from '~/app/admin/income/actions';
 
 const useIncomeData = () => {
     // current data for the hook
@@ -15,9 +15,8 @@ const useIncomeData = () => {
     // get data (general)
     const getIncomeData = async (): Promise<Incomes[]> => {
         try {
-            const response = await axios.get<Incomes[]>('/api/incomes', {
-            });
-            return response.data;
+            const response = await getIncomes();
+            return response;
         } catch (error) {
             console.log({ error });
             return []; // or handle error accordingly
@@ -26,10 +25,8 @@ const useIncomeData = () => {
 
     const getSearchData = async (service: string): Promise<Incomes[]> => {
         try {
-            const response = await axios.get<Incomes[]>(
-                `/api/incomes/${service}`
-            );
-            return response.data;
+            const response = await searchIncome(service);
+            return response;
         } catch (error) {
             console.log({ error });
             return [];

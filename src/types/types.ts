@@ -4,8 +4,8 @@ export type Incomes = {
     costCenterId: number;
     projectedAmount: number;
     executedAmount: number;
-    date: Date;
-}
+    date: Date | string;
+};
 
 export type Expenses = {
     expenseId: any;
@@ -13,8 +13,8 @@ export type Expenses = {
     spentId: number;
     projectedAmount: number;
     executedAmount: number;
-    date: Date;
-}
+    date: Date | string;
+};
 
 export type CostCenters = {
     costCenterId: number;
@@ -23,16 +23,19 @@ export type CostCenters = {
     officeCode: string;
     code: string;
     name: string;
+    date: Date | string;
 };
 
 export type Services = {
     serviceId: number;
     code: string;
     name: string;
+    date: Date | string;
 };
 
 export type Spents = {
-	spentId: number;
-	category: string;
-	denomination: string;
-}
+    spentId: number;
+    category: string;
+    denomination: string;
+    date: Date | string;
+};

@@ -1,5 +1,4 @@
 import { Typography } from 'antd';
-import axios from 'axios';
 import { Formik, Field, Form, FieldProps } from 'formik';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,9 @@ import { changeData } from '~/redux/reducers/data/dataSlice';
 
 import { CostCenters, Incomes, Services } from '~/types/types';
 import dayjs from 'dayjs';
+import { getCostCenters } from '~/app/admin/costcenters/actions';
+import { getServices } from '~/app/admin/services/actions';
+import { createIncome, updateIncome } from '~/app/admin/income/actions';
 
 interface Interface {
     toEditValues?: Partial<Incomes> | null;
@@ -31,40 +33,40 @@ const CreateIncomeForm: React.FC<Interface> = ({
     const [services, setServices] = useState<Services[]>([]);
 
     useEffect(() => {
-        const getCostCenters = async () => {
+        const assignCostCenters = async () => {
             try {
-                const value = await axios('/api/costcenters');
-                setCostCenters(value.data);
+                const response = await getCostCenters();
+                setCostCenters(response);
             } catch (error) {
                 console.log(error);
             }
         };
 
-        const getServices = async () => {
+        const assignServices = async () => {
             try {
-                const value = await axios('/api/services');
-                setServices(value.data);
+                const response = await getServices();
+                setServices(response);
             } catch (error) {
                 console.log(error);
             }
         };
 
-        getCostCenters();
-        getServices();
+        assignCostCenters();
+        assignServices();
     }, []);
 
     useEffect(() => {
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
-    const createIncome = async ({
+    const handleCreateIncome = async ({
         serviceId,
         costCenterId,
         projectedAmount,
         executedAmount,
     }: Partial<Incomes>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.post('/api/incomes', {
+        const response = await createIncome({
             serviceId,
             costCenterId,
             projectedAmount,
@@ -73,9 +75,11 @@ const CreateIncomeForm: React.FC<Interface> = ({
         });
 
         alert('Ingreso Creado');
+
+        return response.data;
     };
 
-    const updateIncome = async ({
+    const handleUpdateIncome = async ({
         incomeId,
         serviceId,
         costCenterId,
@@ -83,7 +87,8 @@ const CreateIncomeForm: React.FC<Interface> = ({
         executedAmount,
     }: Partial<Incomes>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.put('/api/incomes', {
+
+        const response = await updateIncome({
             incomeId,
             serviceId,
             costCenterId,
@@ -93,6 +98,8 @@ const CreateIncomeForm: React.FC<Interface> = ({
         });
 
         alert('Ingreso Actualizado');
+
+        return response.data;
     };
 
     const handleSubmit = async ({
@@ -104,7 +111,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
     }: Partial<Incomes>) => {
         try {
             if (!toEditValues) {
-                createIncome({
+                handleCreateIncome({
                     serviceId,
                     costCenterId,
                     projectedAmount,
@@ -113,7 +120,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
                 return;
             }
 
-            updateIncome({
+            handleUpdateIncome({
                 incomeId,
                 serviceId,
                 costCenterId,

@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export interface ProfileState {
     loading: boolean;
     userInfo: Object;
+    userRole: string;
     error: string | null;
     success: boolean;
 }
@@ -10,6 +11,7 @@ export interface ProfileState {
 const initialState: ProfileState = {
     loading: false,
     userInfo: {},
+    userRole: '',
     error: null,
     success: false,
 };

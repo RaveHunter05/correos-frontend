@@ -1,8 +1,11 @@
 import { Card } from 'antd';
-import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { setColumns } from '~/redux/reducers/data/dataSlice';
+import { incomeInform } from '~/app/admin/execution/actions';
+import {
+    setColumns,
+    setInformTableHeaders,
+} from '~/redux/reducers/data/dataSlice';
 import { setData } from '~/redux/reducers/data/dataSlice';
 
 type InformType = 'service' | 'costcenter' | 'general';
@@ -59,9 +62,34 @@ const tableColumns = {
     ],
 };
 
+const commonTableHeaders = [
+    { label: 'Absoluta', key: 'absolute' },
+    { label: '%', key: 'percentual' },
+];
+
+const tableHeaders = {
+    service: [
+        { label: 'Código', key: 'serviceInfo.code' },
+        { label: 'Servicio', key: 'serviceInfo.name' },
+        ...commonTableHeaders,
+    ],
+    costcenter: [
+        { label: 'Código', key: 'costCenterInfo.code' },
+        { label: 'Oficinas Postales', key: 'costCenterInfo.name' },
+        ...commonTableHeaders,
+    ],
+    general: [
+        { label: 'Código de servicio', key: 'serviceInfo.code' },
+        { label: 'Servicio', key: 'serviceInfo.name' },
+        { label: 'Código de oficina', key: 'costCenterInfo.code' },
+        { label: 'Oficinas Postales', key: 'costCenterInfo.name' },
+        ...commonTableHeaders,
+    ],
+};
+
 type IncomeInformsType = {
-    initialDate: string | string[];
-    endDate: string | string[];
+    initialDate: Date | string;
+    endDate: Date | string;
 };
 
 const IncomeInforms = ({ initialDate, endDate }: IncomeInformsType) => {
@@ -73,13 +101,15 @@ const IncomeInforms = ({ initialDate, endDate }: IncomeInformsType) => {
                 return;
             }
 
-            console.log({ initialDate, endDate });
-            const response = await axios.get(
-                `/api/incomes/inform/${informType}/${initialDate}/${endDate}`
-            );
-            dispatch(setData(response.data));
+            const response = await incomeInform({
+                informType,
+                initialDate,
+                endDate,
+            });
+            dispatch(setData(response));
             dispatch(setColumns(tableColumns[informType]));
-            return response.data;
+            dispatch(setInformTableHeaders(tableHeaders[informType]));
+            return response;
         } catch (error) {
             console.log(error);
         }

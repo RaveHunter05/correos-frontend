@@ -2,7 +2,11 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { setColumns } from '~/redux/reducers/data/dataSlice';
+import { expensesInform } from '~/app/admin/execution/actions';
+import {
+    setColumns,
+    setInformTableHeaders,
+} from '~/redux/reducers/data/dataSlice';
 import { setData } from '~/redux/reducers/data/dataSlice';
 
 type InformType = 'spent' | 'costcenter' | 'general';
@@ -59,9 +63,34 @@ const tableColumns = {
     ],
 };
 
+const commonTableHeaders = [
+    { label: 'Absoluta', key: 'absolute' },
+    { label: '%', key: 'percentual' },
+];
+
+const informTableHeaders = {
+    spent: [
+        { label: 'cod gasto', key: 'spentInfo.category' },
+        { label: 'descripción', key: 'spentInfo.denomination' },
+        ...commonTableHeaders,
+    ],
+    costcenter: [
+        { label: 'Código de oficina', key: 'costCenterInfo.code' },
+        { label: 'Oficinas Postales', key: 'costCenterInfo.name' },
+        ...commonTableHeaders,
+    ],
+    general: [
+        { label: 'cod gasto', key: 'spentInfo.category' },
+        { label: 'descripción', key: 'spentInfo.denomination' },
+        { label: 'Código de oficina', key: 'costCenterInfo.code' },
+        { label: 'Oficinas Postales', key: 'costCenterInfo.name' },
+        ...commonTableHeaders,
+    ],
+};
+
 type ExpenseInformsProps = {
-    initialDate: string | string[];
-    endDate: string | string[];
+    initialDate: Date | string;
+    endDate: Date | string;
 };
 
 const ExpenseInforms = ({ initialDate, endDate }: ExpenseInformsProps) => {
@@ -72,14 +101,16 @@ const ExpenseInforms = ({ initialDate, endDate }: ExpenseInformsProps) => {
                 toast.error('Debe seleccionar una fecha inicial y final');
                 return;
             }
-            const response = await axios.get(
-                `/api/expenses/inform/${informType}/${initialDate}/${endDate}`
-            );
+            const response = await expensesInform({
+                informType,
+                initialDate,
+                endDate,
+            });
 
-            console.log({ response: response.data });
-            dispatch(setData(response.data));
+            dispatch(setData(response));
             dispatch(setColumns(tableColumns[informType]));
-            return response.data;
+            dispatch(setInformTableHeaders(informTableHeaders[informType]));
+            return response;
         } catch (error) {
             console.log(error);
         }

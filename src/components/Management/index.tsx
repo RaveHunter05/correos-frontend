@@ -1,34 +1,25 @@
 import { Empty, Input, Skeleton } from 'antd';
 
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import { FaFileCsv } from 'react-icons/fa';
-
 import { IoMdAdd } from 'react-icons/io';
-
-import { CSVLink } from 'react-csv';
+import useIncomeData from '~/hooks/useIncomeData';
+import IncomesTable from '../Shared/IncomesTable';
 
 import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
-import { useEffect, useState } from 'react';
-import CreateServiceForm from './CreateServiceForm';
-import ServicesTable from '../Shared/ServicesTable';
-import useServiceData from '~/hooks/useServices';
+import { useEffect } from 'react';
+import CreateIncomeForm from '../Income/CreateIncomeForm';
 
-const ServiceComponent = () => {
+const ManagementComponent = () => {
     const {
-        data,
+        incomeData,
         loading: tableLoading,
         handleSearch,
         refreshData,
-    } = useServiceData();
+    } = useIncomeData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
-
-    const [csvHeaders, setCSVHeaders] = useState([
-        { label: 'CODIGO', key: 'code' },
-        { label: 'SERVICIO', key: 'name' },
-    ]);
 
     const dataChanged = useSelector(
         (state: RootState) => state.data.dataChanged
@@ -40,12 +31,12 @@ const ServiceComponent = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
-            <ModalWrapper title="Agregar Servicio">
-                <CreateServiceForm closeModal={closeModal} />
+            <ModalWrapper title="Agregar Ingresos">
+                <CreateIncomeForm closeModal={closeModal} />
             </ModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
-                Servicios
+                Gestión de usuarios
             </h1>
             {/* Dropdown */}
             <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
@@ -107,22 +98,6 @@ const ServiceComponent = () => {
                 <div className="flex justify-center items-center">
                     <button
                         type="button"
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
-                        onClick={() => {}}
-                    >
-                        <FaFileCsv
-                            className="mr-1"
-                            style={{
-                                fontSize: '1.2rem',
-                                color: '#fff !important',
-                            }}
-                        />
-                        <CSVLink data={data} headers={csvHeaders}>
-                            Exportar
-                        </CSVLink>
-                    </button>
-                    <button
-                        type="button"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
                         onClick={openModal}
                     >
@@ -146,10 +121,10 @@ const ServiceComponent = () => {
             </div>
             <div>
                 {tableLoading ?? <Skeleton />}
-                {!data ? <Empty /> : <ServicesTable data={data} />}
+                {!incomeData ? <Empty /> : <IncomesTable data={incomeData} />}
             </div>
         </div>
     );
 };
 
-export default ServiceComponent;
+export default ManagementComponent;

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
@@ -9,6 +8,9 @@ import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { CostCenters, Expenses, Spents } from '~/types/types';
 import dayjs from 'dayjs';
+import { getSpents } from '~/app/admin/spents/actions';
+import { getCostCenters } from '~/app/admin/costcenters/actions';
+import { createExpense, updateExpense } from '~/app/admin/outcome/actions';
 
 interface Interface {
     toEditValues?: Partial<Expenses> | null;
@@ -37,45 +39,47 @@ const CreateExpensesForm: React.FC<Interface> = ({
     }, [toEditValues, initialValues]);
 
     useEffect(() => {
-        const getSpents = async () => {
+        const assignSpents = async () => {
             try {
-                const value = await axios('/api/spents');
-                setSpents(value.data);
+                const response = await getSpents();
+                setSpents(response);
             } catch (error) {
                 console.log(error);
             }
         };
 
-        const getCostCenters = async () => {
+        const assignCostCenters = async () => {
             try {
-                const value = await axios('/api/costcenters');
-                setCostCenters(value.data);
+                const response = await getCostCenters();
+                setCostCenters(response);
             } catch (error) {
                 console.log(error);
             }
         };
 
-        getSpents();
-        getCostCenters();
+        assignSpents();
+        assignCostCenters();
     }, []);
 
-    const createExpense = async ({
+    const handleCreateExpense = async ({
         costCenterId,
         spentId,
         projectedAmount,
         executedAmount,
     }: Partial<Expenses>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.post('/api/expenses', {
+        const response = await createExpense({
             costCenterId,
             spentId,
             projectedAmount,
             executedAmount,
             date,
         });
+
+        return response.data;
     };
 
-    const updateExpense = async ({
+    const handleUpdateExpense = async ({
         expenseId,
         costCenterId,
         spentId,
@@ -83,7 +87,8 @@ const CreateExpensesForm: React.FC<Interface> = ({
         executedAmount,
     }: Partial<Expenses>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.put('/api/expenses', {
+
+        const response = await updateExpense({
             expenseId,
             costCenterId,
             spentId,
@@ -93,6 +98,8 @@ const CreateExpensesForm: React.FC<Interface> = ({
         });
 
         alert('Egreso actualizado exitosamente');
+
+        return response.data;
     };
 
     const handleSubmit = async ({
@@ -104,7 +111,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
     }: Partial<Expenses>) => {
         try {
             if (!toEditValues) {
-                createExpense({
+                handleCreateExpense({
                     costCenterId,
                     spentId,
                     projectedAmount,
@@ -113,7 +120,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                 return;
             }
 
-            updateExpense({
+            handleUpdateExpense({
                 expenseId,
                 costCenterId,
                 spentId,
@@ -153,7 +160,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                         <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
                             <section>
                                 <Typography.Text className="font-bold text-blue-500">
-                                    Céntro de cobro
+                                    Centro de cobro
                                 </Typography.Text>
                                 <Field
                                     placeholder="Centro de Costo"

@@ -42,7 +42,7 @@ export async function login(email: string, password: string) {
         console.log({ session });
         cookies().set('session', session, { expires, httpOnly: true });
         cookies().set('auth-token', result.data.token, {
-            expires,
+            expires: new Date(Date.now() + 10 * 1000),
             httpOnly: true,
         });
     } catch (error) {

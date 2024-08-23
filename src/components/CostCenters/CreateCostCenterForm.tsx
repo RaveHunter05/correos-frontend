@@ -1,5 +1,4 @@
 import { Typography } from 'antd';
-import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,10 @@ import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { CostCenters } from '~/types/types';
 import dayjs from 'dayjs';
+import {
+    createCostCenter,
+    updateCostCenter,
+} from '~/app/admin/costcenters/actions';
 
 interface Interface {
     toEditValues?: Partial<CostCenters> | null;
@@ -31,7 +34,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
-    const createCostCenter = async ({
+    const handleCreateCostCenter = async ({
         gerencyCode,
         areaCode,
         officeCode,
@@ -39,7 +42,8 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         name,
     }: Partial<CostCenters>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.post('/api/costcenters', {
+
+        const response = await createCostCenter({
             gerencyCode,
             areaCode,
             officeCode,
@@ -49,9 +53,11 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         });
 
         alert('Centro de Costos Creado');
+
+        return response.data;
     };
 
-    const updateCostCenter = async ({
+    const handleUpdateCostCenter = async ({
         costCenterId,
         gerencyCode,
         areaCode,
@@ -60,7 +66,8 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         name,
     }: Partial<CostCenters>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.put('/api/costcenters', {
+
+        const response = await updateCostCenter({
             costCenterId,
             gerencyCode,
             areaCode,
@@ -71,6 +78,8 @@ const CreateCostCenterForm: React.FC<Interface> = ({
         });
 
         alert('Centro de Costos Actualizado');
+
+        return response.data;
     };
 
     const handleSubmit = async ({
@@ -83,7 +92,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
     }: Partial<CostCenters>) => {
         try {
             if (!toEditValues) {
-                createCostCenter({
+                handleCreateCostCenter({
                     costCenterId,
                     gerencyCode,
                     areaCode,
@@ -94,7 +103,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
                 return;
             }
 
-            updateCostCenter({
+            handleUpdateCostCenter({
                 costCenterId,
                 gerencyCode,
                 areaCode,

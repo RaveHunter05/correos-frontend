@@ -27,11 +27,17 @@ export async function decrypt(input: string): Promise<any> {
 
 export async function login(email: string, password: string) {
     try {
-        const result = await apiClient.post('login', {
-            username: email,
-            password,
-            email,
-        });
+        const result = await apiClient.post(
+            'login',
+            {
+                username: email,
+                password,
+                email,
+            },
+            {
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
 
         if (!result.data.token) {
             throw new Error('No token found');
@@ -39,12 +45,15 @@ export async function login(email: string, password: string) {
         const expires = new Date(Date.now() + 10 * 1000);
 
         const session = await encrypt({ email, expires });
-        console.log({ session });
+
         cookies().set('session', session, { expires, httpOnly: true });
-        cookies().set('auth-token', result.data.token, {
+
+        cookies().set('access-token', result.data.token, {
             expires,
             httpOnly: true,
         });
+
+        return result.data;
     } catch (error) {
         if (typeof error === 'string') {
             throw new Error(error);
@@ -58,6 +67,9 @@ export async function login(email: string, password: string) {
 export async function logout() {
     cookies().set('session', '', { expires: new Date(0) });
     cookies().delete('session');
+
+    cookies().set('access-token', '', { expires: new Date(0) });
+    cookies().delete('access-token');
 }
 
 export async function getSession() {

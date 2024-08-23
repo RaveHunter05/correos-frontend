@@ -8,6 +8,7 @@ import { ReactNode, useState } from 'react';
 import { FaTableList } from 'react-icons/fa6';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { logout } from '~/lib/cookies';
+import Cookies from 'js-cookie';
 
 interface Props {
     children?: ReactNode;
@@ -20,6 +21,10 @@ export default function SidebarComponent({ children }: Props) {
         logout();
         router.replace('/');
     };
+
+    const [userRole, setUserRole] = useState<string | undefined>(
+        Cookies.get('role')
+    );
 
     const [openSideAuxiliary, setOpenSideAuxiliary] = useState<boolean>(false);
     return (
@@ -113,17 +118,19 @@ export default function SidebarComponent({ children }: Props) {
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <Link
-                                href="management"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <RiAdminLine />
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Gestionar Usuarios
-                                </span>
-                            </Link>
-                        </li>
+                        {userRole === 'admin' && (
+                            <li>
+                                <Link
+                                    href="management"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <RiAdminLine />
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Gestionar Usuarios
+                                    </span>
+                                </Link>
+                            </li>
+                        )}
                         <li>
                             <a
                                 href="execution"

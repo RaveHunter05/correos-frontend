@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect } from 'react';
+import ManagementComponent from '~/components/Management';
 import SidebarComponent from '~/components/Sidebar';
 import { checkSession } from '~/lib/cookies';
 import { NextPageWithLayout } from '~/types/next';
@@ -18,7 +19,7 @@ const ManagementPage: NextPageWithLayout = () => {
     return (
         <div>
             <SidebarComponent>
-                <h2> Management </h2>
+                <ManagementComponent />
             </SidebarComponent>
         </div>
     );

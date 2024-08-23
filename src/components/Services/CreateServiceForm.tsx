@@ -1,5 +1,4 @@
 import { Typography } from 'antd';
-import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 import { Services } from '~/types/types';
 import dayjs from 'dayjs';
+import { createService, updateService } from '~/app/admin/services/actions';
 
 interface Interface {
     toEditValues?: Partial<Services> | null;
@@ -29,31 +29,32 @@ const CreateServiceForm: React.FC<Interface> = ({
         if (toEditValues) setInitialValues(toEditValues);
     }, [toEditValues, initialValues]);
 
-    const createService = async ({ code, name }: Partial<Services>) => {
+    const handleCreateService = async ({ code, name }: Partial<Services>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.post('/api/services', {
+
+        const response = await createService({
             code,
             name,
             date,
         });
 
         alert('Servicio Creado');
+
+        return response.data;
     };
 
-    const updateService = async ({
+    const handleUpdateService = async ({
         serviceId,
         code,
         name,
     }: Partial<Services>) => {
         const date = dayjs().format('YYYY-MM-DD');
-        await axios.put('/api/services', {
-            serviceId,
-            code,
-            name,
-            date,
-        });
+
+        const response = await updateService({ serviceId, code, name, date });
 
         alert('Servicio Actualizado');
+
+        return response.data;
     };
 
     const handleSubmit = async ({
@@ -63,14 +64,14 @@ const CreateServiceForm: React.FC<Interface> = ({
     }: Partial<Services>) => {
         try {
             if (!toEditValues) {
-                createService({
+                handleCreateService({
                     code,
                     name,
                 });
                 return;
             }
 
-            updateService({
+            handleUpdateService({
                 serviceId,
                 code,
                 name,

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import posImage from 'public/pos_image.png';
+import posImage from 'public/correos_nicaragua.jpg';
 
 import { Formik, Field, Form } from 'formik';
 
@@ -11,6 +11,7 @@ import { Toaster, toast } from 'react-hot-toast';
 
 import { useRouter } from 'next/navigation';
 import { login } from './actions';
+import Cookies from 'js-cookie';
 
 interface LoginInterface {
     email: string;
@@ -28,19 +29,26 @@ const LoginSchema = yup.object({
 export default function Login() {
     const router = useRouter();
     const [loginError, setLoginError] = useState<string>();
+
     const handleLogin = async ({ email, password }: LoginInterface) => {
         try {
-            await login(email, password);
+            const response = await login(email, password);
+
+            const role = response?.roles[0];
+
+            Cookies.set('role', role);
 
             toast.success('Logeado exitosamente', { position: 'top-right' });
             router.push('/admin/dashboard');
             return;
         } catch (error) {
             if (typeof error === 'string') {
-                setLoginError(error);
+                console.error(error);
+                setLoginError('Error de autenticación');
             }
             if (error instanceof Error) {
-                setLoginError(error.message);
+                console.error(error);
+                setLoginError('Error de autenticación');
             }
         }
     };
@@ -55,8 +63,8 @@ export default function Login() {
                     <Image
                         src={posImage}
                         alt="POS Image"
-                        width="180"
-                        height="180"
+                        width="250"
+                        height="250"
                     />
                 </div>
 
