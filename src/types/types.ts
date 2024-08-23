@@ -1,3 +1,9 @@
+export type Users = {
+    email: string;
+    userName: string;
+    role: string;
+};
+
 export type Incomes = {
     incomeId: any;
     serviceId: number;
