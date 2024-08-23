@@ -2,22 +2,22 @@ import { Empty, Input, Skeleton } from 'antd';
 
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
-import useIncomeData from '~/hooks/useIncomeData';
-import IncomesTable from '../Shared/IncomesTable';
 
 import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { useEffect } from 'react';
 import CreateIncomeForm from '../Income/CreateIncomeForm';
+import useManagementData from '~/hooks/useManagementData';
+import ManagementTable from '../Shared/ManagementTable';
 
 const ManagementComponent = () => {
     const {
-        incomeData,
+        managementData,
         loading: tableLoading,
         handleSearch,
         refreshData,
-    } = useIncomeData();
+    } = useManagementData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
 
@@ -31,12 +31,12 @@ const ManagementComponent = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
-            <ModalWrapper title="Agregar Ingresos">
+            <ModalWrapper title="Registrar usuario">
                 <CreateIncomeForm closeModal={closeModal} />
             </ModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
-                Gestión de usuarios
+                Gestion de usuarios
             </h1>
             {/* Dropdown */}
             <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
@@ -105,7 +105,7 @@ const ManagementComponent = () => {
                             className="mr-1"
                             style={{ fontSize: '1.2rem' }}
                         />
-                        Agregar
+                        Registrar
                     </button>
 
                     <div className="relative ml-4">
@@ -113,7 +113,7 @@ const ManagementComponent = () => {
                             type="text"
                             id="table-search-users"
                             className="blok p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Buscar por nombre de servicio"
+                            placeholder="Buscar usuario por email"
                             onChange={(e) => handleSearch(e.target.value)}
                         />
                     </div>
@@ -121,7 +121,11 @@ const ManagementComponent = () => {
             </div>
             <div>
                 {tableLoading ?? <Skeleton />}
-                {!incomeData ? <Empty /> : <IncomesTable data={incomeData} />}
+                {!managementData ? (
+                    <Empty />
+                ) : (
+                    <ManagementTable data={managementData} />
+                )}
             </div>
         </div>
     );
