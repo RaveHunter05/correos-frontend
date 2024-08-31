@@ -13,6 +13,7 @@ import CostCentersTable from '../Shared/CostCentersTable';
 import CreateCostCenterForm from './CreateCostCenterForm';
 import { FaFileCsv } from 'react-icons/fa6';
 import useCostCenterData from '~/hooks/useCostCenter';
+import { Toaster, toast } from 'react-hot-toast';
 
 const CostCentersComponent = () => {
     const {
@@ -42,6 +43,7 @@ const CostCentersComponent = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+            <Toaster />
             <ModalWrapper title="Agregar Centro de Costos">
                 <CreateCostCenterForm closeModal={closeModal} />
             </ModalWrapper>
@@ -119,7 +121,18 @@ const CostCentersComponent = () => {
                                 color: '#fff !important',
                             }}
                         />
-                        <CSVLink data={data} headers={csvHeaders}>
+                        <CSVLink
+                            data={data}
+                            headers={csvHeaders}
+                            onClick={() => {
+                                if (data.length === 0) {
+                                    toast.error('No hay datos para exportar');
+                                    return false;
+                                }
+                                toast.success('Datos exportados correctamente');
+                                return true;
+                            }}
+                        >
                             Exportar
                         </CSVLink>
                     </button>

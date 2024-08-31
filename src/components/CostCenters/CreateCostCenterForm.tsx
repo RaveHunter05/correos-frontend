@@ -10,6 +10,7 @@ import {
     createCostCenter,
     updateCostCenter,
 } from '~/app/admin/costcenters/actions';
+import { toast } from 'react-hot-toast';
 
 interface Interface {
     toEditValues?: Partial<CostCenters> | null;
@@ -52,7 +53,9 @@ const CreateCostCenterForm: React.FC<Interface> = ({
             date,
         });
 
-        alert('Centro de Costos Creado');
+        if (response) {
+            toast.success('Centro de Costos Creado');
+        }
 
         return response.data;
     };
@@ -77,7 +80,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
             date,
         });
 
-        alert('Centro de Costos Actualizado');
+        toast.success('Centro de Costos Actualizado');
 
         return response.data;
     };

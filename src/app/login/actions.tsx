@@ -25,14 +25,13 @@ export async function decrypt(input: string): Promise<any> {
     return payload;
 }
 
-export async function login(email: string, password: string) {
+export async function login(username: string, password: string) {
     try {
         const result = await apiClient.post(
             'login',
             {
-                username: email,
+                username,
                 password,
-                email,
             },
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -44,7 +43,7 @@ export async function login(email: string, password: string) {
         }
         const expires = new Date(Date.now() + 10 * 1000);
 
-        const session = await encrypt({ email, expires });
+        const session = await encrypt({ username, expires });
 
         cookies().set('session', session, { expires, httpOnly: true });
 

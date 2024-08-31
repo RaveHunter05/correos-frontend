@@ -9,6 +9,7 @@ import { FaTableList } from 'react-icons/fa6';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { logout } from '~/lib/cookies';
 import Cookies from 'js-cookie';
+import { toast } from 'react-hot-toast';
 
 interface Props {
     children?: ReactNode;
@@ -18,6 +19,7 @@ export default function SidebarComponent({ children }: Props) {
     const router = useRouter();
 
     const handleLogout = () => {
+        toast.success('Sesión cerrada', { position: 'top-right' });
         logout();
         router.replace('/');
     };
@@ -35,7 +37,6 @@ export default function SidebarComponent({ children }: Props) {
                 aria-label="Sidebar"
             >
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-                    {' '}
                     <ul className="space-y-2 font-medium flex flex-col h-full">
                         <li>
                             <Link
@@ -118,19 +119,17 @@ export default function SidebarComponent({ children }: Props) {
                                 </li>
                             </ul>
                         </li>
-                        {userRole === 'admin' && (
-                            <li>
-                                <Link
-                                    href="management"
-                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                                >
-                                    <RiAdminLine />
-                                    <span className="flex-1 ml-3 whitespace-nowrap">
-                                        Gestionar Usuarios
-                                    </span>
-                                </Link>
-                            </li>
-                        )}
+                        <li>
+                            <Link
+                                href="management"
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            >
+                                <RiAdminLine />
+                                <span className="flex-1 ml-3 whitespace-nowrap">
+                                    Gestionar Usuarios
+                                </span>
+                            </Link>
+                        </li>
                         <li>
                             <a
                                 href="execution"

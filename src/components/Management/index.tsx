@@ -7,9 +7,9 @@ import useModal from '~/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { useEffect } from 'react';
-import CreateIncomeForm from '../Income/CreateIncomeForm';
 import useManagementData from '~/hooks/useManagementData';
 import ManagementTable from '../Shared/ManagementTable';
+import CreateUserForm from './CreateUserForm';
 
 const ManagementComponent = () => {
     const {
@@ -32,7 +32,7 @@ const ManagementComponent = () => {
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
             <ModalWrapper title="Registrar usuario">
-                <CreateIncomeForm closeModal={closeModal} />
+                <CreateUserForm closeModal={closeModal} />
             </ModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">

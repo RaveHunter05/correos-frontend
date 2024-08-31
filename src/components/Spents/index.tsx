@@ -13,6 +13,7 @@ import CreateSpentForm from './CreateSpentForm';
 import SpentsTable from '../Shared/SpentsTable';
 import { FaFileCsv } from 'react-icons/fa6';
 import useSpentData from '~/hooks/useSpentData';
+import { Toaster, toast } from 'react-hot-toast';
 
 const SpentsComponent = () => {
     const {
@@ -39,6 +40,7 @@ const SpentsComponent = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+            <Toaster />
             <ModalWrapper title="Agregar Rubro">
                 <CreateSpentForm closeModal={closeModal} />
             </ModalWrapper>
@@ -116,7 +118,19 @@ const SpentsComponent = () => {
                                 color: '#fff !important',
                             }}
                         />
-                        <CSVLink data={data} headers={csvHeaders}>
+                        <CSVLink
+                            data={data}
+                            headers={csvHeaders}
+                            onClick={() => {
+                                if (data.length === 0) {
+                                    toast.error('No hay datos para exportar');
+                                    return false;
+                                }
+
+                                toast.success('Datos exportados correctamente');
+                                return true;
+                            }}
+                        >
                             Exportar
                         </CSVLink>
                     </button>

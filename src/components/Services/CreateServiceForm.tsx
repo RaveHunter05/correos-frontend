@@ -7,6 +7,7 @@ import { changeData } from '~/redux/reducers/data/dataSlice';
 import { Services } from '~/types/types';
 import dayjs from 'dayjs';
 import { createService, updateService } from '~/app/admin/services/actions';
+import { toast } from 'react-hot-toast';
 
 interface Interface {
     toEditValues?: Partial<Services> | null;
@@ -38,7 +39,7 @@ const CreateServiceForm: React.FC<Interface> = ({
             date,
         });
 
-        alert('Servicio Creado');
+        toast.success('Servicio Creado');
 
         return response.data;
     };
@@ -52,7 +53,7 @@ const CreateServiceForm: React.FC<Interface> = ({
 
         const response = await updateService({ serviceId, code, name, date });
 
-        alert('Servicio Actualizado');
+        toast.success('Servicio Actualizado');
 
         return response.data;
     };

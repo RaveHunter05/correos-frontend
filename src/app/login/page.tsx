@@ -9,20 +9,19 @@ import * as yup from 'yup';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+
 import { useRouter } from 'next/navigation';
 import { login } from './actions';
 import Cookies from 'js-cookie';
 
 interface LoginInterface {
-    email: string;
+    username: string;
     password: string;
 }
 
 const LoginSchema = yup.object({
-    email: yup
-        .string()
-        .email('Correo inválido')
-        .required('El correo es requerido'),
+    username: yup.string().required('Nombre de usuario es requerido'),
     password: yup.string().required('Contraseña es requerida'),
 });
 
@@ -30,9 +29,11 @@ export default function Login() {
     const router = useRouter();
     const [loginError, setLoginError] = useState<string>();
 
-    const handleLogin = async ({ email, password }: LoginInterface) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const handleLogin = async ({ username, password }: LoginInterface) => {
         try {
-            const response = await login(email, password);
+            const response = await login(username, password);
 
             const role = response?.roles[0];
 
@@ -76,7 +77,7 @@ export default function Login() {
                         <h2 className="text-2xl font-bold">Ingresar</h2>
                         <Formik
                             initialValues={{
-                                email: 'harrypopote4@gmail.com',
+                                username: 'harrypopote',
                                 password: 'Paulsotelo953131@',
                             }}
                             onSubmit={handleLogin}
@@ -85,23 +86,52 @@ export default function Login() {
                             {({ errors, touched, isValidating }) => (
                                 <Form>
                                     <div className="space-y-2 my-2 flex flex-col">
-                                        <Field
-                                            type="text"
-                                            placeholder="Correo Electrónico"
-                                            className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            name="email"
-                                        />
-                                        {errors.email && touched.email && (
-                                            <span className="text-red-500 text-xs font-bold">
-                                                {errors.email}
-                                            </span>
-                                        )}
-                                        <Field
-                                            type="password"
-                                            placeholder="Contraseña"
-                                            name="password"
-                                            className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        />
+                                        <article className="flex items-center">
+                                            <Field
+                                                type="text"
+                                                placeholder="Nombre de usuario"
+                                                className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                name="username"
+                                            />
+                                            {errors.username &&
+                                                touched.username && (
+                                                    <span className="text-red-500 text-xs font-bold">
+                                                        {errors.username}
+                                                    </span>
+                                                )}
+                                        </article>
+
+                                        <article className="flex items-center">
+                                            <Field
+                                                name="password"
+                                                placeholder="Contraseña"
+                                                type={
+                                                    showPassword
+                                                        ? 'text'
+                                                        : 'password'
+                                                }
+                                                className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            ></Field>
+                                            {showPassword ? (
+                                                <FaRegEye
+                                                    onClick={() =>
+                                                        setShowPassword(
+                                                            !showPassword
+                                                        )
+                                                    }
+                                                    className="cursor-pointer ml-2"
+                                                />
+                                            ) : (
+                                                <FaRegEyeSlash
+                                                    onClick={() =>
+                                                        setShowPassword(
+                                                            !showPassword
+                                                        )
+                                                    }
+                                                    className="cursor-pointer ml-2"
+                                                />
+                                            )}
+                                        </article>
                                         {errors.password &&
                                             touched.password && (
                                                 <span className="text-red-500 text-xs font-bold">

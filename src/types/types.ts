@@ -1,7 +1,27 @@
 export type Users = {
+    id: string;
     email: string;
     userName: string;
+    isActive: boolean;
+    password: string;
     role: string;
+    date: Date | string;
+};
+
+export type NewPasswordUser = {
+    email: string;
+    newPassword: string;
+};
+
+export type Roles = {
+    id: string;
+    name: string;
+    normalizedName: string;
+};
+
+export type UserRegister = {
+    email: string;
+    password: string;
 };
 
 export type Incomes = {

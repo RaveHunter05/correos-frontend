@@ -1,7 +1,7 @@
 'use server';
 
 import { AxiosResponse } from 'axios';
-import { Users } from '~/types/types';
+import { NewPasswordUser, Users } from '~/types/types';
 import apiClient from '~/utils/apiClient';
 
 export async function getUsers() {
@@ -84,7 +84,7 @@ export async function deleteUser(userId: number) {
 
 // change password
 
-export async function changePassword(data: Partial<Users>) {
+export async function changePassword(data: NewPasswordUser) {
     try {
         const changePassword = async (
             data: Partial<Users>
@@ -94,6 +94,44 @@ export async function changePassword(data: Partial<Users>) {
         };
 
         const response = await changePassword(data);
+        return response.data;
+    } catch (error) {
+        if (typeof error === 'string') {
+            throw new Error(error.toUpperCase());
+        } else if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+    }
+}
+
+// disable user
+export async function disableUser(id: string) {
+    try {
+        const disableUser = async (id: string): Promise<AxiosResponse> => {
+            const value = await apiClient.put(`api/users/disable/${id}`);
+            return value;
+        };
+
+        const response = await disableUser(id);
+        return response.data;
+    } catch (error) {
+        if (typeof error === 'string') {
+            throw new Error(error.toUpperCase());
+        } else if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+    }
+}
+
+// enable user
+export async function enableUser(id: string) {
+    try {
+        const enableUser = async (id: string): Promise<AxiosResponse> => {
+            const value = await apiClient.put(`api/users/enable/${id}`);
+            return value;
+        };
+
+        const response = await enableUser(id);
         return response.data;
     } catch (error) {
         if (typeof error === 'string') {
