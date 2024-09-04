@@ -5,7 +5,7 @@ import { CiEdit } from 'react-icons/ci';
 import useModal from '~/hooks/useModal';
 import CreateExpensesForm from '../Outcome/CreateExpensesForm';
 import dayjs from 'dayjs';
-import { Expenses } from '~/types/types';
+import { Expenses, UploadExpenses } from '~/types/types';
 
 interface Interface {
     data: Expenses[];
@@ -13,7 +13,7 @@ interface Interface {
 
 const ExpensesTable = ({ data }: Interface) => {
     const [selectedValues, setSelectedValues] =
-        useState<Partial<Expenses> | null>(null);
+        useState<Partial<UploadExpenses> | null>(null);
 
     const handleEditClick = ({
         expenseId,
@@ -21,7 +21,7 @@ const ExpensesTable = ({ data }: Interface) => {
         spentId,
         projectedAmount,
         executedAmount,
-    }: Partial<Expenses>) => {
+    }: Partial<UploadExpenses>) => {
         setSelectedValues({
             expenseId,
             costCenterId,
@@ -75,8 +75,8 @@ const ExpensesTable = ({ data }: Interface) => {
                 _: any,
                 {
                     expenseId,
-                    costCenterId,
-                    spentId,
+                    costCenter,
+                    spent,
                     projectedAmount,
                     executedAmount,
                 }: Expenses
@@ -86,8 +86,8 @@ const ExpensesTable = ({ data }: Interface) => {
                         onClick={() =>
                             handleEditClick({
                                 expenseId,
-                                costCenterId,
-                                spentId,
+                                costCenterId: costCenter.costCenterId,
+                                spentId: spent.spentId,
                                 projectedAmount,
                                 executedAmount,
                             })

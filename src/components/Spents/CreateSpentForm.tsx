@@ -7,6 +7,7 @@ import { changeData } from '~/redux/reducers/data/dataSlice';
 import { Spents } from '~/types/types';
 import dayjs from 'dayjs';
 import { createSpent, updateSpent } from '~/app/admin/spents/actions';
+import { toast } from 'react-hot-toast';
 
 interface Interface {
     toEditValues?: Partial<Spents> | null;
@@ -41,7 +42,7 @@ const CreateSpentForm: React.FC<Interface> = ({
             date,
         });
 
-        alert('Rubro Creado');
+        toast.success('Rubro Creado');
 
         return response.data;
     };
@@ -60,7 +61,7 @@ const CreateSpentForm: React.FC<Interface> = ({
             date,
         });
 
-        alert('Rubro Actualizado');
+        toast.success('Rubro Actualizado');
 
         return response.data;
     };

@@ -1,7 +1,7 @@
 'use server';
 
 import { AxiosResponse } from 'axios';
-import { Expenses } from '~/types/types';
+import { Expenses, UploadExpenses } from '~/types/types';
 import apiClient from '~/utils/apiClient';
 
 export async function getExpenses() {
@@ -17,7 +17,7 @@ export async function getExpenses() {
     }
 }
 
-export async function createExpense(data: Partial<Expenses>) {
+export async function createExpense(data: Partial<UploadExpenses>) {
     try {
         const postExpense = async (
             data: Partial<Expenses>
@@ -37,7 +37,7 @@ export async function createExpense(data: Partial<Expenses>) {
     }
 }
 
-export async function updateExpense(data: Partial<Expenses>) {
+export async function updateExpense(data: Partial<UploadExpenses>) {
     try {
         const { expenseId } = data;
         const putExpense = async (
