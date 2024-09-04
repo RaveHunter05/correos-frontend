@@ -21,8 +21,8 @@ const CreateIncomeForm: React.FC<Interface> = ({
     closeModal,
 }): React.ReactElement => {
     const [initialValues, setInitialValues] = useState<Partial<Incomes>>({
-        serviceId: 2,
-        costCenterId: 3,
+        serviceId: '2',
+        costCenterId: '3',
         projectedAmount: 200,
         executedAmount: 300,
     });

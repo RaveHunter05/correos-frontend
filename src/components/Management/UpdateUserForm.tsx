@@ -164,10 +164,7 @@ const UpdateUserForm: React.FC<Interface> = ({
                                         name="role"
                                     >
                                         {roles.map((x) => (
-                                            <option
-                                                value={x.normalizedName}
-                                                key={x.normalizedName}
-                                            >
+                                            <option value={x.name} key={x.name}>
                                                 {x.name}
                                             </option>
                                         ))}

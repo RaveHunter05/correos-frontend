@@ -253,7 +253,7 @@ const ManagementTable = ({ data }: Interface) => {
                 }}
             />
 
-            <ModalWrapper title="Editar Ingresos">
+            <ModalWrapper title="Editar Usuario">
                 {selectedValues && (
                     <UpdateUserForm
                         data={selectedValues}

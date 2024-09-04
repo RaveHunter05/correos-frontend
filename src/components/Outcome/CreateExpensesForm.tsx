@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
-import { CostCenters, Expenses, Spents } from '~/types/types';
+import { CostCenters, Expenses, Spents, UploadExpenses } from '~/types/types';
 import dayjs from 'dayjs';
 import { getSpents } from '~/app/admin/spents/actions';
 import { getCostCenters } from '~/app/admin/costcenters/actions';
@@ -21,12 +21,14 @@ const CreateExpensesForm: React.FC<Interface> = ({
     toEditValues,
     closeModal,
 }): React.ReactElement => {
-    const [initialValues, setInitialValues] = useState<Partial<Expenses>>({
-        costCenterId: 3,
-        spentId: 2,
-        projectedAmount: 200,
-        executedAmount: 300,
-    });
+    const [initialValues, setInitialValues] = useState<Partial<UploadExpenses>>(
+        {
+            costCenterId: '2',
+            spentId: '2',
+            projectedAmount: 200,
+            executedAmount: 300,
+        }
+    );
 
     const dispatch = useDispatch();
 
@@ -66,7 +68,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
         spentId,
         projectedAmount,
         executedAmount,
-    }: Partial<Expenses>) => {
+    }: Partial<UploadExpenses>) => {
         const date = dayjs().format('YYYY-MM-DD');
         const response = await createExpense({
             costCenterId,
@@ -85,7 +87,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
         spentId,
         projectedAmount,
         executedAmount,
-    }: Partial<Expenses>) => {
+    }: Partial<UploadExpenses>) => {
         const date = dayjs().format('YYYY-MM-DD');
 
         const response = await updateExpense({
@@ -108,7 +110,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
         spentId,
         projectedAmount,
         executedAmount,
-    }: Partial<Expenses>) => {
+    }: Partial<UploadExpenses>) => {
         try {
             if (!toEditValues) {
                 handleCreateExpense({

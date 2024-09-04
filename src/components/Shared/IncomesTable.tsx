@@ -4,9 +4,7 @@ import { CiEdit } from 'react-icons/ci';
 import useModal from '~/hooks/useModal';
 import CreateIncomeForm from '../Income/CreateIncomeForm';
 import dayjs from 'dayjs';
-import { Incomes } from '~/types/types';
-
-
+import { Incomes, UploadIncomes } from '~/types/types';
 
 interface Interface {
     data: Incomes[];
@@ -14,7 +12,7 @@ interface Interface {
 
 const IncomesTable = ({ data }: Interface) => {
     const [selectedValues, setSelectedValues] =
-        useState<Partial<Incomes> | null>(null);
+        useState<Partial<UploadIncomes> | null>(null);
 
     const handleEditClick = ({
         incomeId,
@@ -22,7 +20,7 @@ const IncomesTable = ({ data }: Interface) => {
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<Incomes>) => {
+    }: Partial<UploadIncomes>) => {
         setSelectedValues({
             incomeId,
             serviceId,
@@ -59,10 +57,7 @@ const IncomesTable = ({ data }: Interface) => {
         {
             title: 'Ejecutado',
             dataIndex: 'executedAmount',
-            render: (
-                _: any,
-                { projectedAmount, executedAmount }: Incomes
-            ) => {
+            render: (_: any, { projectedAmount, executedAmount }: Incomes) => {
                 const textColor =
                     executedAmount > projectedAmount ? 'red' : 'geekblue';
                 return <Tag color={textColor}>{executedAmount}</Tag>;
@@ -82,8 +77,8 @@ const IncomesTable = ({ data }: Interface) => {
                 _: any,
                 {
                     incomeId,
-                    serviceId,
-                    costCenterId,
+                    service,
+                    costCenter,
                     projectedAmount,
                     executedAmount,
                 }: Incomes
@@ -93,8 +88,8 @@ const IncomesTable = ({ data }: Interface) => {
                         onClick={() =>
                             handleEditClick({
                                 incomeId,
-                                serviceId,
-                                costCenterId,
+                                serviceId: service.serviceId,
+                                costCenterId: costCenter.costCenterId,
                                 projectedAmount,
                                 executedAmount,
                             })

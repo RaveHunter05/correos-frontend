@@ -26,13 +26,13 @@ const IncomeComponent = () => {
     );
 
     useEffect(() => {
-	refreshData()	
+        refreshData();
     }, [dataChanged]);
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
             <ModalWrapper title="Agregar Ingresos">
-                <CreateIncomeForm closeModal={closeModal}/>
+                <CreateIncomeForm closeModal={closeModal} />
             </ModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">

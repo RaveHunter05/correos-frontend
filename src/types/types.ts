@@ -25,25 +25,43 @@ export type UserRegister = {
 };
 
 export type Incomes = {
+    incomeId: string;
+    service: Partial<Services>;
+    costCenter: Partial<CostCenters>;
+    projectedAmount: number;
+    executedAmount: number;
+    date: Date | string;
+};
+
+export type UploadIncomes = {
     incomeId: any;
-    serviceId: number;
-    costCenterId: number;
+    serviceId: string;
+    costCenterId: string;
     projectedAmount: number;
     executedAmount: number;
     date: Date | string;
 };
 
 export type Expenses = {
-    expenseId: any;
-    costCenterId: number;
-    spentId: number;
+    expenseId: string;
+    costCenter: Partial<CostCenters>;
+    spent: Partial<Spents>;
+    projectedAmount: number;
+    executedAmount: number;
+    date: Date | string;
+};
+
+export type UploadExpenses = {
+    expenseId: string;
+    costCenterId: string;
+    spentId: string;
     projectedAmount: number;
     executedAmount: number;
     date: Date | string;
 };
 
 export type CostCenters = {
-    costCenterId: number;
+    costCenterId: string;
     gerencyCode: string;
     areaCode: string;
     officeCode: string;
@@ -53,14 +71,14 @@ export type CostCenters = {
 };
 
 export type Services = {
-    serviceId: number;
+    serviceId: string;
     code: string;
     name: string;
     date: Date | string;
 };
 
 export type Spents = {
-    spentId: number;
+    spentId: string;
     category: string;
     denomination: string;
     date: Date | string;
