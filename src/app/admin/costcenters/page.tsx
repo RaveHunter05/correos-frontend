@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect } from 'react';
+import { checkSession } from '~/app/login/actions';
 import CostCentersComponent from '~/components/CostCenters';
 import SidebarComponent from '~/components/Sidebar';
-import { checkSession } from '~/lib/cookies';
 import { NextPageWithLayout } from '~/types/next';
 
 const CostCentersPage: NextPageWithLayout = () => {

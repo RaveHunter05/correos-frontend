@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { ReactNode, useState } from 'react';
 import { FaTableList } from 'react-icons/fa6';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import { logout } from '~/lib/cookies';
 import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
+import { logout } from '~/app/login/actions';
 
 interface Props {
     children?: ReactNode;

@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect } from 'react';
+import { checkSession } from '~/app/login/actions';
 import SidebarComponent from '~/components/Sidebar';
 import SpentsComponent from '~/components/Spents';
-import { checkSession } from '~/lib/cookies';
 import { NextPageWithLayout } from '~/types/next';
 
 const IncomePage: NextPageWithLayout = () => {

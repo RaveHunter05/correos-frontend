@@ -13,7 +13,6 @@ export default async function handler(
 
             const result = await axios.get(getString);
 
-            console.log({ getString, data: result.data });
             return res.send(result.data);
         } catch (error) {
             if (typeof error === 'string') {
