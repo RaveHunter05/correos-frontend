@@ -9,7 +9,6 @@ export async function getUsers() {
         const getUsers = async (): Promise<AxiosResponse> => {
             const value = await apiClient.get('api/users');
 
-            console.log({ value });
             return value;
         };
 
@@ -17,10 +16,10 @@ export async function getUsers() {
         return response.data;
     } catch (error) {
         if (typeof error === 'string') {
-            console.log({ error });
+            console.error({ error });
             throw new Error(error.toUpperCase());
         } else if (error instanceof Error) {
-            console.log({ error });
+            console.error({ error });
             throw new Error(error.message);
         }
     }
@@ -48,7 +47,7 @@ export async function registerUser(data: Partial<Users>) {
 
 export async function searchUser(email: string) {
     try {
-        const searchUser = async (data: string): Promise<AxiosResponse> => {
+        const searchUser = async (email: string): Promise<AxiosResponse> => {
             const value = await apiClient.get(`api/users/email/${email}`);
             return value;
         };
@@ -66,7 +65,7 @@ export async function searchUser(email: string) {
 
 export async function deleteUser(userId: number) {
     try {
-        const deleteUser = async (data: number): Promise<AxiosResponse> => {
+        const deleteUser = async (userId: number): Promise<AxiosResponse> => {
             const value = await apiClient.delete(`api/users/${userId}`);
             return value;
         };

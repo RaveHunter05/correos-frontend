@@ -15,10 +15,9 @@ const useSpentData = () => {
     const getSpentsData = async (): Promise<Spents[]> => {
         try {
             const response = await getSpents();
-            console.log({ response });
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };
@@ -28,7 +27,7 @@ const useSpentData = () => {
             const response = await searchSpent(denomination);
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return [];
         }
     };

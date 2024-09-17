@@ -48,7 +48,7 @@ const CreateUserForm: React.FC<Interface> = ({
 
             return;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             if (error instanceof Error) {
                 setCreateUserError(error.message);
             } else if (typeof error === 'string') {

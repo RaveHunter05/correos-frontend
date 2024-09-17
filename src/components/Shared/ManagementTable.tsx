@@ -1,5 +1,5 @@
 import { Switch, Table } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useModal from '~/hooks/useModal';
 
 import { useDispatch } from 'react-redux';

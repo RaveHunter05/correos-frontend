@@ -45,12 +45,9 @@ export async function login(username: string, password: string) {
 
         const session = await encrypt({ username, expires });
 
-        cookies().set('session', session, { expires, httpOnly: true });
+        cookies().set('session', session, { httpOnly: true });
 
-        cookies().set('access-token', result.data.token, {
-            expires,
-            httpOnly: true,
-        });
+        cookies().set('access-token', result.data.token);
 
         return result.data;
     } catch (error) {
@@ -78,14 +75,7 @@ export async function getSession() {
 }
 
 export async function checkSession() {
-    const session = await getSession();
-    if (!session) {
-        return false;
-    }
-    if (new Date(session.expires) < new Date()) {
-        return false;
-    }
-    return true;
+    return cookies().has('session');
 }
 
 export async function updateSession(req: NextRequest) {

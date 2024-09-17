@@ -26,7 +26,7 @@ const ServiceComponent = () => {
 
     const { openModal, ModalWrapper, closeModal } = useModal();
 
-    const [csvHeaders, setCSVHeaders] = useState([
+    const [csvHeaders] = useState([
         { label: 'CODIGO', key: 'code' },
         { label: 'SERVICIO', key: 'name' },
     ]);

@@ -16,10 +16,10 @@ export async function getUsers() {
         return response.data;
     } catch (error) {
         if (typeof error === 'string') {
-            console.log({ error });
+            console.error({ error });
             throw new Error(error.toUpperCase());
         } else if (error instanceof Error) {
-            console.log({ error });
+            console.error({ error });
             throw new Error(error.message);
         }
     }
@@ -90,7 +90,6 @@ export async function updateUser(data: Partial<Users>) {
 
 export async function updatePassword(data: Partial<Users>) {
     try {
-        const { email } = data;
         const putUser = async (
             data: Partial<Users>
         ): Promise<AxiosResponse> => {

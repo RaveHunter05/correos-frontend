@@ -19,7 +19,7 @@ const useManagementData = () => {
             const response = await getUsers();
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };
@@ -29,7 +29,7 @@ const useManagementData = () => {
             const response = await searchUser(email);
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return [];
         }
     };

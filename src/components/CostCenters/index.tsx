@@ -25,7 +25,7 @@ const CostCentersComponent = () => {
 
     const { openModal, ModalWrapper, closeModal } = useModal();
 
-    const [csvHeaders, setCSVHeaders] = useState([
+    const [csvHeaders] = useState([
         { label: 'GERENCIA', key: 'gerencyCode' },
         { label: 'AREA', key: 'areaCode' },
         { label: 'OFIC_COD', key: 'officeCode' },

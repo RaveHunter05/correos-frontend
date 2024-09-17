@@ -38,7 +38,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
                 const response = await getCostCenters();
                 setCostCenters(response);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         };
 
@@ -47,7 +47,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
                 const response = await getServices();
                 setServices(response);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         };
 
@@ -129,7 +129,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
             });
             return;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         } finally {
             dispatch(changeData());
             closeModal();

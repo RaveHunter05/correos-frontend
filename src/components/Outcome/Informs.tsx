@@ -1,5 +1,4 @@
 import { Card } from 'antd';
-import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { expensesInform } from '~/app/admin/execution/actions';
@@ -112,7 +111,7 @@ const ExpenseInforms = ({ initialDate, endDate }: ExpenseInformsProps) => {
             dispatch(setInformTableHeaders(informTableHeaders[informType]));
             return response;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
     return (

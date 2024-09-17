@@ -24,7 +24,7 @@ const useCostCenterData = () => {
 
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };
@@ -34,7 +34,7 @@ const useCostCenterData = () => {
             const response = await searchCostCenters(name);
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return [];
         }
     };

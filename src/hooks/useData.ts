@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { debounce } from 'lodash';
 
 const useData = (url: string) => {
@@ -20,7 +20,7 @@ const useData = (url: string) => {
             });
             return response.data;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };

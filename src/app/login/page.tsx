@@ -83,7 +83,7 @@ export default function Login() {
                             onSubmit={handleLogin}
                             validationSchema={LoginSchema}
                         >
-                            {({ errors, touched, isValidating }) => (
+                            {({ errors, touched }) => (
                                 <Form>
                                     <div className="space-y-2 my-2 flex flex-col">
                                         <article className="flex items-center">
