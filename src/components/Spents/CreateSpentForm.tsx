@@ -19,7 +19,7 @@ const CreateSpentForm: React.FC<Interface> = ({
     closeModal,
 }): React.ReactElement => {
     const [initialValues, setInitialValues] = useState<Partial<Spents>>({
-        spentId: 2,
+        spentId: '2',
         category: '1231',
         denomination: 'service 123',
     });

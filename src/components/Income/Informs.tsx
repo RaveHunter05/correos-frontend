@@ -88,8 +88,8 @@ const tableHeaders = {
 };
 
 type IncomeInformsType = {
-    initialDate: Date | string;
-    endDate: Date | string;
+    initialDate: string[] | string;
+    endDate: string[] | string;
 };
 
 const IncomeInforms = ({ initialDate, endDate }: IncomeInformsType) => {

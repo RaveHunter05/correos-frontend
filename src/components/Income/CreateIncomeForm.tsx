@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeData } from '~/redux/reducers/data/dataSlice';
 
-import { CostCenters, Incomes, Services } from '~/types/types';
+import { CostCenters, Incomes, Services, UploadIncomes } from '~/types/types';
 import dayjs from 'dayjs';
 import { getCostCenters } from '~/app/admin/costcenters/actions';
 import { getServices } from '~/app/admin/services/actions';
@@ -20,7 +20,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
     toEditValues,
     closeModal,
 }): React.ReactElement => {
-    const [initialValues, setInitialValues] = useState<Partial<Incomes>>({
+    const [initialValues, setInitialValues] = useState<Partial<UploadIncomes>>({
         serviceId: '2',
         costCenterId: '3',
         projectedAmount: 200,
@@ -64,7 +64,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<Incomes>) => {
+    }: Partial<UploadIncomes>) => {
         const date = dayjs().format('YYYY-MM-DD');
         const response = await createIncome({
             serviceId,
@@ -85,7 +85,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<Incomes>) => {
+    }: Partial<UploadIncomes>) => {
         const date = dayjs().format('YYYY-MM-DD');
 
         const response = await updateIncome({
@@ -108,7 +108,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
         costCenterId,
         projectedAmount,
         executedAmount,
-    }: Partial<Incomes>) => {
+    }: Partial<UploadIncomes>) => {
         try {
             if (!toEditValues) {
                 handleCreateIncome({

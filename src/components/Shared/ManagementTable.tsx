@@ -180,7 +180,7 @@ const ManagementTable = ({ data }: Interface) => {
         {
             title: 'Editar',
             key: '',
-            align: 'center',
+            align: 'center' as 'center',
             render: (_: any, { id, userName, email, role }: Users) => {
                 return (
                     <div className="flex justify-center">
@@ -202,7 +202,7 @@ const ManagementTable = ({ data }: Interface) => {
         {
             title: 'Generar Contraseña',
             key: '',
-            align: 'center',
+            align: 'center' as 'center',
             render: (_: any, { id, userName, email, role }: Users) => {
                 return (
                     <div className="flex justify-center">

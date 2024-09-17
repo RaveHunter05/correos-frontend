@@ -19,7 +19,7 @@ const CreateServiceForm: React.FC<Interface> = ({
     closeModal,
 }): React.ReactElement => {
     const [initialValues, setInitialValues] = useState<Partial<Services>>({
-        serviceId: 2,
+        serviceId: '2',
         code: '1231',
         name: 'service 123',
     });

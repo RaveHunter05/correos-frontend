@@ -88,8 +88,8 @@ const informTableHeaders = {
 };
 
 type ExpenseInformsProps = {
-    initialDate: Date | string;
-    endDate: Date | string;
+    initialDate: string[] | string;
+    endDate: string[] | string;
 };
 
 const ExpenseInforms = ({ initialDate, endDate }: ExpenseInformsProps) => {

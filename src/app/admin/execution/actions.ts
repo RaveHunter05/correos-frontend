@@ -4,8 +4,8 @@ import apiClient from '~/utils/apiClient';
 
 interface IncomeInterface {
     informType: string;
-    initialDate: Date | string;
-    endDate: Date | string;
+    initialDate: string[] | string;
+    endDate: string[] | string;
 }
 
 export async function incomeInform(data: IncomeInterface) {
