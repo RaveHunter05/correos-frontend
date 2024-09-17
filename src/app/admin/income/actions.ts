@@ -1,7 +1,7 @@
 'use server';
 
 import { AxiosResponse } from 'axios';
-import { Incomes } from '~/types/types';
+import { Incomes, UploadIncomes } from '~/types/types';
 import apiClient from '~/utils/apiClient';
 
 export async function getIncomes() {
@@ -25,7 +25,7 @@ export async function getIncomes() {
     }
 }
 
-export async function createIncome(data: Partial<Incomes>) {
+export async function createIncome(data: Partial<UploadIncomes>) {
     try {
         const postIncome = async (
             data: Partial<Incomes>
@@ -45,7 +45,7 @@ export async function createIncome(data: Partial<Incomes>) {
     }
 }
 
-export async function updateIncome(data: Partial<Incomes>) {
+export async function updateIncome(data: Partial<UploadIncomes>) {
     try {
         const { incomeId } = data;
         const putIncome = async (
