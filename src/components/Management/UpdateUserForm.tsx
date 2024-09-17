@@ -2,8 +2,8 @@ import { Skeleton, Typography } from 'antd';
 
 import * as yup from 'yup';
 import { Field, Form, Formik } from 'formik';
-import { Roles, UserRegister, Users } from '~/types/types';
-import { Suspense, useLayoutEffect, useState } from 'react';
+import { Roles, Users } from '~/types/types';
+import { useLayoutEffect, useState } from 'react';
 import { getRoles, updateUser } from './actions';
 
 import { useDispatch } from 'react-redux';
@@ -59,7 +59,7 @@ const UpdateUserForm: React.FC<Interface> = ({
 
             return;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             if (error instanceof Error) {
                 setUpdateUserError(error.message);
             } else if (typeof error === 'string') {

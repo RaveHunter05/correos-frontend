@@ -45,12 +45,9 @@ export async function login(username: string, password: string) {
 
         const session = await encrypt({ username, expires });
 
-        cookies().set('session', session, { expires, httpOnly: true });
+        cookies().set('session', session, { httpOnly: true });
 
-        cookies().set('access-token', result.data.token, {
-            expires,
-            httpOnly: true,
-        });
+        cookies().set('access-token', result.data.token);
 
         return result.data;
     } catch (error) {

@@ -18,7 +18,7 @@ const useIncomeData = () => {
             const response = await getIncomes();
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };
@@ -28,7 +28,7 @@ const useIncomeData = () => {
             const response = await searchIncome(service);
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return [];
         }
     };

@@ -9,7 +9,6 @@ export async function getIncomes() {
         const getIncomes = async (): Promise<AxiosResponse> => {
             const value = await apiClient.get('api/incomes');
 
-            console.log({ value });
             return value;
         };
 
@@ -17,10 +16,10 @@ export async function getIncomes() {
         return response.data;
     } catch (error) {
         if (typeof error === 'string') {
-            console.log({ error });
+            console.error({ error });
             throw new Error(error.toUpperCase());
         } else if (error instanceof Error) {
-            console.log({ error });
+            console.error({ error });
             throw new Error(error.message);
         }
     }

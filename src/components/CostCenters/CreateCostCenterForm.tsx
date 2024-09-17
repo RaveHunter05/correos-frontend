@@ -116,7 +116,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
             });
             return;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         } finally {
             dispatch(changeData());
             closeModal();

@@ -18,7 +18,7 @@ const useServiceData = () => {
             const response = await getServices();
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };
@@ -28,7 +28,7 @@ const useServiceData = () => {
             const response = await searchServices(service);
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return [];
         }
     };

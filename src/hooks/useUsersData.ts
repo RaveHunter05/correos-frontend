@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
-import { Users } from '~/types/types';
 import { getIncomes, searchIncome } from '~/app/admin/income/actions';
+import { Incomes } from '~/types/types';
 
 const useIncomeData = () => {
     // current data for the hook
@@ -18,7 +18,7 @@ const useIncomeData = () => {
             const response = await getIncomes();
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return []; // or handle error accordingly
         }
     };
@@ -28,7 +28,7 @@ const useIncomeData = () => {
             const response = await searchIncome(service);
             return response;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             return [];
         }
     };

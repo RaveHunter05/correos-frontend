@@ -25,7 +25,7 @@ const SpentsComponent = () => {
 
     const { openModal, ModalWrapper, closeModal } = useModal();
 
-    const [csvHeaders, setCSVHeaders] = useState([
+    const [csvHeaders] = useState([
         { label: 'RUBROS', key: 'category' },
         { label: 'DENOMINACION', key: 'denomination' },
     ]);
