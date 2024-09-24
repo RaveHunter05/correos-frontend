@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useTransitionRouter } from 'next-view-transitions';
 import { useLayoutEffect } from 'react';
 import { checkSession } from '~/app/login/actions';
 import CostCentersComponent from '~/components/CostCenters';
@@ -8,7 +8,7 @@ import SidebarComponent from '~/components/Sidebar';
 import { NextPageWithLayout } from '~/types/next';
 
 const CostCentersPage: NextPageWithLayout = () => {
-    const router = useRouter();
+    const router = useTransitionRouter();
     useLayoutEffect(() => {
         const sessionInitiated = checkSession();
 

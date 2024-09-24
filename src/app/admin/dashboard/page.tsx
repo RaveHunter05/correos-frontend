@@ -2,12 +2,12 @@
 
 import { NextPageWithLayout } from '~/types/next';
 import SidebarComponent from '~/components/Sidebar';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { checkSession } from '~/app/login/actions';
+import { useTransitionRouter } from 'next-view-transitions';
 
 const Dashboard: NextPageWithLayout = () => {
-    const router = useRouter();
+    const router = useTransitionRouter();
 
     useEffect(() => {
         const sessionInitiated = checkSession();

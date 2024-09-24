@@ -2,21 +2,22 @@ import { LuFileInput, LuFileOutput, LuLogOut } from 'react-icons/lu';
 import { RiAdminLine } from 'react-icons/ri';
 import { AiFillPrinter } from 'react-icons/ai';
 import { BiSolidDashboard } from 'react-icons/bi';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+
+import { Link } from 'next-view-transitions';
 import { ReactNode, useState } from 'react';
 import { FaTableList } from 'react-icons/fa6';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
 import { logout } from '~/app/login/actions';
+import { useTransitionRouter } from 'next-view-transitions';
 
 interface Props {
     children?: ReactNode;
 }
 
 export default function SidebarComponent({ children }: Props) {
-    const router = useRouter();
+    const router = useTransitionRouter();
 
     const handleLogout = () => {
         toast.success('Sesión cerrada', { position: 'top-right' });
