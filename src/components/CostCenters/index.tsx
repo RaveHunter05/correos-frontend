@@ -138,6 +138,16 @@ const CostCentersComponent = () => {
                     </button>
                     <button
                         type="button"
+                        className="bg-amber-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                    >
+                        <IoMdAdd
+                            className="mr-1"
+                            style={{ fontSize: '1.2rem' }}
+                        />
+                        Bulk
+                    </button>
+                    <button
+                        type="button"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
                         onClick={openModal}
                     >
