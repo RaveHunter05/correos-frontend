@@ -15,6 +15,7 @@ import CreateServiceForm from './CreateServiceForm';
 import ServicesTable from '../Shared/ServicesTable';
 import useServiceData from '~/hooks/useServices';
 import { Toaster, toast } from 'react-hot-toast';
+import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 
 const ServiceComponent = () => {
     const {
@@ -25,6 +26,12 @@ const ServiceComponent = () => {
     } = useServiceData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const {
+        openModal: openBulkModal,
+        ModalWrapper: BulkModalWrapper,
+        closeModal: bulkCloseModal,
+    } = useModal();
 
     const [csvHeaders] = useState([
         { label: 'CODIGO', key: 'code' },
@@ -46,6 +53,10 @@ const ServiceComponent = () => {
                 <ModalWrapper title="Agregar Servicio">
                     <CreateServiceForm closeModal={closeModal} />
                 </ModalWrapper>
+
+                <BulkModalWrapper title="Agregar Servicio Bulk">
+                    <BulkUploadModal closeModal={bulkCloseModal} />
+                </BulkModalWrapper>
                 {/* Title */}
                 <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                     Servicios
@@ -143,7 +154,8 @@ const ServiceComponent = () => {
 
                         <button
                             type="button"
-                            className="bg-amber-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                            className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                            onClick={openBulkModal}
                         >
                             <IoMdAdd
                                 className="mr-1"

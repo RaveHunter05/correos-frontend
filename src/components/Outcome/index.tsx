@@ -8,6 +8,7 @@ import CreateExpensesForm from './CreateExpensesForm';
 import { RootState } from '~/redux';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 
 const OutcomeComponent = () => {
     const {
@@ -18,6 +19,12 @@ const OutcomeComponent = () => {
     } = useExpensesData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const {
+        openModal: openBulkModal,
+        ModalWrapper: BulkModalWrapper,
+        closeModal: bulkCloseModal,
+    } = useModal();
 
     const dataChanged = useSelector(
         (state: RootState) => state.data.dataChanged
@@ -32,6 +39,10 @@ const OutcomeComponent = () => {
             <ModalWrapper title="Agregar Egresos">
                 <CreateExpensesForm closeModal={closeModal} />
             </ModalWrapper>
+
+            <BulkModalWrapper title="Agregar Egresos Bulk">
+                <BulkUploadModal closeModal={bulkCloseModal} />
+            </BulkModalWrapper>
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Egresos
             </h1>
@@ -93,7 +104,8 @@ const OutcomeComponent = () => {
                 <div className="flex justify-center items-center">
                     <button
                         type="button"
-                        className="bg-amber-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={openBulkModal}
                     >
                         <IoMdAdd
                             className="mr-1"

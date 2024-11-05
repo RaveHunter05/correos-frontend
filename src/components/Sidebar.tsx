@@ -12,6 +12,8 @@ import { toast } from 'react-hot-toast';
 import { logout } from '~/app/login/actions';
 import { useTransitionRouter } from 'next-view-transitions';
 
+import { BsListColumns } from 'react-icons/bs';
+
 interface Props {
     children?: ReactNode;
 }
@@ -92,14 +94,17 @@ export default function SidebarComponent({ children }: Props) {
                                         : 'none',
                                 }}
                             >
-                                <li>
-                                    <Link
-                                        href="services"
-                                        className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    >
-                                        <span>Servicios</span>
-                                    </Link>
-                                </li>
+                                {userRole === 'Admin' ||
+                                    (userRole === 'Boss' && (
+                                        <li>
+                                            <Link
+                                                href="services"
+                                                className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                            >
+                                                <span>Servicios</span>
+                                            </Link>
+                                        </li>
+                                    ))}
                                 <li>
                                     <Link
                                         href="costcenters"
@@ -132,6 +137,7 @@ export default function SidebarComponent({ children }: Props) {
                                     </Link>
                                 </li>
                             ))}
+
                         <li>
                             <a
                                 href="execution"
@@ -140,6 +146,17 @@ export default function SidebarComponent({ children }: Props) {
                                 <AiFillPrinter />
                                 <span className="flex-1 ml-3 whitespace-nowrap">
                                     Ejecución
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="budget"
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            >
+                                <BsListColumns />
+                                <span className="flex-1 ml-3 whitespace-nowrap">
+                                    Gestión de Presupuesto
                                 </span>
                             </a>
                         </li>

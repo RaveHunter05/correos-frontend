@@ -29,7 +29,6 @@ const useModal = () => {
                 open={openedModal}
                 onOk={() => setOpenedModal(false)}
                 onCancel={() => setOpenedModal(false)}
-                width={300}
                 footer={footer}
             >
                 {children}

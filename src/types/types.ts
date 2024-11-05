@@ -83,3 +83,8 @@ export type Spents = {
     denomination: string;
     date: Date | string;
 };
+
+export type ColumnHeader = {
+    title: string;
+    dataIndex: string;
+};

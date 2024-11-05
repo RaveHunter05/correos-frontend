@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { useEffect } from 'react';
 
+import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
+
 const IncomeComponent = () => {
     const {
         incomeData,
@@ -20,6 +22,12 @@ const IncomeComponent = () => {
     } = useIncomeData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const {
+        openModal: openBulkModal,
+        ModalWrapper: BulkModalWrapper,
+        closeModal: bulkCloseModal,
+    } = useModal();
 
     const dataChanged = useSelector(
         (state: RootState) => state.data.dataChanged
@@ -34,6 +42,10 @@ const IncomeComponent = () => {
             <ModalWrapper title="Agregar Ingresos">
                 <CreateIncomeForm closeModal={closeModal} />
             </ModalWrapper>
+
+            <BulkModalWrapper title="Agregar Ingresos Bulk">
+                <BulkUploadModal closeModal={bulkCloseModal} />
+            </BulkModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Ingresos
@@ -98,7 +110,8 @@ const IncomeComponent = () => {
                 <div className="flex justify-center items-center">
                     <button
                         type="button"
-                        className="bg-amber-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={openBulkModal}
                     >
                         <IoMdAdd
                             className="mr-1"
