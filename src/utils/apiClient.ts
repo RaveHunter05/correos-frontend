@@ -7,7 +7,8 @@ import { cookies } from 'next/headers';
 const apiClient: AxiosInstance = axios.create({
     baseURL: process.env.BASE_URL,
     headers: {
-        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
     },
     timeout: 6000,
     withCredentials: true,

@@ -14,6 +14,7 @@ import CreateCostCenterForm from './CreateCostCenterForm';
 import { FaFileCsv } from 'react-icons/fa6';
 import useCostCenterData from '~/hooks/useCostCenter';
 import { Toaster, toast } from 'react-hot-toast';
+import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 
 const CostCentersComponent = () => {
     const {
@@ -24,6 +25,12 @@ const CostCentersComponent = () => {
     } = useCostCenterData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const {
+        openModal: openBulkModal,
+        ModalWrapper: BulkModalWrapper,
+        closeModal: bulkCloseModal,
+    } = useModal();
 
     const [csvHeaders] = useState([
         { label: 'GERENCIA', key: 'gerencyCode' },
@@ -47,6 +54,10 @@ const CostCentersComponent = () => {
             <ModalWrapper title="Agregar Centro de Costos">
                 <CreateCostCenterForm closeModal={closeModal} />
             </ModalWrapper>
+
+            <BulkModalWrapper title="Agregar Centro de Costos Bulk">
+                <BulkUploadModal closeModal={bulkCloseModal} />
+            </BulkModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Centros de Costo
@@ -135,6 +146,17 @@ const CostCentersComponent = () => {
                         >
                             Exportar
                         </CSVLink>
+                    </button>
+                    <button
+                        type="button"
+                        className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={openBulkModal}
+                    >
+                        <IoMdAdd
+                            className="mr-1"
+                            style={{ fontSize: '1.2rem' }}
+                        />
+                        Bulk
                     </button>
                     <button
                         type="button"

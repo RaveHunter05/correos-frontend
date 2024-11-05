@@ -14,6 +14,7 @@ import SpentsTable from '../Shared/SpentsTable';
 import { FaFileCsv } from 'react-icons/fa6';
 import useSpentData from '~/hooks/useSpentData';
 import { Toaster, toast } from 'react-hot-toast';
+import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 
 const SpentsComponent = () => {
     const {
@@ -24,6 +25,12 @@ const SpentsComponent = () => {
     } = useSpentData();
 
     const { openModal, ModalWrapper, closeModal } = useModal();
+
+    const {
+        openModal: openBulkModal,
+        ModalWrapper: BulkModalWrapper,
+        closeModal: bulkCloseModal,
+    } = useModal();
 
     const [csvHeaders] = useState([
         { label: 'RUBROS', key: 'category' },
@@ -44,6 +51,10 @@ const SpentsComponent = () => {
             <ModalWrapper title="Agregar Rubro">
                 <CreateSpentForm closeModal={closeModal} />
             </ModalWrapper>
+
+            <BulkModalWrapper title="Agregar Rubro Bulk">
+                <BulkUploadModal closeModal={bulkCloseModal} />
+            </BulkModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
                 Rubros
@@ -133,6 +144,17 @@ const SpentsComponent = () => {
                         >
                             Exportar
                         </CSVLink>
+                    </button>
+                    <button
+                        type="button"
+                        className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        onClick={openBulkModal}
+                    >
+                        <IoMdAdd
+                            className="mr-1"
+                            style={{ fontSize: '1.2rem' }}
+                        />
+                        Bulk
                     </button>
                     <button
                         type="button"

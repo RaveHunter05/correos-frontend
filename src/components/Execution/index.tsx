@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { CSVLink } from 'react-csv';
+import { IoMdAdd } from 'react-icons/io';
 
 const ExecutionComponent = () => {
     const tableData = useSelector((state: RootState) => state.data.tableData);
@@ -80,8 +81,8 @@ const ExecutionComponent = () => {
                 <Skeleton />
             ) : (
                 <div>
-                    <section className="w-100 flex items-start justify-between">
-                        <div className="flex flex-row space-x-4">
+                    <section className="w-100 flex items-start flex-wrap">
+                        <div className="flex flex-row space-x-4 mr-auto mb-2">
                             <div className="w-40 mr-8">
                                 <p> Seleccione fecha inicial: </p>
                                 <DatePicker onChange={handleInitialDate} />
@@ -92,6 +93,17 @@ const ExecutionComponent = () => {
                                 <DatePicker onChange={handleFinalDate} />
                             </div>
                         </div>
+
+                        <button
+                            type="button"
+                            className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                        >
+                            <IoMdAdd
+                                className="mr-1"
+                                style={{ fontSize: '1.2rem' }}
+                            />
+                            Generar Reporte
+                        </button>
                         <button
                             type="button"
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
@@ -120,7 +132,7 @@ const ExecutionComponent = () => {
                                     return true;
                                 }}
                             >
-                                Exportar
+                                Exportar Informe
                             </CSVLink>
                         </button>
                     </section>

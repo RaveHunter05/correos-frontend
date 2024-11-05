@@ -11,9 +11,9 @@ import { Toaster, toast } from 'react-hot-toast';
 
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
-import { useRouter } from 'next/navigation';
 import { login } from './actions';
 import Cookies from 'js-cookie';
+import { useTransitionRouter } from 'next-view-transitions';
 
 interface LoginInterface {
     username: string;
@@ -26,7 +26,7 @@ const LoginSchema = yup.object({
 });
 
 export default function Login() {
-    const router = useRouter();
+    const router = useTransitionRouter();
     const [loginError, setLoginError] = useState<string>();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
