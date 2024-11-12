@@ -16,6 +16,7 @@ import ServicesTable from '../Shared/ServicesTable';
 import useServiceData from '~/hooks/useServices';
 import { Toaster, toast } from 'react-hot-toast';
 import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
+import { bulkCreateServices } from '~/app/admin/services/actions';
 
 const ServiceComponent = () => {
     const {
@@ -55,7 +56,10 @@ const ServiceComponent = () => {
                 </ModalWrapper>
 
                 <BulkModalWrapper title="Agregar Servicio Bulk">
-                    <BulkUploadModal closeModal={bulkCloseModal} />
+                    <BulkUploadModal
+                        closeModal={bulkCloseModal}
+                        uploadFunction={bulkCreateServices}
+                    />
                 </BulkModalWrapper>
                 {/* Title */}
                 <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
