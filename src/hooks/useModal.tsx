@@ -26,6 +26,7 @@ const useModal = () => {
             <Modal
                 title={title}
                 centered
+		width={'auto'}
                 open={openedModal}
                 onOk={() => setOpenedModal(false)}
                 onCancel={() => setOpenedModal(false)}

@@ -3,6 +3,7 @@ import {
     CollapseProps,
     DatePicker,
     Skeleton,
+    Tooltip,
     Typography,
 } from 'antd';
 import type { DatePickerProps } from 'antd';
@@ -102,39 +103,42 @@ const ExecutionComponent = () => {
                                 className="mr-1"
                                 style={{ fontSize: '1.2rem' }}
                             />
-                            Generar Reporte
+                            Generar Presupuesto
                         </button>
-                        <button
-                            type="button"
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
-                            onClick={() => {}}
-                        >
-                            <FaFileCsv
-                                className="mr-1"
-                                style={{
-                                    fontSize: '1.2rem',
-                                    color: '#fff !important',
-                                }}
-                            />
-                            <CSVLink
-                                data={tableData}
-                                headers={informTableHeaders}
-                                onClick={() => {
-                                    if (tableData.length === 0) {
-                                        toast.error(
-                                            'No hay datos para exportar'
-                                        );
-                                        return false;
-                                    }
-                                    toast.success(
-                                        'Datos exportados correctamente'
-                                    );
-                                    return true;
-                                }}
+
+                        <Tooltip title="Reporte individual, seleccionar opción abajo">
+                            <button
+                                type="button"
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                                onClick={() => {}}
                             >
-                                Exportar Informe
-                            </CSVLink>
-                        </button>
+                                <FaFileCsv
+                                    className="mr-1"
+                                    style={{
+                                        fontSize: '1.2rem',
+                                        color: '#fff !important',
+                                    }}
+                                />
+                                <CSVLink
+                                    data={tableData}
+                                    headers={informTableHeaders}
+                                    onClick={() => {
+                                        if (tableData.length === 0) {
+                                            toast.error(
+                                                'No hay datos para exportar'
+                                            );
+                                            return false;
+                                        }
+                                        toast.success(
+                                            'Datos exportados correctamente'
+                                        );
+                                        return true;
+                                    }}
+                                >
+                                    Exportar Reporte
+                                </CSVLink>
+                            </button>
+                        </Tooltip>
                     </section>
                     <Typography.Title level={4} className="mt-4">
                         Seleccione uno de los siguientes informes

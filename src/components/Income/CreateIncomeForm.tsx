@@ -159,8 +159,8 @@ const CreateIncomeForm: React.FC<Interface> = ({
                 >
                     {({ errors, touched }) => (
                         <Form>
-                            <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
-                                <section>
+                            <div className="space-y-4 my-2 flex flex-col mt-4">
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Servicio
                                     </Typography.Text>
@@ -188,7 +188,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
                                     )}
                                 </section>
 
-                                <section>
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Centro de Costos
                                     </Typography.Text>
@@ -216,7 +216,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
                                             </div>
                                         )}
                                 </section>
-                                <section>
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Cantidad proyectada
                                     </Typography.Text>
@@ -235,7 +235,7 @@ const CreateIncomeForm: React.FC<Interface> = ({
                                             </div>
                                         )}
                                 </section>
-                                <section>
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Cantidad ejecutada
                                     </Typography.Text>
