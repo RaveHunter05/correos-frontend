@@ -140,8 +140,8 @@ const CreateCostCenterForm: React.FC<Interface> = ({
             >
                 {({ errors, touched }) => (
                     <Form>
-                        <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
-                            <section>
+                        <div className="space-y-4 my-2 flex flex-col mt-4">
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Código de Gerencia
                                 </Typography.Text>
@@ -159,7 +159,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
                                     </div>
                                 )}
                             </section>
-                            <section>
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Código de Area
                                 </Typography.Text>
@@ -178,7 +178,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
                                 )}
                             </section>
 
-                            <section>
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Código de Oficinaa
                                 </Typography.Text>
@@ -196,7 +196,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
                                     </div>
                                 )}
                             </section>
-                            <section>
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Código
                                 </Typography.Text>
@@ -215,7 +215,7 @@ const CreateCostCenterForm: React.FC<Interface> = ({
                                 )}
                             </section>
 
-                            <section>
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Nombre
                                 </Typography.Text>

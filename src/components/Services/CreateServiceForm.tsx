@@ -98,8 +98,8 @@ const CreateServiceForm: React.FC<Interface> = ({
             >
                 {({ errors, touched }) => (
                     <Form>
-                        <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
-                            <section>
+                        <div className="space-y-4 my-2 flex flex-col mt-4">
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Código
                                 </Typography.Text>
@@ -118,7 +118,7 @@ const CreateServiceForm: React.FC<Interface> = ({
                                 )}
                             </section>
 
-                            <section>
+                            <section className="flex flex-col">
                                 <Typography.Text className="font-bold text-blue-500">
                                     Nombre
                                 </Typography.Text>
