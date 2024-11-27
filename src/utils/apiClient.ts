@@ -8,7 +8,6 @@ const apiClient: AxiosInstance = axios.create({
     baseURL: process.env.BASE_URL,
     headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
     },
     timeout: 6000,
     withCredentials: true,
@@ -18,7 +17,15 @@ apiClient.interceptors.request.use(
     (config) => {
         const accessToken = cookies().get('access-token');
 
-        config.headers.Authorization = `Bearer ${accessToken?.value}`;
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+
+        if (config.data instanceof FormData) {
+            config.headers['Content-Type'] = 'multipart/form-data';
+        } else {
+            config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+        }
 
         return config;
     },

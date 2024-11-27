@@ -6,9 +6,10 @@ import { Toaster, toast } from 'react-hot-toast';
 import type { ColumnHeader } from '~/types/types';
 
 import Papa from 'papaparse';
+import fileToBase64 from '~/utils/fileToBase64';
 
 interface Interface {
-    uploadFunction: () => Promise<boolean>;
+    uploadFunction: (file: string) => Promise<boolean>;
     closeModal: () => void;
 }
 
@@ -26,7 +27,12 @@ const BulkUploadModal = ({
 
     const handleUpload = async () => {
         setLoading(true);
-        const success = await uploadFunction();
+        if (!uploadFile) {
+            toast.error('No se ha seleccionado un archivo');
+            return;
+        }
+        const base64File = await fileToBase64(uploadFile);
+        const success = await uploadFunction(base64File);
         setLoading(false);
         if (success) {
             toast.success('Datos subidos correctamente');

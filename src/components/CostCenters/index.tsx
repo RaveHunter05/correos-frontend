@@ -15,6 +15,7 @@ import { FaFileCsv } from 'react-icons/fa6';
 import useCostCenterData from '~/hooks/useCostCenter';
 import { Toaster, toast } from 'react-hot-toast';
 import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
+import { bulkCreateCostCenters } from '~/app/admin/costcenters/actions';
 
 const CostCentersComponent = () => {
     const {
@@ -56,7 +57,10 @@ const CostCentersComponent = () => {
             </ModalWrapper>
 
             <BulkModalWrapper title="Agregar Centro de Costos Bulk">
-                <BulkUploadModal closeModal={bulkCloseModal} />
+                <BulkUploadModal
+                    closeModal={bulkCloseModal}
+                    uploadFunction={bulkCreateCostCenters}
+                />
             </BulkModalWrapper>
             {/* Title */}
             <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
