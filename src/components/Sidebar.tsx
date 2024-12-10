@@ -49,28 +49,32 @@ export default function SidebarComponent({ children }: Props) {
                                 <span className="ml-3">Dashboard</span>
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                href="/admin/income"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <LuFileInput />
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Ingresos
-                                </span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/admin/outcome"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <LuFileOutput />
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Egresos
-                                </span>
-                            </Link>
-                        </li>
+                        {(userRole === 'Manager' || userRole === 'Admin') && (
+                            <li>
+                                <Link
+                                    href="/admin/income"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <LuFileInput />
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Ingresos
+                                    </span>
+                                </Link>
+                            </li>
+                        )}
+                        {(userRole === 'Manager' || userRole === 'Admin') && (
+                            <li>
+                                <Link
+                                    href="/admin/outcome"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <LuFileOutput />
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Egresos
+                                    </span>
+                                </Link>
+                            </li>
+                        )}
                         <li>
                             <button
                                 onClick={() =>
@@ -138,40 +142,50 @@ export default function SidebarComponent({ children }: Props) {
                             </li>
                         )}
 
-                        <li>
-                            <a
-                                href="/admin/execution"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <AiFillPrinter />
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Ejecución
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/admin/budgets"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <BsListColumns />
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Gestión de Presupuesto
-                                </span>
-                            </a>
-                        </li>
+                        {(userRole === 'Manager' || userRole === 'Admin') && (
+                            <li>
+                                <a
+                                    href="/admin/execution"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <AiFillPrinter />
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Ejecución
+                                    </span>
+                                </a>
+                            </li>
+                        )}
+                        {(userRole === 'Boss' || userRole === 'Admin') && (
+                            <>
+                                <li>
+                                    <a
+                                        href="/admin/budgets"
+                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                    >
+                                        <BsListColumns />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">
+                                            Gestión de Presupuesto
+                                        </span>
+                                    </a>
+                                </li>
+                            </>
+                        )}
 
-                        <li>
-                            <a
-                                href="/manager/personal-budget"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <BsListColumns />
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Mis Presupuestos
-                                </span>
-                            </a>
-                        </li>
+                        {(userRole === 'Manager' || userRole === 'Admin') && (
+                            <>
+                                <li>
+                                    <a
+                                        href="/manager/personal-budget"
+                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                    >
+                                        <BsListColumns />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">
+                                            Mis Presupuestos
+                                        </span>
+                                    </a>
+                                </li>
+                            </>
+                        )}
                         <li className="bottom-3" style={{ marginTop: 'auto' }}>
                             <button
                                 onClick={handleLogout}
