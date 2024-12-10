@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import CreateServiceForm from './CreateServiceForm';
 import ServicesTable from '../Shared/ServicesTable';
 import useServiceData from '~/hooks/useServices';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 import { bulkCreateServices } from '~/app/admin/services/actions';
 
@@ -50,7 +50,6 @@ const ServiceComponent = () => {
     return (
         <>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
-                <Toaster />
                 <ModalWrapper title="Agregar Servicio">
                     <CreateServiceForm closeModal={closeModal} />
                 </ModalWrapper>

@@ -1,5 +1,4 @@
 import { Formik, Field, Form } from 'formik';
-import { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
 import { Skeleton, Typography } from 'antd';
 import { useEffect, useState } from 'react';
@@ -161,9 +160,8 @@ const CreateExpensesForm: React.FC<Interface> = ({
                 >
                     {({ errors, touched }) => (
                         <Form>
-                            <Toaster />
-                            <div className="space-y-4 my-2 flex flex-col justify-center items-center mt-4">
-                                <section>
+                            <div className="space-y-4 my-2 flex flex-col mt-4">
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Centro de cobro
                                     </Typography.Text>
@@ -191,8 +189,8 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                             </div>
                                         )}
                                 </section>
-                                <section>
-                                    <Typography.Text className="font-bold text-blue-500 mt-4">
+                                <section className="flex flex-col">
+                                    <Typography.Text className="font-bold text-blue-500">
                                         Rubro
                                     </Typography.Text>
                                     <Field
@@ -218,7 +216,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                         </div>
                                     )}
                                 </section>
-                                <section>
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Cantidad proyectada
                                     </Typography.Text>
@@ -237,7 +235,7 @@ const CreateExpensesForm: React.FC<Interface> = ({
                                             </div>
                                         )}
                                 </section>
-                                <section>
+                                <section className="flex flex-col">
                                     <Typography.Text className="font-bold text-blue-500">
                                         Cantidad ejecutada
                                     </Typography.Text>

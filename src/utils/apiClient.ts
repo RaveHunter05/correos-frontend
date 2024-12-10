@@ -15,11 +15,9 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
     (config) => {
-        const accessToken = cookies().get('access-token');
+        const accessToken = cookies().get('access-token')?.value;
 
-        if (accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`;
-        }
+        config.headers.Authorization = `Bearer ${accessToken}`;
 
         if (config.data instanceof FormData) {
             config.headers['Content-Type'] = 'multipart/form-data';

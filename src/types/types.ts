@@ -2,7 +2,6 @@ export type Users = {
     id: string;
     email: string;
     userName: string;
-    isActive: boolean;
     password: string;
     role: string;
     date: Date | string;
@@ -40,6 +39,43 @@ export type UploadIncomes = {
     projectedAmount: number;
     executedAmount: number;
     date: Date | string;
+};
+
+export enum BudgetType {
+    Income,
+    Expense,
+    Generic,
+}
+
+export enum ApprovalStatus {
+    Pending,
+    Approved,
+    Rejected,
+}
+
+export type Comments = {
+    commentId: string;
+    createdById?: string;
+    creatorUsername?: string;
+    reason: string;
+    commentText: string;
+    budgetId: string;
+    date: Date | string;
+    modifiedDate: Date | string;
+};
+
+export type Budgets = {
+    budgetId: string;
+    budgetType: BudgetType | string;
+    approvalStatus: ApprovalStatus | string;
+    title: string;
+    description: string;
+    fileName: string;
+    fileUrl: string;
+    fileSize: number;
+    comments?: Comments[] | undefined;
+    createdById: string;
+    createdByName: string;
 };
 
 export type Expenses = {

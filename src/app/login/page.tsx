@@ -37,7 +37,15 @@ export default function Login() {
 
             const role = response?.roles[0];
 
-            Cookies.set('role', role);
+            Cookies.set('role', role, {
+                expires: 1,
+                sameSite: 'Strict',
+            });
+
+            Cookies.set('username', username, {
+                expires: 1,
+                sameSite: 'Strict',
+            });
 
             toast.success('Logeado exitosamente', { position: 'top-right' });
             router.push('/admin/dashboard');
@@ -55,8 +63,8 @@ export default function Login() {
     };
     return (
         <div className="">
+            <Toaster />
             <div className="flex flex-row w-screen h-screen">
-                <Toaster />
                 <div className="w-2/5 bg-sky-400 h-100 flex justify-center items-center flex flex-col space-y-4">
                     <h2 className="text-white text-3xl">
                         Correos de Nicaragua

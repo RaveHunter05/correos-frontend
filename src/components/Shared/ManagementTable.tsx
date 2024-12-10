@@ -10,12 +10,8 @@ import { Users } from '~/types/types';
 import { CiEdit } from 'react-icons/ci';
 import { IoKeyOutline } from 'react-icons/io5';
 
-import {
-    changePassword,
-    disableUser,
-    enableUser,
-} from '~/app/admin/management/actions';
-import { Toaster, toast } from 'react-hot-toast';
+import { changePassword } from '~/app/admin/management/actions';
+import { toast } from 'react-hot-toast';
 import UpdateUserForm from '../Management/UpdateUserForm';
 import useConfirmModal from '~/hooks/useConfirmModal';
 import generatePassword from '~/utils/generatePassword';
@@ -139,29 +135,6 @@ const ManagementTable = ({ data }: Interface) => {
         }
     };
 
-    const dispatch = useDispatch();
-
-    const handleDisableUser = async (data: Partial<Users>) => {
-        try {
-            if (data.isActive && data.id) {
-                toast.promise(disableUser(data.id), {
-                    loading: 'Deshabilitando usuario',
-                    success: 'Usuario deshabilitado',
-                    error: 'Error al deshabilitar usuario',
-                });
-            }
-            if (!data.isActive && data.id) {
-                toast.promise(enableUser(data.id), {
-                    loading: 'Habilitando usuario',
-                    success: 'Usuario habilitado',
-                    error: 'Error al habilitar usuario',
-                });
-            }
-        } finally {
-            dispatch(changeData());
-        }
-    };
-
     const { openModal, ModalWrapper, closeModal } = useModal();
 
     const columns = [
@@ -221,23 +194,9 @@ const ManagementTable = ({ data }: Interface) => {
                 );
             },
         },
-        {
-            title: 'Deshabilitar',
-            render: (_: any, { id, isActive }: Users) => {
-                return (
-                    <div key={id}>
-                        <Switch
-                            checked={isActive}
-                            onChange={() => handleDisableUser({ id, isActive })}
-                        />
-                    </div>
-                );
-            },
-        },
     ];
     return (
         <>
-            <Toaster />
             <ModalConfirmWrapper
                 title="Generar Contraseña"
                 question={

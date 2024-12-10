@@ -1,7 +1,7 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Table, Upload, UploadProps } from 'antd';
 import { useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 import type { ColumnHeader } from '~/types/types';
 
@@ -58,6 +58,7 @@ const BulkUploadModal = ({
                     return {
                         title: columns,
                         dataIndex: columns,
+                        key: columns,
                     };
                 });
 
@@ -90,8 +91,6 @@ const BulkUploadModal = ({
     return (
         <div className="flex flex-col items-start justify-between py-4 bg-white dark:bg-gray-800">
             {/* Add CSV file for bulk upload */}
-
-            <Toaster />
 
             <Upload {...uploadProps}>
                 <Button icon={<UploadOutlined />}>

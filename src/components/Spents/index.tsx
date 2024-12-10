@@ -13,7 +13,7 @@ import CreateSpentForm from './CreateSpentForm';
 import SpentsTable from '../Shared/SpentsTable';
 import { FaFileCsv } from 'react-icons/fa6';
 import useSpentData from '~/hooks/useSpentData';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 
 const SpentsComponent = () => {
@@ -47,7 +47,6 @@ const SpentsComponent = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
-            <Toaster />
             <ModalWrapper title="Agregar Rubro">
                 <CreateSpentForm closeModal={closeModal} />
             </ModalWrapper>

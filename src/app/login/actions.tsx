@@ -13,7 +13,6 @@ export async function encrypt(payload: any) {
     return await new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime('10 sec from now')
         .sign(key);
 }
 
@@ -45,9 +44,26 @@ export async function login(username: string, password: string) {
 
         const session = await encrypt({ username, expires });
 
-        cookies().set('session', session, { httpOnly: true });
+        cookies().set({
+            name: 'session',
+            value: session,
+            httpOnly: true,
+        });
 
-        cookies().set('access-token', result.data.token);
+        cookies().set({
+            name: 'userId',
+            value: result.data.userId,
+            httpOnly: true,
+        });
+
+        cookies().set({
+            name: 'access-token',
+            value: result.data.token,
+            httpOnly: true,
+            path: '/',
+            sameSite: 'strict',
+            maxAge: 3600,
+        });
 
         return result.data;
     } catch (error) {
@@ -66,6 +82,12 @@ export async function logout() {
 
     cookies().set('access-token', '', { expires: new Date(0) });
     cookies().delete('access-token');
+
+    cookies().set('role', '', { expires: new Date(0) });
+    cookies().delete('role');
+
+    cookies().set('userId', '', { expires: new Date(0) });
+    cookies().delete('userId');
 }
 
 export async function getSession() {

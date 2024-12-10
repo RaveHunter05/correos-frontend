@@ -8,7 +8,7 @@ import { ReactNode, useState } from 'react';
 import { FaTableList } from 'react-icons/fa6';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import Cookies from 'js-cookie';
-import { toast } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import { logout } from '~/app/login/actions';
 import { useTransitionRouter } from 'next-view-transitions';
 
@@ -32,6 +32,7 @@ export default function SidebarComponent({ children }: Props) {
     const [openSideAuxiliary, setOpenSideAuxiliary] = useState<boolean>(false);
     return (
         <div>
+            <Toaster />
             <aside
                 id="default-sidebar"
                 className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
@@ -50,7 +51,7 @@ export default function SidebarComponent({ children }: Props) {
                         </li>
                         <li>
                             <Link
-                                href="income"
+                                href="/admin/income"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
                                 <LuFileInput />
@@ -61,7 +62,7 @@ export default function SidebarComponent({ children }: Props) {
                         </li>
                         <li>
                             <Link
-                                href="outcome"
+                                href="/admin/outcome"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
                                 <LuFileOutput />
@@ -98,7 +99,7 @@ export default function SidebarComponent({ children }: Props) {
                                     (userRole === 'Boss' && (
                                         <li>
                                             <Link
-                                                href="services"
+                                                href="/admin/services"
                                                 className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                             >
                                                 <span>Servicios</span>
@@ -107,7 +108,7 @@ export default function SidebarComponent({ children }: Props) {
                                     ))}
                                 <li>
                                     <Link
-                                        href="costcenters"
+                                        href="/admin/costcenters"
                                         className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                     >
                                         <span>Centro de Costos</span>
@@ -115,7 +116,7 @@ export default function SidebarComponent({ children }: Props) {
                                 </li>
                                 <li>
                                     <Link
-                                        href="spents"
+                                        href="/admin/spents"
                                         className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                     >
                                         <span>Rubros</span>
@@ -123,24 +124,23 @@ export default function SidebarComponent({ children }: Props) {
                                 </li>
                             </ul>
                         </li>
-                        {userRole === 'Admin' ||
-                            (userRole === 'Boss' && (
-                                <li>
-                                    <Link
-                                        href="management"
-                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                                    >
-                                        <RiAdminLine />
-                                        <span className="flex-1 ml-3 whitespace-nowrap">
-                                            Gestionar Usuarios
-                                        </span>
-                                    </Link>
-                                </li>
-                            ))}
+                        {(userRole === 'Admin' || userRole == 'Boss') && (
+                            <li>
+                                <Link
+                                    href="/admin/management"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <RiAdminLine />
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Gestionar Usuarios
+                                    </span>
+                                </Link>
+                            </li>
+                        )}
 
                         <li>
                             <a
-                                href="execution"
+                                href="/admin/execution"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
                                 <AiFillPrinter />
@@ -151,12 +151,24 @@ export default function SidebarComponent({ children }: Props) {
                         </li>
                         <li>
                             <a
-                                href="budget"
+                                href="/admin/budgets"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
                                 <BsListColumns />
                                 <span className="flex-1 ml-3 whitespace-nowrap">
                                     Gestión de Presupuesto
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a
+                                href="/manager/personal-budget"
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            >
+                                <BsListColumns />
+                                <span className="flex-1 ml-3 whitespace-nowrap">
+                                    Mis Presupuestos
                                 </span>
                             </a>
                         </li>
