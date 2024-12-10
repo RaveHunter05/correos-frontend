@@ -12,6 +12,11 @@ type InformType = 'spent' | 'costcenter' | 'general';
 
 const commonTables = [
     {
+        title: 'Ejecutado',
+        dataIndex: 'executed',
+    },
+    { title: 'Proyectado', dataIndex: 'projected' },
+    {
         title: 'Absoluta',
         dataIndex: 'absolute',
     },
@@ -63,6 +68,8 @@ const tableColumns = {
 };
 
 const commonTableHeaders = [
+    { label: 'Ejecutado', key: 'executed' },
+    { label: 'Proyectado', key: 'projected' },
     { label: 'Absoluta', key: 'absolute' },
     { label: '%', key: 'percentual' },
 ];
