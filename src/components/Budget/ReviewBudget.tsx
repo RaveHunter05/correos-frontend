@@ -18,7 +18,7 @@ const ReviewBudget: React.FC<Interface> = ({ budget, closeModal }) => {
     return (
         <>
             <section className="flex space-x-4">
-                {role === 'Admin' && (
+                {(role === 'Admin' || role === 'Boss') && (
                     <article>
                         <UpdateBudgetForm
                             budget={budget}
@@ -27,7 +27,7 @@ const ReviewBudget: React.FC<Interface> = ({ budget, closeModal }) => {
                     </article>
                 )}
 
-                {role === 'Boss' && (
+                {role === 'Manager' && (
                     <article>
                         <UpdateBudgetManagerForm
                             budget={budget}
