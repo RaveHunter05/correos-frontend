@@ -15,10 +15,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { useEffect, useState } from 'react';
 
+import useModal from '~/hooks/useModal';
+
 import { toast } from 'react-hot-toast';
 
 import { CSVLink } from 'react-csv';
 import { IoMdAdd } from 'react-icons/io';
+import CreateBudgetForm from '../Budget/CreateBudgetForm';
 
 const ExecutionComponent = () => {
     const tableData = useSelector((state: RootState) => state.data.tableData);
@@ -34,6 +37,8 @@ const ExecutionComponent = () => {
 
     const [initialDate, setInitialDate] = useState<string | string[]>('');
     const [endDate, setEndDate] = useState<string | string[]>('');
+
+    const { openModal, ModalWrapper, closeModal } = useModal();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -73,92 +78,98 @@ const ExecutionComponent = () => {
         return;
     };
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
-            {/* Title */}
-            <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
-                Ejecución
-            </h1>
-            {loadingStyles ? (
-                <Skeleton />
-            ) : (
-                <div>
-                    <section className="w-100 flex items-start flex-wrap">
-                        <div className="flex flex-row space-x-4 mr-auto mb-2">
-                            <div className="w-40 mr-8">
-                                <p> Seleccione fecha inicial: </p>
-                                <DatePicker onChange={handleInitialDate} />
+        <>
+            <ModalWrapper title="Enviar Presupuesto A Revision">
+                <CreateBudgetForm closeModal={closeModal} />
+            </ModalWrapper>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
+                {/* Title */}
+                <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
+                    Ejecución
+                </h1>
+                {loadingStyles ? (
+                    <Skeleton />
+                ) : (
+                    <div>
+                        <section className="w-100 flex items-start flex-wrap">
+                            <div className="flex flex-row space-x-4 mr-auto mb-2">
+                                <div className="w-40 mr-8">
+                                    <p> Seleccione fecha inicial: </p>
+                                    <DatePicker onChange={handleInitialDate} />
+                                </div>
+
+                                <div className="w-40 mr-8">
+                                    <p> Seleccione fecha final: </p>
+                                    <DatePicker onChange={handleFinalDate} />
+                                </div>
                             </div>
 
-                            <div className="w-40 mr-8">
-                                <p> Seleccione fecha final: </p>
-                                <DatePicker onChange={handleFinalDate} />
-                            </div>
-                        </div>
-
-                        <button
-                            type="button"
-                            className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
-                        >
-                            <IoMdAdd
-                                className="mr-1"
-                                style={{ fontSize: '1.2rem' }}
-                            />
-                            Generar Presupuesto
-                        </button>
-
-                        <Tooltip title="Reporte individual, seleccionar opción abajo">
                             <button
                                 type="button"
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
-                                onClick={() => {}}
+                                className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                                onClick={() => openModal()}
                             >
-                                <FaFileCsv
+                                <IoMdAdd
                                     className="mr-1"
-                                    style={{
-                                        fontSize: '1.2rem',
-                                        color: '#fff !important',
-                                    }}
+                                    style={{ fontSize: '1.2rem' }}
                                 />
-                                <CSVLink
-                                    data={tableData}
-                                    headers={informTableHeaders}
-                                    onClick={() => {
-                                        if (tableData.length === 0) {
-                                            toast.error(
-                                                'No hay datos para exportar'
-                                            );
-                                            return false;
-                                        }
-                                        toast.success(
-                                            'Datos exportados correctamente'
-                                        );
-                                        return true;
-                                    }}
-                                >
-                                    Exportar Reporte
-                                </CSVLink>
+                                Enviar Presupuesto A Revision
                             </button>
-                        </Tooltip>
-                    </section>
-                    <Typography.Title level={4} className="mt-4">
-                        Seleccione uno de los siguientes informes
-                    </Typography.Title>
 
-                    <section className="mt-8 flex space-x-4">
-                        <Collapse
-                            className="w-80"
-                            items={items}
-                            defaultActiveKey={['1']}
-                            onChange={() => {}}
-                        />
-                        <InformsTable
-                            dataSource={tableData}
-                            columns={tableColumns}
-                        />
-                    </section>
-                </div>
-            )}
-        </div>
+                            <Tooltip title="Reporte individual, seleccionar opción abajo">
+                                <button
+                                    type="button"
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                                    onClick={() => {}}
+                                >
+                                    <FaFileCsv
+                                        className="mr-1"
+                                        style={{
+                                            fontSize: '1.2rem',
+                                            color: '#fff !important',
+                                        }}
+                                    />
+                                    <CSVLink
+                                        data={tableData}
+                                        headers={informTableHeaders}
+                                        onClick={() => {
+                                            if (tableData.length === 0) {
+                                                toast.error(
+                                                    'No hay datos para exportar'
+                                                );
+                                                return false;
+                                            }
+                                            toast.success(
+                                                'Datos exportados correctamente'
+                                            );
+                                            return true;
+                                        }}
+                                    >
+                                        Exportar Reporte
+                                    </CSVLink>
+                                </button>
+                            </Tooltip>
+                        </section>
+                        <Typography.Title level={4} className="mt-4">
+                            Seleccione uno de los siguientes informes
+                        </Typography.Title>
+
+                        <section className="mt-8 flex space-x-4">
+                            <Collapse
+                                className="w-80"
+                                items={items}
+                                defaultActiveKey={['1']}
+                                onChange={() => {}}
+                            />
+                            <InformsTable
+                                dataSource={tableData}
+                                columns={tableColumns}
+                            />
+                        </section>
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 

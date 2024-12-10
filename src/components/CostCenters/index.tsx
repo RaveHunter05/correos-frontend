@@ -13,7 +13,7 @@ import CostCentersTable from '../Shared/CostCentersTable';
 import CreateCostCenterForm from './CreateCostCenterForm';
 import { FaFileCsv } from 'react-icons/fa6';
 import useCostCenterData from '~/hooks/useCostCenter';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import BulkUploadModal from '../Shared/Modals/BulkUploadModal';
 import { bulkCreateCostCenters } from '~/app/admin/costcenters/actions';
 
@@ -51,7 +51,6 @@ const CostCentersComponent = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
-            <Toaster />
             <ModalWrapper title="Agregar Centro de Costos">
                 <CreateCostCenterForm closeModal={closeModal} />
             </ModalWrapper>

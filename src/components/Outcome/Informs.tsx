@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { expensesInform } from '~/app/admin/execution/actions';
 import {
@@ -116,7 +116,6 @@ const ExpenseInforms = ({ initialDate, endDate }: ExpenseInformsProps) => {
     };
     return (
         <>
-            <Toaster />
             <Card>
                 <Card.Grid
                     className="cursor-pointer"

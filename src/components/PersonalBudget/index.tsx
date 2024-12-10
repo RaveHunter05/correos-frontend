@@ -1,27 +1,34 @@
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { FiRefreshCcw } from 'react-icons/fi';
 
-import { Empty, Input, Skeleton } from 'antd';
+import { Empty, Input, Skeleton, Tooltip } from 'antd';
+
+import Cookies from 'js-cookie';
 
 import useModal from '~/hooks/useModal';
 
 import useBudgetsData from '~/hooks/useBudgetsData';
 import BudgetsTable from '../Shared/BudgetsTable';
-import CreateBudgetForm from './CreateBudgetForm';
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '~/redux';
 import { toast } from 'react-hot-toast';
+import CreateBudgetForm from '../Budget/CreateBudgetForm';
+import { IoMdAdd } from 'react-icons/io';
 
-const BudgetComponent = () => {
+const PersonalBudgetComponent = () => {
+    // get userId cookie
+    const [userId] = useState<string | undefined>(Cookies.get('userId'));
+
     const {
         data,
         loading: tableLoading,
         handleSearch,
         refreshData,
-    } = useBudgetsData();
+    } = useBudgetsData(userId);
 
-    const { ModalWrapper, closeModal } = useModal();
+    const { ModalWrapper, closeModal, openModal } = useModal();
 
     const dataChanged = useSelector(
         (state: RootState) => state.data.dataChanged
@@ -45,7 +52,9 @@ const BudgetComponent = () => {
                 </ModalWrapper>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-10">
                     <h1 className="text-3xl font-bold dark:text-white mb-4 underline">
-                        Gestión de Presupuesto (Boss)
+                        <Tooltip title="Presupuestos enviados por el manager">
+                            Mis Presupuestos (Manager)
+                        </Tooltip>
                     </h1>
                     <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
                         <div>
@@ -67,6 +76,17 @@ const BudgetComponent = () => {
                                 className="bg-yellow-300 p-2 text-white mr-3 rounded"
                             >
                                 <FiRefreshCcw />
+                            </button>
+
+                            <button
+                                onClick={openModal}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 flex items-center"
+                            >
+                                <IoMdAdd
+                                    className="mr-1"
+                                    style={{ fontSize: '1.2rem' }}
+                                />
+                                Enviar Presupuesto
                             </button>
 
                             <div className="relative ml-4">
@@ -93,4 +113,4 @@ const BudgetComponent = () => {
     );
 };
 
-export default BudgetComponent;
+export default PersonalBudgetComponent;
